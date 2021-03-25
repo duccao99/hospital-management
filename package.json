@@ -1,0 +1,29 @@
+{
+  "name": "Hospital_Management",
+  "version": "1.0.0",
+  "description": "IS Security course's project",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ducccao/Hospital_Management.git"
+  },
+  "keywords": [],
+  "author": "ducccao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ducccao/Hospital_Management/issues"
+  },
+  "homepage": "https://github.com/ducccao/Hospital_Management#readme",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.54",
+    "electron": "^12.0.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.95.2"
+  }
+}

@@ -1,2 +1,1 @@
-# Hospital_Management
-IS security course's project
+# IS security course's project - Hospital_Management
