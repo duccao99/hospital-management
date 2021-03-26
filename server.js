@@ -11,7 +11,7 @@ server.engine(
   expressHandleBars({
     defaultLayout: "",
     extname: ".hbs",
-    layoutsDir: "/views/_layouts",
+    layoutsDir: "views/_layouts",
     partialsDir: "views/_partials",
     helpers: {
       section: expressHandlebarsSections(),
@@ -27,6 +27,7 @@ server.use(bodyParser.json());
 server.set("view engine", "hbs");
 
 server.use("/utils", express.static("utils"));
+server.use(express.static(path.join(__dirname, "./client/html&css")));
 server.use(
   "/vendor",
   express.static(path.join(__dirname, "./client/html&css/vendor"))

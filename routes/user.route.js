@@ -1,6 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const userModel = require("./../models/user.model");
+
+router.get("/test", function (req, res) {
+  res.render("vwAdmin/test", {
+    layout: "admin",
+  });
+});
+
 router.get("/sign-in", function (req, res) {
   try {
     return res.render("vwAdmin/SignIn", {
@@ -23,8 +30,11 @@ router.post("/sign-in", function (req, res) {
 });
 
 router.get("/dashboard", function (req, res) {
+  res.locals.authUser = {
+    username: "duc",
+  };
   res.render("vwAdmin/dashboard", {
-    layout: false,
+    layout: "admin",
     user: {
       username: "duc",
     },
@@ -54,6 +64,16 @@ router.get("/api/users", async function (req, res) {
   } catch (e) {
     console.log(e);
   }
+});
+
+router.get("/all-users", async function (req, res) {
+  const users = await userModel.all();
+  console.log(users);
+
+  res.render("vwAdmin/allUser", {
+    layout: "admin",
+    users,
+  });
 });
 
 module.exports = router;
