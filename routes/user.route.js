@@ -76,4 +76,25 @@ router.get("/all-users", async function (req, res) {
   });
 });
 
+router.get("/grant-user-permission", function (req, res) {
+  res.render("vwAdmin/grantUserPermission", {
+    layout: "admin",
+  });
+});
+
+router.get("/grant-role-permission", function (req, res) {
+  res.render("vwAdmin/grantRolePermission", {
+    layout: "admin",
+  });
+});
+router.get("/grant-role-to-user", function (req, res) {
+  res.render("vwAdmin/grantRoleToUser", {
+    layout: "admin",
+  });
+});
+router.get("*", function (req, res) {
+  res.render("vwError/404", {
+    layout: "admin",
+  });
+});
 module.exports = router;
