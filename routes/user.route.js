@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const userModel = require("./../models/user.model");
+const { authUser } = require("./../middlewares/user.mdw");
+
+router.get("/", function (req, res) {
+  res.redirect("/sign-in");
+});
 
 router.get("/test", function (req, res) {
   res.render("vwAdmin/test", {
@@ -21,23 +26,26 @@ router.get("/sign-in", function (req, res) {
 router.post("/sign-in", function (req, res) {
   try {
     const data = req.body;
+    //console.log(data);
+    req.session.authUser = {
+      username: data.username,
+    };
 
-    console.log(data);
     return res.redirect("/dashboard");
   } catch (e) {
     return res.status(500).json(e);
   }
 });
 
-router.get("/dashboard", function (req, res) {
-  res.locals.authUser = {
-    username: "duc",
-  };
+router.post("/sign-out", function (req, res) {
+  req.session.authUser = undefined;
+  return res.redirect("/");
+});
+
+router.get("/dashboard", authUser, function (req, res) {
   res.render("vwAdmin/dashboard", {
     layout: "admin",
-    user: {
-      username: "duc",
-    },
+    authUser: req.session.authUser,
   });
 });
 
@@ -66,30 +74,34 @@ router.get("/api/users", async function (req, res) {
   }
 });
 
-router.get("/all-users", async function (req, res) {
+router.get("/all-users", authUser, async function (req, res) {
   const users = await userModel.all();
   console.log(users);
 
   res.render("vwAdmin/allUser", {
     layout: "admin",
     users,
+    authUser: req.session.authUser,
   });
 });
 
-router.get("/grant-user-permission", function (req, res) {
+router.get("/grant-user-permission", authUser, function (req, res) {
   res.render("vwAdmin/grantUserPermission", {
     layout: "admin",
+    authUser: req.session.authUser,
   });
 });
 
-router.get("/grant-role-permission", function (req, res) {
+router.get("/grant-role-permission", authUser, function (req, res) {
   res.render("vwAdmin/grantRolePermission", {
     layout: "admin",
+    authUser: req.session.authUser,
   });
 });
-router.get("/grant-role-to-user", function (req, res) {
+router.get("/grant-role-to-user", authUser, function (req, res) {
   res.render("vwAdmin/grantRoleToUser", {
     layout: "admin",
+    authUser: req.session.authUser,
   });
 });
 router.get("*", function (req, res) {

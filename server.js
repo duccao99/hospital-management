@@ -5,6 +5,7 @@ const expressHandleBars = require("express-handlebars");
 const expressHandlebarsSections = require("express-handlebars-sections");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const expressSession = require("express-session");
 
 server.engine(
   "hbs",
@@ -19,7 +20,7 @@ server.engine(
   })
 );
 
-server.use(morgan("dev"));
+//server.use(morgan("dev"));
 //server.use(express.json());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
@@ -27,7 +28,17 @@ server.use(bodyParser.json());
 server.set("view engine", "hbs");
 
 server.use("/utils", express.static("utils"));
+server.use(
+  expressSession({
+    secret: "sc",
+    resave: false,
+    saveUninitialized: true,
+    authUser: {},
+  })
+);
+
 server.use(express.static(path.join(__dirname, "./client/html&css")));
+
 server.use(
   "/vendor",
   express.static(path.join(__dirname, "./client/html&css/vendor"))
@@ -45,5 +56,5 @@ server.use(require("./routes/user.route"));
 
 const PORT = 1212;
 server.listen(PORT, () => {
-  console.log(`Server is listening at ${PORT}`);
+  console.log(`Server is listening at ${PORT}\nURL: http://localhost:1212/`);
 });
