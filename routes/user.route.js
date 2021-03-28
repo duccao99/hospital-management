@@ -104,9 +104,5 @@ router.get("/grant-role-to-user", authUser, function (req, res) {
     authUser: req.session.authUser,
   });
 });
-router.get("*", function (req, res) {
-  res.render("vwError/404", {
-    layout: "admin",
-  });
-});
+
 module.exports = router;

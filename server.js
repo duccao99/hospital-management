@@ -53,6 +53,13 @@ server.use(
 );
 
 server.use(require("./routes/user.route"));
+server.use(require("./routes/privilege.route"));
+
+server.get("*", function (req, res) {
+  res.render("vwError/404", {
+    layout: "admin",
+  });
+});
 
 const PORT = 1212;
 server.listen(PORT, () => {
