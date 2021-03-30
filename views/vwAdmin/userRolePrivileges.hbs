@@ -1,0 +1,52 @@
+<div class="card border-light shadow-sm mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-centered table-nowrap mb-0 rounded">
+
+
+                <thead class="thead-light">
+                    <tr>
+                        <th class="border-0">GRANTEE</th>
+                        <th class="border-0">TABLE_NAME</th>
+                        <th class="border-0">PRIVILEGE</th>
+                        <th class="border-0">GRANTABLE</th>
+                        <th class="border-0">GRANTOR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Item -->
+
+                    {{#each userRolePrivileges }}
+                    <tr>
+                        <td class="border-0"><a href="#" class="text-primary font-weight-bold">
+                                {{this.GRANTEE}}
+                            </a>
+                        </td>
+
+                        <td class="border-0">
+                            {{this.TABLE_NAME}}
+                        </td>
+                        <td class="border-0">
+                            {{ this.PRIVILEGE}}
+                        </td>
+
+                        <td class="border-0">
+                            {{this.GRANTABLE}}
+                        </td>
+
+
+                        <td class="border-0">
+                            {{this.GRANTOR}}
+                        </td>
+
+
+                    </tr>
+                    {{/each}}
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

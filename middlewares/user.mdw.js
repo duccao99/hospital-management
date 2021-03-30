@@ -1,8 +1,10 @@
 function authUser(req, res, next) {
-  console.log(req.session.authUser);
   if (req.session.authUser === undefined) {
     return res.redirect("/");
   }
+
+  console.log(`User ${req.session.authUser.username} signed-in in the system!`);
+
   next();
 }
 
