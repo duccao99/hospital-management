@@ -88,6 +88,7 @@ router.get("/all-users", authUser, async function (req, res) {
 
 router.get("/user-role-privileges", authUser, async function (req, res) {
   const userRolePrivileges = await adminModel.getUserRolePrivileges();
+  console.log(userRolePrivileges);
   res.render("vwAdmin/userRolePrivileges", {
     layout: "admin",
     userRolePrivileges,
