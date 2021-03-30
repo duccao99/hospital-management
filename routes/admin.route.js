@@ -1,6 +1,7 @@
 const express = require("express");
+const adminModel = require("../models/admin.model");
 const router = express.Router();
-const userModel = require("./../models/user.model");
+const userModel = require("../models/admin.model");
 const { authUser } = require("./../middlewares/user.mdw");
 
 router.get("/", function (req, res) {
@@ -65,7 +66,7 @@ router.get("/temp", function (req, res) {
 
 router.get("/api/users", async function (req, res) {
   try {
-    const users = await userModel.all();
+    const users = await userModel.allUser();
     console.log(users);
     res.json(users);
     return;
@@ -75,13 +76,21 @@ router.get("/api/users", async function (req, res) {
 });
 
 router.get("/all-users", authUser, async function (req, res) {
-  const users = await userModel.all();
-  console.log(users);
+  const users = await userModel.allUser();
+  const sorted = [...users].sort((a, b) => a.USER_ID - b.USER_ID);
 
   res.render("vwAdmin/allUser", {
     layout: "admin",
-    users,
+    users: sorted,
     authUser: req.session.authUser,
+  });
+});
+
+router.get("/user-role-privileges", authUser, async function (req, res) {
+  const userRolePrivileges = await adminModel.getUserRolePrivileges();
+  res.render("vwAdmin/userRolePrivileges", {
+    layout: "admin",
+    userRolePrivileges,
   });
 });
 

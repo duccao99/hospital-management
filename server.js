@@ -52,7 +52,7 @@ server.use(
   express.static(path.join(__dirname, "./client/html&css/assets"))
 );
 
-server.use(require("./routes/user.route"));
+server.use(require("./routes/admin.route"));
 server.use(require("./routes/privilege.route"));
 
 server.get("*", function (req, res) {

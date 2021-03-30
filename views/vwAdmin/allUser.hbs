@@ -6,13 +6,15 @@
 
                 <thead class="thead-light">
                     <tr>
-                        <th class="border-0">#</th>
-                        <th class="border-0">Traffic Source</th>
-                        <th class="border-0">Source Type</th>
-                        <th class="border-0">Category</th>
-                        <th class="border-0">Global Rank</th>
-                        <th class="border-0">Traffic Share</th>
-                        <th class="border-0">Change</th>
+                        <th class="border-0">USER_ID</th>
+                        <th class="border-0">USERNAME</th>
+                        <th class="border-0">PASSWORD</th>
+                        <th class="border-0">ACCOUNT_STATUS</th>
+                        <th class="border-0">LOCK_DATE</th>
+                        <th class="border-0">EXPIRY_DATE</th>
+                        <th class="border-0">DEFAULT_TABLESPACE</th>
+                        <th class="border-0">CREATED</th>
+                        <th class="border-0">PROFILE</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,37 +23,49 @@
                     {{#each users }}
                     <tr>
                         <td class="border-0"><a href="#" class="text-primary font-weight-bold">
-                                {{this.USERID}}
+                                {{this.USER_ID}}
                             </a>
                         </td>
-                        <td class="border-0 font-weight-bold"><span class="icon icon-xs icon-gray w-30"><span
-                                    class="fas fa-globe-europe"></span></span>Direct</td>
+
                         <td class="border-0">
                             {{this.USERNAME}}
                         </td>
                         <td class="border-0">
-                            -
+                            {{ this.PASSWORD}}
                         </td>
+
                         <td class="border-0">
-                            --
+                            {{this.ACCOUNT_STATUS}}
                         </td>
+
+
                         <td class="border-0">
-                            <div class="row d-flex align-items-center">
-                                <div class="col-12 col-xl-2 px-0">
-                                    <div class="small font-weight-bold">51%</div>
-                                </div>
-                                <div class="col-12 col-xl-10 px-0 px-xl-1">
-                                    <div class="progress progress-lg mb-0">
-                                        <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="51"
-                                            aria-valuemin="0" aria-valuemax="100" style="width: 51%;"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            {{this.LOCK_DATE}}
                         </td>
-                        <td class="border-0 text-success">
-                            <span class="fas fa-angle-up"></span>
-                            <span class="font-weight-bold">2.45%</span>
+
+
+                        <td class="border-0">
+                            {{ this.EXPIRY_DATE}}
                         </td>
+
+                        <td class="border-0">
+                            {{this.DEFAULT_TABLESPACE}}
+                        </td>
+
+
+                        <td class="border-0">
+                            {{this.CREATED}}
+                        </td>
+
+
+                        <td class="border-0">
+                            {{this.PROFILE}}
+                        </td>
+
+
+
+
+
                     </tr>
                     {{/each}}
 
