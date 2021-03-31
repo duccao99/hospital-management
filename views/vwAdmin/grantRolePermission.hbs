@@ -45,6 +45,14 @@
             </select>
         </div>
 
+        {{!--
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="withGrantOption">
+            <label class="form-check-label" for="withGrantOption">
+                With grant option ?
+            </label>
+        </div> --}}
+
         <button type="submit" class="btn btn-primary">Grant</button>
     </form>
 
@@ -54,7 +62,7 @@
 
 <script>
 
-    function grantUserPermission() {
+    function grantRolePermission() {
         const fmGrantUserPermission = $("#fmGrantRolePermission");
         const username = $("#rolename");
         const listPrivileges = $("#listPrivileges");
@@ -67,6 +75,7 @@
                 rolename: username.val(),
                 privilege: listPrivileges.val(),
                 tableName: listTable.val()
+
             }
             console.log(data);
             $.ajax({
@@ -86,7 +95,7 @@
         })
     }
 
-    grantUserPermission();
+    grantRolePermission();
 
 </script>
 

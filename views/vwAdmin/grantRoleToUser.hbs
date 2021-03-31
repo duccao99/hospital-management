@@ -1,3 +1,84 @@
 <div>
-    grantRoleToUser
+
+    <h2>Grant role to user</h2>
+
+    <form id="fmGrantRoleToUser">
+
+
+
+        <div class="mb-3">
+            <label for="listRoleName" class="form-label">
+                Role name
+            </label>
+            <select id="listRoleName" class="form-select" aria-label="listRoleName">
+                <option disabled selected>Open this select table </option>
+
+                {{#each rolenames }}
+                <option value="{{this.ROLE}}">
+                    {{this.ROLE}}
+                </option>
+                {{/each}}
+
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="listUserName" class="form-label">User name</label>
+            <select id="listUserName" class="form-select" aria-label="listUserName">
+                <option disabled selected>Open this select role </option>
+                {{#each usernames }}
+                <option value="{{this.USERNAME}}">
+                    {{this.USERNAME}}
+                </option>
+                {{/each}}
+
+            </select>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Grant</button>
+    </form>
+
 </div>
+
+{{#section 'js'}}
+
+<script>
+
+    function grantRoleToUser() {
+        const fmGrantRoleToUser = $("#fmGrantRoleToUser");
+        const listUserName = $("#listUserName");
+        const listRoleName = $("#listRoleName");
+
+
+
+        fmGrantRoleToUser.on("submit", function (e) {
+            e.preventDefault();
+            const data = {
+                rolename: listRoleName.val(),
+                username: listUserName.val()
+
+            }
+            console.log(data);
+            $.ajax({
+                url: "http://localhost:1212/grant-role-to-user",
+                type: "post",
+                data: data,
+                success: res => {
+                    alert("Granted!")
+                },
+                error: e => {
+                    console.log(e);
+                    alert("Something when wrong!");
+
+                }
+            })
+
+        })
+    }
+
+    grantRoleToUser();
+
+</script>
+
+{{/section}}

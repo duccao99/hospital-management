@@ -6,6 +6,7 @@ const roleAffectDataObject = require("./../config/config.js").oracle.system
 const userAndTheirRole = require("./../config/config.js").oracle.system
   .userAndTheirRole;
 const allRoles = config.oracle.system.all_roles;
+const userColPrivs = config.oracle.system.User_col_privs;
 module.exports = {
   allUser() {
     const sql = `select * from ${allUser}`;
@@ -13,6 +14,10 @@ module.exports = {
   },
   allRoles() {
     const sql = `select * from ${allRoles}`;
+    return db.load(sql);
+  },
+  getUserAndTheirPrivilegesInColumn() {
+    const sql = `select * from ${userColPrivs}`;
     return db.load(sql);
   },
   getRoleAcffectDataOjbect() {
@@ -29,12 +34,47 @@ module.exports = {
     return db.load(sql);
   },
 
-  grantUserPrivilege(username, privilege, tableName) {
-    const sql = `GRANT ${privilege} ON ${tableName} TO ${username}`;
+  grantUserPrivilege(
+    username,
+    privilege,
+    tableName,
+    withGrantOption,
+    columnValue
+  ) {
+    let sql = ``;
+    if (withGrantOption === false) {
+      if (columnValue === undefined) {
+        sql = `GRANT ${privilege} ON ${tableName} TO ${username}`;
+      } else {
+        sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${username}`;
+      }
+    } else {
+      if (columnValue === undefined) {
+        sql = `GRANT ${privilege} ON ${tableName} TO ${username}  WITH GRANT OPTION`;
+      } else {
+        sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${username}  WITH GRANT OPTION`;
+      }
+    }
+    console.log(sql);
+
     return db.load(sql);
   },
   grantRolePrivilege(rolename, privilege, tableName) {
     const sql = `GRANT ${privilege} ON ${tableName} TO ${rolename}`;
+
+    return db.load(sql);
+  },
+  grantRoleToUser(rolename, username) {
+    const sql = `GRANT ${rolename} to ${username}`;
+    return db.load(sql);
+  },
+  getAllUserName() {
+    const sql = `SELECT USERNAME FROM ${allUser}`;
+    return db.load(sql);
+  },
+
+  getAllRoleName() {
+    const sql = `SELECT ROLE FROM ${allRoles}`;
     return db.load(sql);
   },
 };
