@@ -5,10 +5,14 @@ const roleAffectDataObject = require("./../config/config.js").oracle.system
   .roleAffectDataObject;
 const userAndTheirRole = require("./../config/config.js").oracle.system
   .userAndTheirRole;
-
+const allRoles = config.oracle.system.all_roles;
 module.exports = {
   allUser() {
     const sql = `select * from ${allUser}`;
+    return db.load(sql);
+  },
+  allRoles() {
+    const sql = `select * from ${allRoles}`;
     return db.load(sql);
   },
   getRoleAcffectDataOjbect() {
@@ -22,6 +26,15 @@ module.exports = {
   },
   getUserAndTheirRole() {
     const sql = `SELECT * FROM  ${userAndTheirRole}`;
+    return db.load(sql);
+  },
+
+  grantUserPrivilege(username, privilege, tableName) {
+    const sql = `GRANT ${privilege} ON ${tableName} TO ${username}`;
+    return db.load(sql);
+  },
+  grantRolePrivilege(rolename, privilege, tableName) {
+    const sql = `GRANT ${privilege} ON ${tableName} TO ${rolename}`;
     return db.load(sql);
   },
 };

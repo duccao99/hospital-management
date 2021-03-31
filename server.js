@@ -6,6 +6,7 @@ const expressHandlebarsSections = require("express-handlebars-sections");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const expressSession = require("express-session");
+require("express-async-errors");
 
 server.engine(
   "hbs",
@@ -59,6 +60,10 @@ server.get("*", function (req, res) {
   res.render("vwError/404", {
     layout: "admin",
   });
+});
+
+server.use(function (er, req, res, next) {
+  res.join({ error_message: er });
 });
 
 const PORT = 1212;

@@ -531,58 +531,6 @@ values (10, 3);
 
 
 
---
--- USER IN SYSTEM
--- 
-
--- Bo phan tai nguyen & nhan su
-alter session set "_ORACLE_SCRIPT"=true;  
-CREATE USER dep_tainguyen_nhansu_01 IDENTIFIED BY dep_tainguyen_nhansu_01;
-CREATE USER dep_tainguyen_nhansu_02 IDENTIFIED BY dep_tainguyen_nhansu_02;
-CREATE USER dep_tainguyen_nhansu_03 IDENTIFIED BY dep_tainguyen_nhansu_03;
-
--- Quan ly tai vu
-CREATE USER dep_quanly_taivu_01 IDENTIFIED BY dep_quanly_taivu_01;
-CREATE USER dep_quanly_taivu_02 IDENTIFIED BY dep_quanly_taivu_02;
-CREATE USER dep_quanly_taivu_03 IDENTIFIED BY dep_quanly_taivu_03;
-
--- Quan ly chuyen mon
-CREATE USER dep_quanly_chuyenmon_01 IDENTIFIED BY dep_quanly_chuyenmon_01;
-CREATE USER dep_quanly_chuyenmon_02 IDENTIFIED BY dep_quanly_chuyenmon_02;
-CREATE USER dep_quanly_chuyenmon_03 IDENTIFIED BY dep_quanly_chuyenmon_03;
-
--- Bo phan tiep tan
-CREATE USER dep_tieptan_01 IDENTIFIED BY dep_tieptan_01;
-CREATE USER dep_tieptan_02 IDENTIFIED BY dep_tieptan_02;
-CREATE USER dep_tieptan_03 IDENTIFIED BY dep_tieptan_03;
-
--- Bac si
-CREATE USER bacsi_01 IDENTIFIED BY bacsi_01;
-CREATE USER bacsi_02 IDENTIFIED BY bacsi_02;
-CREATE USER bacsi_03 IDENTIFIED BY bacsi_03;
-
--- Phong tai vu
-CREATE USER taivu_01 IDENTIFIED BY taivu_01;
-CREATE USER taivu_02 IDENTIFIED BY taivu_02;
-CREATE USER taivu_03 IDENTIFIED BY taivu_03;
-
--- Phong ban thuoc
-CREATE USER banthuoc_01 IDENTIFIED BY banthuoc_01;
-CREATE USER banthuoc_02 IDENTIFIED BY banthuoc_02;
-CREATE USER banthuoc_03 IDENTIFIED BY banthuoc_03;
-
--- Bo phan ke toan
-CREATE USER dep_ketoan_01 IDENTIFIED BY dep_ketoan_01;
-CREATE USER dep_ketoan_02 IDENTIFIED BY dep_ketoan_02;
-CREATE USER dep_ketoan_03 IDENTIFIED BY dep_ketoan_03;
-
-
---
--- Grant policy
---
-
-
-
 
 
 
