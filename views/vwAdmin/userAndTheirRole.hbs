@@ -7,16 +7,19 @@
                 <thead class="thead-light">
                     <tr>
                         <th class="border-0">GRANTEE</th>
-                        <th class="border-0">TABLE_NAME</th>
-                        <th class="border-0">PRIVILEGE</th>
-                        <th class="border-0">GRANTABLE</th>
-                        <th class="border-0">GRANTOR</th>
+                        <th class="border-0">GRANTED_ROLE</th>
+                        <th class="border-0">ADMIN_OPTION</th>
+                        <th class="border-0">DELEGATE_OPTION</th>
+                        <th class="border-0">DEFAULT_ROLE</th>
+                        <th class="border-0">COMMON</th>
+                        <th class="border-0">INHERITED</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Item -->
 
-                    {{#each userRolePrivileges }}
+                    {{#each userAndTheirRoles }}
                     <tr>
                         <td class="border-0"><a href="#" class="text-primary font-weight-bold">
                                 {{this.GRANTEE}}
@@ -24,20 +27,28 @@
                         </td>
 
                         <td class="border-0">
-                            {{this.TABLE_NAME}}
+                            {{this.GRANTED_ROLE}}
                         </td>
                         <td class="border-0">
-                            {{ this.PRIVILEGE}}
+                            {{ this.ADMIN_OPTION}}
                         </td>
 
                         <td class="border-0">
-                            {{this.GRANTABLE}}
+                            {{this.DELEGATE_OPTION}}
                         </td>
 
 
                         <td class="border-0">
-                            {{this.GRANTOR}}
+                            {{this.DEFAULT_ROLE}}
                         </td>
+                        <td class="border-0">
+                            {{this.COMMON}}
+                        </td>
+
+                        <td class="border-0">
+                            {{this.INHERITED}}
+                        </td>
+
 
 
                     </tr>

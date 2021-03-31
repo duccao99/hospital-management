@@ -6,7 +6,8 @@ module.exports = {
     },
     system: {
       all_users: "Dba_users",
-      userRolePrivileges: "USER_TAB_PRIVS",
+      roleAffectDataObject: "USER_TAB_PRIVS",
+      userAndTheirRole: "Dba_role_privs",
     },
   },
 };
