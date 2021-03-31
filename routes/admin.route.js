@@ -86,12 +86,21 @@ router.get("/all-users", authUser, async function (req, res) {
   });
 });
 
-router.get("/user-role-privileges", authUser, async function (req, res) {
-  const userRolePrivileges = await adminModel.getUserRolePrivileges();
-  console.log(userRolePrivileges);
-  res.render("vwAdmin/userRolePrivileges", {
+router.get("/role-info", authUser, async function (req, res) {
+  const roleInfo = await adminModel.getRoleAcffectDataOjbect();
+
+  res.render("vwAdmin/roleInfo", {
     layout: "admin",
-    userRolePrivileges,
+    roleInfo,
+  });
+});
+
+router.get("/user-role", async function (req, res) {
+  const userAndTheirRoles = await adminModel.getUserAndTheirRole();
+
+  res.render("vwAdmin/userAndTheirRole", {
+    layout: "admin",
+    userAndTheirRoles,
   });
 });
 
