@@ -55,6 +55,7 @@ server.use(
 
 server.use(require("./routes/admin.route"));
 server.use(require("./routes/privilege.route"));
+server.use(require("./routes/user.route"));
 
 server.get("*", function (req, res) {
   res.render("vwError/404", {
