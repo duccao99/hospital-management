@@ -37,4 +37,17 @@ module.exports = {
     const sql = `GRANT ${privilege} ON ${tableName} TO ${rolename}`;
     return db.load(sql);
   },
+  grantRoleToUser(rolename, username) {
+    const sql = `GRANT ${rolename} to ${username}`;
+    return db.load(sql);
+  },
+  getAllUserName() {
+    const sql = `SELECT USERNAME FROM ${allUser}`;
+    return db.load(sql);
+  },
+
+  getAllRoleName() {
+    const sql = `SELECT ROLE FROM ${allRoles}`;
+    return db.load(sql);
+  },
 };

@@ -170,11 +170,47 @@ router.post("/grant-role-permission", authUser, async function (req, res) {
   }
 });
 
-router.get("/grant-role-to-user", authUser, function (req, res) {
+router.get("/grant-role-to-user", authUser, async function (req, res) {
+  const usernames = await adminModel.getAllUserName();
+  const rolenames = await adminModel.getAllRoleName();
+
   res.render("vwAdmin/grantRoleToUser", {
     layout: "admin",
+    usernames: usernames.sort(function (a, b) {
+      if (a.USERNAME < b.USERNAME) {
+        return -1;
+      }
+      if (a.USERNAME < b.USERNAME) {
+        return 1;
+      }
+      return 0;
+    }),
+    rolenames: rolenames.sort(function (a, b) {
+      if (a.ROLE < b.ROLE) {
+        return -1;
+      }
+      if (a.ROLE < b.ROLE) {
+        return 1;
+      }
+      return 0;
+    }),
     authUser: req.session.authUser,
   });
+});
+
+router.post("/grant-role-to-user", authUser, async function (req, res) {
+  try {
+    const data = {
+      rolename: req.body.rolename,
+      username: req.body.username,
+    };
+    const status = await adminModel.grantRoleToUser(
+      data.rolename,
+      data.username
+    );
+  } catch (e) {
+    return res.status(500).json({ e });
+  }
 });
 
 module.exports = router;
