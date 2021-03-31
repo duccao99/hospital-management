@@ -1,0 +1,46 @@
+<div class="card border-light shadow-sm mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-centered table-nowrap mb-0 rounded">
+
+
+                <thead class="thead-light">
+                    <tr>
+                        <th class="border-0">ROLE_ID</th>
+                        <th class="border-0">ROLE</th>
+                        <th class="border-0">PASSWORD_REQUIRED</th>
+                        <th class="border-0">AUTHENTICATION_TYPE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Item -->
+
+                    {{#each roles }}
+                    <tr>
+
+                        <td class="border-0">
+                            {{ this.ROLE_ID}}
+                        </td>
+                        <td class="border-0">
+                            {{ this.ROLE}}
+                        </td>
+                        <td class="border-0">
+                            {{ this.PASSWORD_REQUIRED}}
+                        </td>
+                        <td class="border-0">
+                            {{ this.AUTHENTICATION_TYPE}}
+                        </td>
+
+
+
+
+                    </tr>
+                    {{/each}}
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

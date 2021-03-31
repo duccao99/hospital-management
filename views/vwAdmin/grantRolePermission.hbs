@@ -1,3 +1,93 @@
 <div>
-    grantRolePermission
+
+    <h2>Grant role permission</h2>
+
+    <form id="fmGrantRolePermission">
+        <div class="mb-3">
+            <label for="rolename" class="form-label">Role name</label>
+            <input type="text" class="form-control" id="rolename" aria-describedby="rolename">
+        </div>
+
+        <div class="mb-3">
+            <label for="table" class="form-label">Table</label>
+            <select id="listTable" class="form-select" aria-label="table">
+                <option disabled selected>Open this select table </option>
+                <option value="CHAMCONG">CHAMCONG</option>
+                <option value="BENHNHAN">BENHNHAN</option>
+                <option value="HOSOBENHNHAN">HOSOBENHNHAN</option>
+                <option value="HOSODICHVU">HOSODICHVU</option>
+
+                <option value="HOADON">HOADON</option>
+                <option value="NHANVIEN">NHANVIEN</option>
+                <option value="DONVI">DONVI</option>
+                <option value="DONTHUOC">DONTHUOC</option>
+
+
+
+                <option value="DICHVU">DICHVU</option>
+                <option value="CTHOADON">CTHOADON</option>
+                <option value="CTDONTHUOC">CTDONTHUOC</option>
+                <option value="THUOC">THUOC</option>
+
+
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="privileges" class="form-label">Privileges</label>
+            <select id="listPrivileges" class="form-select" aria-label="privileges">
+                <option disabled selected>Open this select privilege </option>
+                <option value="select">Select</option>
+                <option value="insert">Insert</option>
+                <option value="update">Update</option>
+                <option value="delete">Delete</option>
+
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Grant</button>
+    </form>
+
 </div>
+
+{{#section 'js'}}
+
+<script>
+
+    function grantUserPermission() {
+        const fmGrantUserPermission = $("#fmGrantRolePermission");
+        const username = $("#rolename");
+        const listPrivileges = $("#listPrivileges");
+        const listTable = $("#listTable");
+
+
+        fmGrantUserPermission.on("submit", function (e) {
+            e.preventDefault();
+            const data = {
+                rolename: username.val(),
+                privilege: listPrivileges.val(),
+                tableName: listTable.val()
+            }
+            console.log(data);
+            $.ajax({
+                url: "http://localhost:1212/grant-role-permission",
+                type: "post",
+                data: data,
+                success: res => {
+                    alert("Granted!")
+                },
+                error: e => {
+                    console.log(e);
+                    alert("Something when wrong!");
+
+                }
+            })
+
+        })
+    }
+
+    grantUserPermission();
+
+</script>
+
+{{/section}}

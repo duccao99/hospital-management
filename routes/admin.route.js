@@ -86,6 +86,18 @@ router.get("/all-users", authUser, async function (req, res) {
   });
 });
 
+router.get("/all-roles", authUser, async function (req, res) {
+  const roles = await userModel.allRoles();
+
+  const sorted = [...roles].sort((a, b) => a.ROLE_ID - b.ROLE_ID);
+
+  res.render("vwAdmin/allRoles", {
+    layout: "admin",
+    roles: sorted,
+    authUser: req.session.authUser,
+  });
+});
+
 router.get("/role-info", authUser, async function (req, res) {
   const roleInfo = await adminModel.getRoleAcffectDataOjbect();
 
@@ -111,12 +123,53 @@ router.get("/grant-user-permission", authUser, function (req, res) {
   });
 });
 
+router.post("/grant-user-permission", authUser, async function (req, res) {
+  try {
+    const data = {
+      username: req.body.username,
+      privilege: req.body.privilege,
+      tableName: req.body.tableName,
+    };
+
+    const status = await adminModel.grantUserPrivilege(
+      data.username,
+      data.privilege,
+      data.tableName
+    );
+
+    res.json({ message: "success!" });
+  } catch (e) {
+    return res.status(500).json({ message: e });
+  }
+});
+
 router.get("/grant-role-permission", authUser, function (req, res) {
   res.render("vwAdmin/grantRolePermission", {
     layout: "admin",
     authUser: req.session.authUser,
   });
 });
+
+router.post("/grant-role-permission", authUser, async function (req, res) {
+  try {
+    const data = {
+      rolename: req.body.rolename,
+      privilege: req.body.privilege,
+      tableName: req.body.tableName,
+    };
+
+    const status = await adminModel.grantRolePrivilege(
+      data.rolename,
+      data.privilege,
+      data.tableName
+    );
+
+    res.json({ message: "success!" });
+  } catch (e) {
+    return res.status(500).json({ message: e });
+  }
+});
+
 router.get("/grant-role-to-user", authUser, function (req, res) {
   res.render("vwAdmin/grantRoleToUser", {
     layout: "admin",
