@@ -2,15 +2,15 @@ const db = require("../utils/db");
 const config = require("./../config/config");
 const oracledb = require("oracledb");
 
-const userModel = {
-    updateUser(username,newPassword) {
-      const sql = `ALTER USER ${username} IDENTIFIED BY ${newPassword}`;
+const roleModel = {
+    updateRole(rolename,newPassword) {
+      const sql = `ALTER ROLE ${rolename} IDENTIFIED BY ${newPassword}`;
   
       return db.load(sql);
     },
-    deleteUser(username) {
-      console.log(username)
-      const sql = `DROP USER ${username} CASCADE`;
+    deleteRole(rolename) {
+      console.log(rolename)
+      const sql = `DROP ROLE ${rolename}`;
   
       return db.load(sql);
     },
@@ -74,4 +74,4 @@ const userModel = {
 
 
 
-module.exports = userModel;
+module.exports = roleModel;
