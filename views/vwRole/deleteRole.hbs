@@ -1,0 +1,69 @@
+<div>
+
+    <h2>Delete Role</h2>
+
+    <form id="fmDeleteRole">
+
+
+
+        <div class="mb-3">
+            <label for="rolename" class="form-label">
+                Role name
+            </label>
+            <select id="rolename" class="form-select" aria-label="rolename">
+                <option disabled selected>Open this select table </option>
+
+                {{#each rolenames }}
+                <option value="{{this.ROLE}}">
+                    {{this.ROLE}}
+                </option>
+                {{/each}}
+
+            </select>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">DELETE</button>
+    </form>
+
+</div>
+
+{{#section 'js'}}
+
+<script>
+   function deleteRole() {
+        const fmDeleteRole = $("#fmDeleteRole");
+        const rolename= $("#rolename");
+
+
+
+        fmDeleteRole.on("submit", function (e) {
+            e.preventDefault();
+            const data = {
+                rolename: rolename.val(),
+            }
+            console.log(data);
+
+
+            
+            $.ajax({
+                url: "http://localhost:1212/delete-role",
+                type: "delete",
+                data: data,
+                success: res => {
+                    alert("Deleted!")
+                },
+                error: e => {
+                    console.log(e);
+                    alert("Something when wrong!!");
+
+                }
+            })
+
+        })
+    }
+
+    deleteRole();
+</script>
+
+{{/section}}

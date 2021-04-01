@@ -1,0 +1,71 @@
+<div>
+
+    <h2>Update Role</h2>
+
+    <form id="fmUpdateRole">
+
+
+
+        <div class="mb-3">
+            <label for="listRoleName" class="form-label">
+                Role name
+            </label>
+            <select id="listRoleName" class="form-select" aria-label="listRoleName">
+                <option disabled selected>Open this select table </option>
+
+                {{#each rolenames }}
+                <option value="{{this.ROLE}}">
+                    {{this.ROLE}}
+                </option>
+                {{/each}}
+
+            </select>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Grant</button>
+    </form>
+
+</div>
+
+{{#section 'js'}}
+
+<script>
+   /*function updateUser() {
+        const fmUpdateUser = $("#fmUpdateUser");
+        const username = $("#username");
+        const newPassword = $("#newPassword");
+
+
+
+        fmUpdateUser.on("submit", function (e) {
+            e.preventDefault();
+            const data = {
+                username: username.val(),
+                newPassword: newPassword.val()
+            }
+            console.log(data);
+
+
+            
+            $.ajax({
+                url: "http://localhost:1212/update-user",
+                type: "patch",
+                data: data,
+                success: res => {
+                    alert("updated!")
+                },
+                error: e => {
+                    console.log(e);
+                    alert("Something when wrong!!");
+
+                }
+            })
+
+        })
+    }
+
+    updateUser();*/
+</script>
+
+{{/section}}

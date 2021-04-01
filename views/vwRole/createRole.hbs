@@ -1,0 +1,58 @@
+<div>
+
+    <h2>Create Role</h2>
+
+
+    <form id="fmCreateUser">
+        <div class="mb-3">
+            <label for="rolename" class="form-label">Role name</label>
+            <input type="text" class="form-control" id="rolename" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="identify" class="form-label">Identify by</label>
+            <input type="text" class="form-control" id="identify">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
+
+</div>
+
+{{#section 'js'}}
+
+<script>
+    /*function createRole() {
+        const fmCreateUser = $("#fmCreateUser");
+        const username = $("#username");
+        const identify = $("#identify");
+
+        fmCreateUser.on("submit", function (e) {
+            e.preventDefault();
+
+            const data = {
+                username: username.val(),
+                identify: identify.val()
+            }
+
+
+            $.ajax({
+                url: "http://localhost:1212/create-user",
+                type: "post",
+                data: data,
+                success: data => {
+                    alert("Created!")
+                },
+                error: e => {
+                    alert("Something when wrong!")
+                }
+
+            })
+        })
+
+    }
+    createRole();*/
+</script>
+
+{{/section}}

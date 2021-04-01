@@ -1,0 +1,69 @@
+<div>
+
+    <h2>Update user</h2>
+
+
+    <form id="fmUpdateUser">
+        <div class="mb-3">
+            <label for="username" class="form-label">List Username</label>
+            <select id="username" class="form-select" aria-label="username">
+                <option disabled selected>Open this select username </option>
+
+                {{#each usernames }}
+                <option value="{{this.USERNAME}}">{{this.USERNAME}} </option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="newPassword" class="form-label">New identify</label>
+            <input type="text" class="form-control" id="newPassword">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
+
+</div>
+
+{{#section 'js'}}
+
+<script>
+   function updateUser() {
+        const fmUpdateUser = $("#fmUpdateUser");
+        const username = $("#username");
+        const newPassword = $("#newPassword");
+
+
+
+        fmUpdateUser.on("submit", function (e) {
+            e.preventDefault();
+            const data = {
+                username: username.val(),
+                newPassword: newPassword.val()
+            }
+            console.log(data);
+
+
+            
+            $.ajax({
+                url: "http://localhost:1212/update-user",
+                type: "patch",
+                data: data,
+                success: res => {
+                    alert("updated!")
+                },
+                error: e => {
+                    console.log(e);
+                    alert("Something when wrong!!");
+
+                }
+            })
+
+        })
+    }
+
+    updateUser();
+</script>
+
+{{/section}}
