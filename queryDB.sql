@@ -166,6 +166,66 @@ CREATE USER user_ketoan_03 IDENTIFIED BY user_ketoan_03;
 -- Create Role &  Grant policy to it
 ---
 
+--A42 Grant policy to management deparment
+--Quan ly tai nguyen & nhan su
+alter session set "_ORACLE_SCRIPT"=true;
+CREATE ROLE dep_ql_tainguyen_nhansu IDENTIFIED BY dep_ql_tainguyen_nhansu;
+--Grant policy
+GRANT INSERT, DELETE, UPDATE, SELECT ON NHANVIEN TO dep_ql_tainguyen_nhansu;
+GRANT INSERT, DELETE, UPDATE, SELECT ON DONVI TO dep_ql_tainguyen_nhansu;
+GRANT SELECT ON BENHNHAN TO dep_ql_tainguyen_nhansu;
+GRANT SELECT ON CHAMCONG TO dep_ql_tainguyen_nhansu;
+GRANT SELECT ON CTDONTHUOC TO dep_ql_tainguyen_nhansu;
+GRANT SELECT ON CTHOADON TO dep_ql_tainguyen_nhansu;
+GRANT SELECT ON DICHVU TO dep_ql_tainguyen_nhansu;
+GRANT SELECT ON DONTHUOC TO dep_ql_tainguyen_nhansu;
+GRANT SELECT ON HOADON TO dep_ql_tainguyen_nhansu;
+GRANT SELECT ON HOSOBENHNHAN TO dep_ql_tainguyen_nhansu;
+GRANT SELECT ON HOSODICHVU TO dep_ql_tainguyen_nhansu;
+GRANT SELECT ON THUOC TO dep_ql_tainguyen_nhansu;
+--Grant role to user
+GRANT dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_01;
+GRANT dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_02;
+GRANT dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_03;
+
+--Quan ly tai vu
+alter session set "_ORACLE_SCRIPT"=true; 
+CREATE ROLE dep_ql_taivu IDENTIFIED BY dep_ql_taivu;
+--Grant policy
+GRANT INSERT,UPDATE ON DICHVU TO dep_ql_taivu;
+GRANT INSERT,UPDATE ON HOADON TO dep_ql_taivu;
+GRANT INSERT,UPDATE ON CTHOADON TO dep_ql_taivu;
+GRANT SELECT ON BENHNHAN TO dep_ql_taivu;
+GRANT SELECT ON CTDONTHUOC TO dep_ql_taivu;
+GRANT SELECT ON DONTHUOC TO dep_ql_taivu;
+GRANT SELECT ON HOSOBENHNHAN TO dep_ql_taivu;
+GRANT SELECT ON HOSODICHVU TO dep_ql_taivu;
+GRANT SELECT ON THUOC TO dep_ql_taivu;
+GRANT SELECT ON NHANVIEN TO dep_ql_taivu;
+GRANT SELECT ON CHAMCONG TO dep_ql_taivu;
+GRANT SELECT ON DONVI TO dep_ql_taivu;
+--Grant role to user
+GRANT dep_ql_taivu TO user_quanly_taivu_01;
+GRANT dep_ql_taivu TO user_quanly_taivu_02;
+GRANT dep_ql_taivu TO user_quanly_taivu_03;
+
+
+--Quan ly chuyen mon
+alter session set "_ORACLE_SCRIPT"=true; 
+CREATE ROLE dep_ql_chuyenmon IDENTIFIED BY dep_ql_chuyenmon;
+--Grant policy
+GRANT SELECT ON BENHNHAN TO dep_ql_chuyenmon;
+GRANT SELECT ON CTDONTHUOC TO dep_ql_chuyenmon;
+GRANT SELECT ON DONTHUOC TO dep_ql_chuyenmon;
+GRANT SELECT ON HOSOBENHNHAN TO dep_ql_chuyenmon;
+GRANT SELECT ON HOSODICHVU TO dep_ql_chuyenmon;
+GRANT SELECT ON THUOC TO dep_ql_chuyenmon;
+GRANT SELECT ON CHAMCONG TO dep_ql_chuyenmon;
+--Grant role to user
+GRANT dep_ql_chuyenmon TO user_quanly_chuyenmon_01;
+GRANT dep_ql_chuyenmon TO user_quanly_chuyenmon_02;
+GRANT dep_ql_chuyenmon TO user_quanly_chuyenmon_03;
+
 -- Reception Role
 alter session set "_ORACLE_SCRIPT"=true;  
 CREATE ROLE dep_letan  IDENTIFIED BY dep_letan;
@@ -188,6 +248,16 @@ GRANT doctor TO user_bacsi_01;
 GRANT doctor TO user_bacsi_02;
 GRANT doctor TO user_bacsi_03;
 
+
+--A46 Grant policy to pharmacy
+--user_banthuoc_01
+ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
+CREATE ROLE dep_banthuoc IDENTIFIED BY dep_banthuoc;
+GRANT SELECT ON THUOC TO dep_banthuoc;
+-- Grant role to user - doctor
+GRANT dep_banthuoc TO user_banthuoc_01;
+GRANT dep_banthuoc TO user_banthuoc_02;
+GRANT dep_banthuoc TO user_banthuoc_03;
 
 -- Accounting role
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
