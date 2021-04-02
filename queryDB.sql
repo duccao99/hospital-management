@@ -211,7 +211,6 @@ GRANT dep_ql_taivu TO user_quanly_taivu_03;
 
 
 --Quan ly chuyen mon
---user_quanly_chuyenmon_01
 alter session set "_ORACLE_SCRIPT"=true; 
 CREATE ROLE dep_ql_chuyenmon IDENTIFIED BY dep_ql_chuyenmon;
 --Grant policy
@@ -254,7 +253,6 @@ GRANT doctor TO user_bacsi_03;
 --user_banthuoc_01
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 CREATE ROLE dep_banthuoc IDENTIFIED BY dep_banthuoc;
--- A44. Grant policy to doctor
 GRANT SELECT ON THUOC TO dep_banthuoc;
 -- Grant role to user - doctor
 GRANT dep_banthuoc TO user_banthuoc_01;
