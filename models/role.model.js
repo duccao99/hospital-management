@@ -3,18 +3,17 @@ const config = require("./../config/config");
 const oracledb = require("oracledb");
 
 const roleModel = {
-    updateRole(rolename,newPassword) {
-      const sql = `ALTER ROLE ${rolename} IDENTIFIED BY ${newPassword}`;
-  
-      return db.load(sql);
+    updateRole(rolename, newPassword) {
+        const sql = `ALTER ROLE ${rolename} IDENTIFIED BY ${newPassword}`;
+
+        return db.load(sql);
     },
     deleteRole(rolename) {
-      console.log(rolename)
-      const sql = `DROP ROLE ${rolename}`;
-  
-      return db.load(sql);
-    },
+        console.log(rolename);
+        const sql = `DROP ROLE ${rolename}`;
 
+        return db.load(sql);
+    },
 };
 
 // oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
@@ -71,7 +70,5 @@ const roleModel = {
 //     return -1;
 //   },
 // };
-
-
 
 module.exports = roleModel;
