@@ -1,0 +1,320 @@
+<div>
+
+    <h2>Revoke role permission</h2>
+
+    <form id="fmRevokeRolePermission">
+        <div class="mb-3">
+            <label for="listRoleName" class="form-label">List role name</label>
+            <select id="listRoleName" class="form-select" aria-label="listRoleName">
+                <option disabled selected>Open this select rolename </option>
+
+                {{#each roleNames }}
+                <option value="{{this.ROLE}}">{{this.ROLE}}</option>
+                {{/each}}
+
+            </select>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="privileges" class="form-label">Privileges</label>
+            <select id="listPrivileges" class="form-select" aria-label="privileges">
+                <option disabled selected>Open this select privilege </option>
+                <option value="select">Select</option>
+                <option value="insert">Insert</option>
+                <option value="update">Update</option>
+                <option value="delete">Delete</option>
+
+            </select>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="table" class="form-label">Table</label>
+            <select id="listTable" class="form-select" aria-label="table">
+                <option disabled selected>Open this select table </option>
+                <option value="CHAMCONG">CHAMCONG</option>
+                <option value="BENHNHAN">BENHNHAN</option>
+                <option value="HOSOBENHNHAN">HOSOBENHNHAN</option>
+                <option value="HOSODICHVU">HOSODICHVU</option>
+
+                <option value="HOADON">HOADON</option>
+                <option value="NHANVIEN">NHANVIEN</option>
+                <option value="DONVI">DONVI</option>
+                <option value="DONTHUOC">DONTHUOC</option>
+
+
+
+                <option value="DICHVU">DICHVU</option>
+                <option value="CTHOADON">CTHOADON</option>
+                <option value="CTDONTHUOC">CTDONTHUOC</option>
+                <option value="THUOC">THUOC</option>
+
+
+            </select>
+        </div>
+
+
+        <label id="label_column_levels" for="" class="form-label">Grant Privilege
+            At Column Level </label>
+
+        {{#each arrayColumns }}
+
+        <div class="mb-3" id="column_level">
+
+            <select id="columns_{{this.tableName}}" class="form-select" aria-label="columns_{{this.tableName}}">
+
+                <option disabled selected>Open this select columns </option>
+                {{#each this.columns }}
+                <option value="{{this.COLUMN_NAME}}"> {{this.COLUMN_NAME}}
+                </option>
+                {{/each}}
+
+            </select>
+        </div>
+
+        {{/each}}
+
+        <button type="submit" class="btn btn-primary">REVOKE</button>
+    </form>
+
+</div>
+
+{{#section 'js'}}
+
+<script>
+    function handleListTableChange() {
+        // handle show columns of table
+        const listTable = $("#listTable");
+        const column_level = $("#column_level select");
+
+
+        listTable.on("change", function (e) {
+            const tableCurrent = listTable.val().toUpperCase();
+
+
+            if (tableCurrent === "CHAMCONG") {
+
+                for (let i = 0; i < column_level.length; ++i) {
+                    if (column_level[i].id === `columns_${tableCurrent}`) {
+                        column_level[i].style.display = "block";
+                    }
+                    else {
+                        column_level[i].style.display = "none";
+                    }
+                }
+            }
+            else if (tableCurrent === "BENHNHAN") {
+                for (let i = 0; i < column_level.length; ++i) {
+                    if (column_level[i].id === `columns_${tableCurrent}`) {
+                        column_level[i].style.display = "block";
+                    }
+                    else {
+                        column_level[i].style.display = "none";
+                    }
+                }
+            }
+
+            else if (tableCurrent === "HOSOBENHNHAN") {
+                for (let i = 0; i < column_level.length; ++i) {
+                    if (column_level[i].id === `columns_${tableCurrent}`) {
+                        column_level[i].style.display = "block";
+                    }
+                    else {
+                        column_level[i].style.display = "none";
+                    }
+                }
+            }
+
+
+            else if (tableCurrent === "HOSODICHVU") {
+                for (let i = 0; i < column_level.length; ++i) {
+                    if (column_level[i].id === `columns_${tableCurrent}`) {
+                        column_level[i].style.display = "block";
+                    }
+                    else {
+                        column_level[i].style.display = "none";
+                    }
+                }
+            }
+
+
+            else if (tableCurrent === "HOADON") {
+                for (let i = 0; i < column_level.length; ++i) {
+                    if (column_level[i].id === `columns_${tableCurrent}`) {
+                        column_level[i].style.display = "block";
+                    }
+                    else {
+                        column_level[i].style.display = "none";
+                    }
+                }
+            }
+
+            else if (tableCurrent === "NHANVIEN") {
+                for (let i = 0; i < column_level.length; ++i) {
+                    if (column_level[i].id === `columns_${tableCurrent}`) {
+                        column_level[i].style.display = "block";
+                    }
+                    else {
+                        column_level[i].style.display = "none";
+                    }
+                }
+            }
+
+            else if (tableCurrent === "DONVI") {
+                for (let i = 0; i < column_level.length; ++i) {
+                    if (column_level[i].id === `columns_${tableCurrent}`) {
+                        column_level[i].style.display = "block";
+                    }
+                    else {
+                        column_level[i].style.display = "none";
+                    }
+                }
+            }
+
+            else if (tableCurrent === "DICHVU") {
+                for (let i = 0; i < column_level.length; ++i) {
+                    if (column_level[i].id === `columns_${tableCurrent}`) {
+                        column_level[i].style.display = "block";
+                    }
+                    else {
+                        column_level[i].style.display = "none";
+                    }
+                }
+            }
+
+            else if (tableCurrent === "CTHOADON") {
+                for (let i = 0; i < column_level.length; ++i) {
+                    if (column_level[i].id === `columns_${tableCurrent}`) {
+                        column_level[i].style.display = "block";
+                    }
+                    else {
+                        column_level[i].style.display = "none";
+                    }
+                }
+            }
+
+            else if (tableCurrent === "CTDONTHUOC") {
+                for (let i = 0; i < column_level.length; ++i) {
+                    if (column_level[i].id === `columns_${tableCurrent}`) {
+                        column_level[i].style.display = "block";
+                    }
+                    else {
+                        column_level[i].style.display = "none";
+                    }
+                }
+            }
+
+            else if (tableCurrent === "THUOC") {
+                for (let i = 0; i < column_level.length; ++i) {
+                    if (column_level[i].id === `columns_${tableCurrent}`) {
+                        column_level[i].style.display = "block";
+                    }
+                    else {
+                        column_level[i].style.display = "none";
+                    }
+                }
+            }
+
+
+        })
+    }
+
+
+
+    function isCheckedSelectAndUpdate() {
+
+        const listPrivileges = $("#listPrivileges");
+        const columns = $("#columns");
+        const listTable = $("#listTable");
+        const column_level = $("#column_level select");
+        const label_column_levels = $("#label_column_levels");
+        label_column_levels.css({ display: "none" })
+
+        let listSelectIDTableColumn = [];
+        let listSelectTableColumn = [];
+
+        for (let i = 0; i < column_level.length; ++i) {
+            listSelectIDTableColumn.push(column_level[i].id)
+            listSelectTableColumn.push(column_level[i]);
+            column_level[i].style.display = "none";
+        }
+
+
+
+        columns.css({ display: "none" });
+
+
+        listPrivileges.on("change", function (e) {
+            if (listPrivileges.val().toLowerCase() === "select" ||
+                listPrivileges.val().toLowerCase() === "update") {
+                columns.css({ "display": "block" })
+                label_column_levels.css({ "display": "block" })
+                handleListTableChange();
+            }
+            else {
+                columns.css({ "display": "none" })
+                label_column_levels.css({ "display": "none" })
+            }
+        })
+
+
+
+    }
+
+    isCheckedSelectAndUpdate();
+
+    function revokeRolePermission() {
+        const fmRevokeRolePermission = $("#fmRevokeRolePermission");
+        const listRoleName = $("#listRoleName");
+        const listPrivileges = $("#listPrivileges");
+        const listTable = $("#listTable");
+        //{ { !-- const withGrantOption = $("#withGrantOption"); --} }
+        let columnValue = "";
+
+
+        fmRevokeRolePermission.on("submit", function (e) {
+            e.preventDefault();
+
+            for (let i = 0; i < column_level.length; ++i) {
+                if (column_level[i].style.display === "block") {
+                    const option = $(`#${column_level[i].id}`);
+                    columnValue = option.val();
+                    console.log(columnValue);
+                }
+            }
+
+
+            const data = {
+                rolename: listRoleName.val(),
+                privilege: listPrivileges.val(),
+                tableName: listTable.val(),
+                //   withGrantOption: withGrantOption.is(":checked"),
+                //withGrantOption: false,
+                columnValue
+            }
+            console.log(data);
+
+
+            $.ajax({
+                url: "http://localhost:1212/revoke-role-permission",
+                type: "patch",
+                data: data,
+                success: res => {
+                    alert("REVOKED!")
+                },
+                error: e => {
+                    console.log(e);
+                    alert("Something when wrong!");
+
+                }
+            })
+
+        })
+    }
+
+    revokeRolePermission();
+
+</script>
+
+{{/section}}

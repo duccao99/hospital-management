@@ -3,18 +3,36 @@ const config = require("./../config/config");
 const oracledb = require("oracledb");
 
 const userModel = {
-    updateUser(username,newPassword) {
-      const sql = `ALTER USER ${username} IDENTIFIED BY ${newPassword}`;
-  
-      return db.load(sql);
-    },
-    deleteUser(username) {
-      console.log(username)
-      const sql = `DROP USER ${username} CASCADE`;
-  
-      return db.load(sql);
-    },
+  updateUser(username, newPassword) {
+    const sql = `ALTER USER ${username} IDENTIFIED BY ${newPassword}`;
 
+    return db.load(sql);
+  },
+  deleteUser(username) {
+    console.log(username);
+    const sql = `DROP USER ${username} CASCADE`;
+
+    return db.load(sql);
+  },
+  revokeUserPermission(
+    username,
+    privilege,
+    tableName,
+    // withGrantOption,
+    columnValue
+  ) {
+    let sql = ``;
+
+    if (columnValue === "" || columnValue === undefined) {
+      sql = `REVOKE ${privilege} ON ${tableName} FROM ${username}`;
+    } else {
+      sql = `REVOKE ${privilege}(${columnValue}) ON ${tableName} FROM ${username}`;
+    }
+
+    console.log(sql);
+
+    return db.load(sql);
+  },
 };
 
 // oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
@@ -71,7 +89,5 @@ const userModel = {
 //     return -1;
 //   },
 // };
-
-
 
 module.exports = userModel;
