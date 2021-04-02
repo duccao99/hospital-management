@@ -3,17 +3,36 @@ const config = require("./../config/config");
 const oracledb = require("oracledb");
 
 const roleModel = {
-    updateRole(rolename, newPassword) {
-        const sql = `ALTER ROLE ${rolename} IDENTIFIED BY ${newPassword}`;
+  updateRole(rolename, newPassword) {
+    const sql = `ALTER ROLE ${rolename} IDENTIFIED BY ${newPassword}`;
 
-        return db.load(sql);
-    },
-    deleteRole(rolename) {
-        console.log(rolename);
-        const sql = `DROP ROLE ${rolename}`;
+    return db.load(sql);
+  },
+  deleteRole(rolename) {
+    console.log(rolename);
+    const sql = `DROP ROLE ${rolename}`;
 
-        return db.load(sql);
-    },
+    return db.load(sql);
+  },
+  revokeRolePermission(
+    rolename,
+    privilege,
+    tableName,
+    // withGrantOption,
+    columnValue
+  ) {
+    let sql = ``;
+
+    if (columnValue === "" || columnValue === undefined) {
+      sql = `REVOKE ${privilege} ON ${tableName} FROM ${rolename} `;
+    } else {
+      sql = `REVOKE ${privilege}(${columnValue}) ON ${tableName} FROM ${rolename} `;
+    }
+
+    console.log(sql);
+
+    return db.load(sql);
+  },
 };
 
 // oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
