@@ -64,11 +64,32 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Table Name</label>
-                        <input type="text" class="form-control" id="tableEditName">
+                        <label for="table" class="form-label">Table</label>
+                        <select id="listTable" class="form-select" aria-label="table">
+                            <option disabled selected>Open this select table </option>
+                            <option value="CHAMCONG">CHAMCONG</option>
+                            <option value="BENHNHAN">BENHNHAN</option>
+                            <option value="HOSOBENHNHAN">HOSOBENHNHAN</option>
+                            <option value="HOSODICHVU">HOSODICHVU</option>
+
+                            <option value="HOADON">HOADON</option>
+                            <option value="NHANVIEN">NHANVIEN</option>
+                            <option value="DONVI">DONVI</option>
+                            <option value="DONTHUOC">DONTHUOC</option>
+
+
+
+                            <option value="DICHVU">DICHVU</option>
+                            <option value="CTHOADON">CTHOADON</option>
+                            <option value="CTDONTHUOC">CTDONTHUOC</option>
+                            <option value="THUOC">THUOC</option>
+
+
+                        </select>
+
+
                     </div>
                     <div class="form-group">
-                        <label for="message-text" class="col-form-label">Privilege</label>
                         <div class="mb-3">
                             <label for="listPrivileges" class="form-label">Privileges</label>
                             <select id="listPrivileges" class="form-select" aria-label="listPrivileges">
@@ -85,17 +106,19 @@
                     </div>
 
                     <div class="form-check my-4 ">
-                        <input class="form-check-input" type="checkbox" value="" id="withGrantOption">
-                        <label class="form-check-label" for="withGrantOption">
+
+                        <input class="form-check-input" type="checkbox" value="" id="modelwithGrantOption">
+                        <label class="form-check-label" for="modelwithGrantOption">
                             With grant option ?
                         </label>
                     </div>
-                </form>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button id="editBtn" type="button" class="btn btn-primary">Edit </button>
             </div>
+            </form>
         </div>
     </div>
 </div>
@@ -174,9 +197,9 @@
                 editBtn.on("click", function (e) {
                     const editInfo = {
 
-                        tableName: $("#tableEditName").val(),
+                        tableName: $("#listTable").val(),
                         priv: $("#listPrivileges").val(),
-                        grantAble: $("#withGrantOption").val()
+                        grantAble: $("#modelwithGrantOption").is(":checked")
 
                     }
                     const data = {
@@ -195,11 +218,13 @@
 
 
                     $.ajax({
-                        url: "http://localhost:1212/role-info",
+                        url: "http://localhost:1212/user-priv",
                         type: "patch",
                         data: data,
                         success: ret => {
                             console.log(ret);
+
+                            window.location.href = `http://localhost:1212/user-priv`;
                         },
                         error: er => {
                             console.log(er)

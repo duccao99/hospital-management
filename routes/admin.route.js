@@ -101,25 +101,42 @@ router.get("/all-roles", authUser, async function (req, res) {
   });
 });
 
-router.get("/role-info", authUser, async function (req, res) {
-  const roleInfo = await adminModel.getRoleAcffectDataOjbect();
+router.get("/user-priv", authUser, async function (req, res) {
+  const roleInfo = await adminModel.getUserPriv();
 
-  res.render("vwAdmin/roleInfo", {
+  res.render("vwAdmin/userPriv", {
     layout: "admin",
     roleInfo,
   });
 });
 
-router.patch("/role-info", authUser, async function (req, res) {
-  const data = {
-    info_grantee: req.body.info_grantee,
-    info_tableName: req.body.info_tableName,
-    info_priv: req.body.info_priv,
-    info_grantAble: req.body.info_grantAble,
+router.patch("/user-priv", authUser, async function (req, res) {
+  const editInfo = {
     edit_info_tableName: req.body.edit_info_tableName,
     edit_info_priv: req.body.edit_info_priv,
     edit_info_grantAble: req.body.edit_info_grantAble,
   };
+  const info = {
+    info_grantee: req.body.info_grantee,
+    info_tableName: req.body.info_tableName,
+    info_priv: req.body.info_priv,
+    info_grantAble: req.body.info_grantAble,
+  };
+  // SOLUTION: Revoke first then re-grant
+  const revokeStatus = await adminModel.revokeUserPriv(
+    info.info_priv,
+    info.info_tableName,
+    info.info_grantee
+  );
+  console.log(editInfo);
+  const reGrantStatus = await adminModel.reGrantUserPriv(
+    editInfo.edit_info_priv,
+    editInfo.edit_info_tableName,
+    info.info_grantee,
+    editInfo.edit_info_grantAble
+  );
+
+  res.json({ message: "success" });
 });
 
 router.get("/user-role", async function (req, res) {
