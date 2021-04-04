@@ -1,0 +1,251 @@
+<div class="card border-light shadow-sm mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-centered table-nowrap mb-0 rounded table-hover">
+
+
+                <thead class="thead-light">
+                    <tr>
+                        <th class="border-0">GRANTEE</th>
+                        <th class="border-0">TABLE_NAME</th>
+                        <th class="border-0">PRIVILEGE</th>
+                        <th class="border-0">GRANTABLE</th>
+                        <th class="border-0">GRANTOR</th>
+                    </tr>
+                </thead>
+                <tbody id="rolePermissionTbody">
+                    <!-- Item -->
+
+                    {{#each roleInfo }}
+                    <tr class="row_role_{{this.GRANTEE}}">
+                        <td class="border-0 grantee ">
+                            {{this.GRANTEE}}
+
+                        </td>
+
+                        <td class="border-0 tableName">
+                            {{this.TABLE_NAME}}
+                        </td>
+                        <td class="border-0 priv">
+                            {{ this.PRIVILEGE}}
+                        </td>
+
+                        <td class="border-0 grantAble">
+                            {{this.GRANTABLE}}
+                        </td>
+
+
+                        <td class="border-0">
+                            {{this.GRANTOR}}
+                        </td>
+
+
+                    </tr>
+                    {{/each}}
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModal">Edit Modal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="table" class="form-label">Table</label>
+                        <select id="listTable" class="form-select" aria-label="table">
+                            <option disabled selected>Open this select table </option>
+                            <option value="CHAMCONG">CHAMCONG</option>
+                            <option value="BENHNHAN">BENHNHAN</option>
+                            <option value="HOSOBENHNHAN">HOSOBENHNHAN</option>
+                            <option value="HOSODICHVU">HOSODICHVU</option>
+
+                            <option value="HOADON">HOADON</option>
+                            <option value="NHANVIEN">NHANVIEN</option>
+                            <option value="DONVI">DONVI</option>
+                            <option value="DONTHUOC">DONTHUOC</option>
+
+
+
+                            <option value="DICHVU">DICHVU</option>
+                            <option value="CTHOADON">CTHOADON</option>
+                            <option value="CTDONTHUOC">CTDONTHUOC</option>
+                            <option value="THUOC">THUOC</option>
+
+
+                        </select>
+
+
+                    </div>
+                    <div class="form-group">
+                        <div class="mb-3">
+                            <label for="listPrivileges" class="form-label">Privileges</label>
+                            <select id="listPrivileges" class="form-select" aria-label="listPrivileges">
+                                <option disabled selected>Open this select privilege </option>
+                                <option value="select">Select</option>
+                                <option value="insert">Insert</option>
+                                <option value="update">Update</option>
+                                <option value="delete">Delete</option>
+
+                            </select>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-check my-4 ">
+
+                        <input class="form-check-input" type="checkbox" value="" id="modelwithGrantOption">
+                        <label class="form-check-label" for="modelwithGrantOption">
+                            With grant option ?
+                        </label>
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="editBtn" type="button" class="btn btn-primary">Edit </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{{#section 'js'}}
+
+<script>
+
+    // 1. Handle Open Model - done
+    // 2. Handle Edit Role
+
+    function openModelHandle() {
+        // push info into URL
+
+        const roles = $("#rolePermissionTbody tr");
+
+
+        for (let i = 0; i < roles.length; ++i) {
+            roles[i].addEventListener("click", function (e) {
+                const grantee = roles[i].childNodes;
+                let info = {
+                    grantee: "",
+                    tableName: "",
+                    priv: "",
+                    grantAble: null
+                }
+                for (let j = 0; j < grantee.length; ++j) {
+                    //  console.log(grantee[j].nodeName);
+                    //   console.log(grantee[j].nodeType);
+                    // console.log(grantee[j].ATTRIBUTE_NODE);
+
+                    if ((grantee[j].nodeName) === 'TD') {
+
+                        if (grantee[j].className.includes("grantee")) {
+                            info.grantee = grantee[j].textContent.trim();
+
+                        }
+                        if (grantee[j].className.includes("tableName")) {
+                            info.tableName = grantee[j].textContent.trim();
+                        }
+                        if (grantee[j].className.includes("priv")) {
+                            info.priv = grantee[j].textContent.trim();
+
+                        }
+                        if (grantee[j].className.includes("grantAble")) {
+                            info.grantAble = grantee[j].textContent.trim();
+                        }
+                    }
+                }
+
+
+
+                console.log(info);
+
+                roles[i].setAttribute("data-target", "#editModal");
+                roles[i].setAttribute("data-toggle", "modal");
+
+
+
+                // Open Modal
+                $('#editModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var recipient = button.data('whatever') // Extract info from data-* attributes
+                    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                    var modal = $(this)
+                    modal.find('.modal-title').text('New message to ' + recipient)
+                    modal.find('.modal-body input').val(recipient)
+                })
+
+
+                const editBtn = $("#editBtn");
+
+
+                editBtn.on("click", function (e) {
+                    const editInfo = {
+
+                        tableName: $("#listTable").val(),
+                        priv: $("#listPrivileges").val(),
+                        grantAble: $("#modelwithGrantOption").is(":checked")
+
+                    }
+                    const data = {
+                        info_grantee: info.grantee,
+                        info_tableName: info.tableName,
+                        info_priv: info.priv,
+                        info_grantAble: info.grantAble,
+
+                        edit_info_tableName: editInfo.tableName,
+                        edit_info_priv: editInfo.priv,
+                        edit_info_grantAble: editInfo.grantAble
+
+
+                    }
+
+
+
+                    $.ajax({
+                        url: "http://localhost:1212/user-priv",
+                        type: "patch",
+                        data: data,
+                        success: ret => {
+                            console.log(ret);
+
+                            window.location.href = `http://localhost:1212/user-priv`;
+                        },
+                        error: er => {
+                            console.log(er)
+                        }
+
+                    })
+                })
+
+            })
+        }
+    }
+
+    openModelHandle();
+
+
+    function getInfoRoleRow(grantee, tableName, priv) {
+        alert("click");
+        console.log(grantee, tableName, priv);
+    }
+
+
+</script>
+
+{{/section}}

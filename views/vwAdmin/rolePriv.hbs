@@ -6,38 +6,39 @@
 
                 <thead class="thead-light">
                     <tr>
-                        <th class="border-0">GRANTEE</th>
-                        <th class="border-0">TABLE_NAME</th>
+                        <th class="border-0">ROLE</th>
                         <th class="border-0">PRIVILEGE</th>
+                        <th class="border-0">TABLE_NAME</th>
+                        <th class="border-0">COLUMN_NAME</th>
+
                         <th class="border-0">GRANTABLE</th>
-                        <th class="border-0">GRANTOR</th>
                     </tr>
                 </thead>
                 <tbody id="rolePermissionTbody">
                     <!-- Item -->
 
-                    {{#each roleInfo }}
-                    <tr class="row_role_{{this.GRANTEE}}">
+                    {{#each rolePrivs }}
+                    <tr class="row_role_{{this.ROLE}}">
                         <td class="border-0 grantee ">
-                            {{this.GRANTEE}}
+                            {{this.ROLE}}
 
                         </td>
+                        <td class="border-0 priv">
+                            {{ this.PRIVILEGE}}
+                        </td>
+
 
                         <td class="border-0 tableName">
                             {{this.TABLE_NAME}}
                         </td>
-                        <td class="border-0 priv">
-                            {{ this.PRIVILEGE}}
+                        <td class="border-0 col_name">
+                            {{ this.COLUMN_NAME}}
                         </td>
 
                         <td class="border-0 grantAble">
                             {{this.GRANTABLE}}
                         </td>
 
-
-                        <td class="border-0">
-                            {{this.GRANTOR}}
-                        </td>
 
 
                     </tr>
@@ -64,11 +65,32 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Table Name</label>
-                        <input type="text" class="form-control" id="tableEditName">
+                        <label for="table" class="form-label">Table</label>
+                        <select id="listTable" class="form-select" aria-label="table">
+                            <option disabled selected>Open this select table </option>
+                            <option value="CHAMCONG">CHAMCONG</option>
+                            <option value="BENHNHAN">BENHNHAN</option>
+                            <option value="HOSOBENHNHAN">HOSOBENHNHAN</option>
+                            <option value="HOSODICHVU">HOSODICHVU</option>
+
+                            <option value="HOADON">HOADON</option>
+                            <option value="NHANVIEN">NHANVIEN</option>
+                            <option value="DONVI">DONVI</option>
+                            <option value="DONTHUOC">DONTHUOC</option>
+
+
+
+                            <option value="DICHVU">DICHVU</option>
+                            <option value="CTHOADON">CTHOADON</option>
+                            <option value="CTDONTHUOC">CTDONTHUOC</option>
+                            <option value="THUOC">THUOC</option>
+
+
+                        </select>
+
+
                     </div>
                     <div class="form-group">
-                        <label for="message-text" class="col-form-label">Privilege</label>
                         <div class="mb-3">
                             <label for="listPrivileges" class="form-label">Privileges</label>
                             <select id="listPrivileges" class="form-select" aria-label="listPrivileges">
@@ -84,18 +106,20 @@
 
                     </div>
 
-                    <div class="form-check my-4 ">
-                        <input class="form-check-input" type="checkbox" value="" id="withGrantOption">
-                        <label class="form-check-label" for="withGrantOption">
+                    <div class="form-check my-4 d-none">
+
+                        <input class="form-check-input" type="checkbox" value="" id="modelwithGrantOption">
+                        <label class="form-check-label" for="modelwithGrantOption">
                             With grant option ?
                         </label>
                     </div>
-                </form>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button id="editBtn" type="button" class="btn btn-primary">Edit </button>
             </div>
+            </form>
         </div>
     </div>
 </div>
@@ -140,6 +164,7 @@
                         if (grantee[j].className.includes("priv")) {
                             info.priv = grantee[j].textContent.trim();
 
+
                         }
                         if (grantee[j].className.includes("grantAble")) {
                             info.grantAble = grantee[j].textContent.trim();
@@ -174,32 +199,33 @@
                 editBtn.on("click", function (e) {
                     const editInfo = {
 
-                        tableName: $("#tableEditName").val(),
+                        tableName: $("#listTable").val(),
                         priv: $("#listPrivileges").val(),
-                        grantAble: $("#withGrantOption").val()
+                        grantAble: $("#modelwithGrantOption").is(":checked")
 
                     }
                     const data = {
                         info_grantee: info.grantee,
                         info_tableName: info.tableName,
                         info_priv: info.priv,
-                        info_grantAble: info.grantAble,
+                        //  info_grantAble: info.grantAble,
 
                         edit_info_tableName: editInfo.tableName,
                         edit_info_priv: editInfo.priv,
-                        edit_info_grantAble: editInfo.grantAble
+                        //  edit_info_grantAble: editInfo.grantAble
 
 
                     }
 
 
-
                     $.ajax({
-                        url: "http://localhost:1212/role-info",
+                        url: "http://localhost:1212/role-priv",
                         type: "patch",
                         data: data,
                         success: ret => {
                             console.log(ret);
+
+                            window.location.href = `http://localhost:1212/role-priv`;
                         },
                         error: er => {
                             console.log(er)
