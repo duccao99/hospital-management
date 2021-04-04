@@ -10,6 +10,7 @@ module.exports = {
       userPriv: "USER_TAB_PRIVS",
       userAndTheirRole: "Dba_role_privs",
       User_col_privs: "User_col_privs",
+      rolePriv: "Role_tab_privs",
     },
   },
 };

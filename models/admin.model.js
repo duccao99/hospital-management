@@ -6,6 +6,7 @@ const userAndTheirRole = require("./../config/config.js").oracle.system
   .userAndTheirRole;
 const allRoles = config.oracle.system.all_roles;
 const userColPrivs = config.oracle.system.User_col_privs;
+const rolePriv = require("./../config/config.js").oracle.system.rolePriv;
 module.exports = {
   allUser() {
     const sql = `select * from ${allUser}`;
@@ -126,6 +127,26 @@ module.exports = {
 
     console.log(sql);
 
+    return db.load(sql);
+  },
+
+  getRolePrivs() {
+    const sql = `SELECT * FROM ${rolePriv}  WHERE TABLE_NAME = 'CHAMCONG' OR  TABLE_NAME = 'BENHNHAN'
+    OR  TABLE_NAME = 'HOSOBENHNHAN' OR  TABLE_NAME = 'HOSODICHVU' OR  TABLE_NAME = 'HOADON'
+    OR  TABLE_NAME = 'NHANVIEN' OR  TABLE_NAME = 'DONVI' OR  TABLE_NAME = 'DONTHUOC'
+    OR  TABLE_NAME = 'DICHVU' OR  TABLE_NAME = 'CTHOADON' OR  TABLE_NAME = 'CTDONTHUOC'
+    OR  TABLE_NAME = 'THUOC'`;
+
+    return db.load(sql);
+  },
+  reVokeRolePriv(priv, tblName, roleName) {
+    const sql = `REVOKE ${priv} ON ${tblName} FROM ${roleName}`;
+    console.log(sql);
+    return db.load(sql);
+  },
+  reGrantRolePriv(priv, tblName, roleName) {
+    const sql = `GRANT ${priv} ON ${tblName} TO ${roleName}`;
+    console.log(sql);
     return db.load(sql);
   },
 };

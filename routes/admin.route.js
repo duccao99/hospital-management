@@ -128,7 +128,6 @@ router.patch("/user-priv", authUser, async function (req, res) {
     info.info_tableName,
     info.info_grantee
   );
-  console.log(editInfo);
   const reGrantStatus = await adminModel.reGrantUserPriv(
     editInfo.edit_info_priv,
     editInfo.edit_info_tableName,
@@ -137,6 +136,39 @@ router.patch("/user-priv", authUser, async function (req, res) {
   );
 
   res.json({ message: "success" });
+});
+
+router.get("/role-priv", authUser, async function (req, res) {
+  const rolePrivs = await adminModel.getRolePrivs();
+
+  res.render("vwAdmin/rolePriv", {
+    layout: "admin",
+    rolePrivs,
+  });
+});
+
+router.patch("/role-priv", authUser, async function (req, res) {
+  const editInfo = {
+    tblName: req.body.edit_info_tableName,
+    priv: req.body.edit_info_priv,
+  };
+  const info = {
+    roleName: req.body.info_grantee,
+    tblName: req.body.info_tableName,
+    priv: req.body.info_priv,
+  };
+
+  const revokeStatus = await adminModel.reVokeRolePriv(
+    info.priv,
+    info.tblName,
+    info.roleName
+  );
+  const geGrantStatus = await adminModel.reGrantRolePriv(
+    editInfo.priv,
+    editInfo.tblName,
+    info.roleName
+  );
+  res.json({ message: "Edit role priv sucess!" });
 });
 
 router.get("/user-role", async function (req, res) {
