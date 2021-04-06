@@ -3,6 +3,15 @@ const config = require("./../config/config");
 const oracledb = require("oracledb");
 
 const roleModel = {
+  createRole(rolename, identify) {
+    const sql = `
+    BEGIN
+    proc_createRole('${rolename}','${identify}');
+    END;
+    `;
+    console.log(sql);
+    return db.load(sql);
+  },
   updateRole(rolename, newPassword) {
     const sql = `ALTER ROLE ${rolename} IDENTIFIED BY ${newPassword}`;
 

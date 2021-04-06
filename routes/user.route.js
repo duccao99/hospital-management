@@ -81,7 +81,7 @@ router.delete("/delete-user", authUser, async function (req, res) {
   console.log(data);
   const status = await userModel.deleteUser(data.username);
 
-  res.json({ message: "success!" });
+  res.json({ message: "Deleted User!" });
 });
 
 //revoke user permission

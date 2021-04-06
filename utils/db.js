@@ -11,7 +11,7 @@ async function run(sql) {
       port: 1521,
       user: "sys",
       password: "1",
-      database: "NodeOra",
+      database: "HospitalManagement",
       privilege: require("oracledb").SYSDBA,
     });
 

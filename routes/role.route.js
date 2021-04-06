@@ -13,6 +13,15 @@ router.get("/create-role", function (req, res) {
   });
 });
 
+router.post("/create-role", authUser, async function (req, res) {
+  const data = {
+    rolename: req.body.rolename,
+    identify: req.body.identify,
+  };
+  const status = await roleModel.createRole(data.rolename, data.identify);
+  res.json({ message: "Created Role!" });
+});
+
 //update role
 router.get("/update-role", async function (req, res) {
   const rolenames = await adminModel.getAllRoleName();
@@ -164,98 +173,6 @@ router.patch("/revoke-role-permission", authUser, async function (req, res) {
     return res.status(500).json({ message: e });
   }
 });
-
-// router.get("/update-role", function (req, res) {
-//     const rolenames = await adminModel.getAllRoleName();
-//       res.render("vwRole/updateRole", {
-//         layout: "admin",
-//         authUser: req.session.authUser,
-//         rolenames: rolenames.sort((a, b) => {
-//           if (a.ROLE < b.ROLE) {
-//             return -1;
-//           }
-//           if (a.ROLE > b.ROLE) {
-//             return 1;
-//           }
-//           return 0;
-//         }),
-//       });
-// });
-
-// router.post("/create-user", async function (req, res) {
-//   try {
-//     const data = {
-//       username: req.body.username,
-//       identify: req.body.identify,
-//     };
-//     console.log(data);
-//     const trigger = await userModel.loadBeforeCreateUser();
-//     const status = await userModel.createUser(data.username, data.identify);
-
-//     res.status(200);
-//   } catch (e) {
-//     return res.status(500).json({ e });
-//   }
-// });
-
-// //update
-// router.get("/update-user", authUser, async function (req, res) {
-//   const usernames = await adminModel.getAllUserName();
-//   res.render("vwUser/updateUser", {
-//     layout: "admin",
-//     authUser: req.session.authUser,
-//     usernames: usernames.sort((a, b) => {
-//       if (a.USERNAME < b.USERNAME) {
-//         return -1;
-//       }
-//       if (a.USERNAME > b.USERNAME) {
-//         return 1;
-//       }
-//       return 0;
-//     }),
-//   });
-// });
-
-// router.patch("/update-user", authUser, async function (req, res) {
-//   const data = {
-//     username: req.body.username,
-//     newPassword: req.body.newPassword,
-//   };
-
-//   console.log(data);
-//   const status = await userModel.updateUser(data.username, data.newPassword);
-
-//   res.json({ message: "success!" });
-// });
-
-// //delete user
-// router.get("/delete-user", authUser, async function (req, res) {
-//   const usernames = await adminModel.getAllUserName();
-//   res.render("vwUser/deleteUser", {
-//     layout: "admin",
-//     authUser: req.session.authUser,
-//     usernames: usernames.sort((a, b) => {
-//       if (a.USERNAME < b.USERNAME) {
-//         return -1;
-//       }
-//       if (a.USERNAME > b.USERNAME) {
-//         return 1;
-//       }
-//       return 0;
-//     }),
-//   });
-// });
-
-// router.delete("/delete-user", authUser, async function (req, res) {
-//   const data = {
-//     username: req.body.username,
-//   };
-
-//   console.log(data);
-//   const status = await userModel.deleteUser(data.username);
-
-//   res.json({ message: "success!" });
-// });
 
 router.get("/update-role-permission", authUser, async function (req, res) {
   const roleNames = await adminModel.allRoleNames();
