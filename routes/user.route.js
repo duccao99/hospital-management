@@ -3,6 +3,9 @@ const adminModel = require("../models/admin.model");
 const router = express.Router();
 const userModel = require("../models/user.model");
 const oracleModel = require("./../models/oracle.model.js");
+const createUserModel = require("./../models/createuser.model");
+const deleteUserModel = require("./../models/deleteuser.model");
+
 const { authUser } = require("./../middlewares/user.mdw");
 const { oracle } = require("../config/config");
 const { route } = require("./admin.route");
@@ -15,19 +18,16 @@ router.get("/create-user", function (req, res) {
 });
 
 router.post("/create-user", async function (req, res) {
-  try {
     const data = {
       username: req.body.username,
       identify: req.body.identify,
     };
     console.log(data);
-    const trigger = await userModel.loadBeforeCreateUser();
-    const status = await userModel.createUser(data.username, data.identify);
-
-    res.status(200);
-  } catch (e) {
-    return res.status(500).json({ e });
-  }
+    const status = await createUserModel.createUser(
+      data.username,
+      data.identify
+    );
+    res.json({ message: "success!" });
 });
 
 //update
@@ -84,7 +84,7 @@ router.delete("/delete-user", authUser, async function (req, res) {
   };
 
   console.log(data);
-  const status = await userModel.deleteUser(data.username);
+  const status = await deleteUserModel.deleteUser(data.username);
 
   res.json({ message: "success!" });
 });
