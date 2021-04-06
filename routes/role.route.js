@@ -75,7 +75,6 @@ router.delete("/delete-role", authUser, async function (req, res) {
     rolename: req.body.rolename,
   };
 
-  console.log(data);
   const status = await roleModel.deleteRole(data.rolename);
 
   res.json({ message: "success!" });

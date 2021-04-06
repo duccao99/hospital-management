@@ -1,5 +1,6 @@
 -- A3. View the list of users in the system
 SELECT * FROM Dba_users;
+SELECT * FROM ALL_USERS ;
 
 -- A4. Information about the privileges of each user  on data objects
 SELECT * FROM  USER_TAB_PRIVS WHERE TABLE_NAME = 'CHAMCONG' OR  TABLE_NAME = 'BENHNHAN'
@@ -27,7 +28,7 @@ IS
     BEGIN
     SELECT COUNT (1)
     INTO li_count
-    FROM dba_users
+    FROM all_users
     WHERE username =UPPER(user_name);
     
     
@@ -67,13 +68,90 @@ IS
 --	       	    TO ' || user_name;
 
       --  EXECUTE IMMEDIATE ( lv_stmt );
+      
+          lv_stmt:='ALTER SESSION SET "_ORACLE_SCRIPT"=FALSE ';
+    EXECUTE IMMEDIATE (lv_stmt);
        COMMIT;
     END createUser;
 /
+
+
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 CREATE USER USER_TEMP_04 IDENTIFIED BY USER_TEMP_04;
 EXEC createUser('USER_TEMP_05','USER_TEMP_05');
-SELECT * FROM all_users;
+SELECT * FROM all_users WHERE USERNAME = 'USER_TEMP_01';
+
+
+-- A7 Allows to delete user
+CREATE OR REPLACE PROCEDURE deleteUser(
+    ip_username IN NVARCHAR2)
+IS
+user_name NVARCHAR2(20):=ip_username;
+exec_commander VARCHAR(1000);
+    BEGIN
+        exec_commander := 'ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE ';
+        EXECUTE IMMEDIATE (exec_commander);
+        
+       exec_commander :='DROP USER ' || user_name|| ' CASCADE ';
+           EXECUTE IMMEDIATE (exec_commander);
+          exec_commander := 'ALTER SESSION SET "_ORACLE_SCRIPT"=FALSE ';
+        EXECUTE IMMEDIATE (exec_commander);
+        COMMIT;    
+    END deleteUser;
+/
+
+EXEC deleteUser('duc11');
+
+
+-- A8. Allows to edit user
+ALTER USER USERNAME IDENTIFIED BY newPass;
+
+
+-- A9. Allows to create role
+CREATE OR REPLACE PROCEDURE proc_createRole(
+    ip_rolename IN NVARCHAR2,
+    ip_identify IN NVARCHAR2)
+IS
+role_name nvarchar2(20):= ip_rolename;
+identify nvarchar2(20):= ip_identify;
+exec_commander varchar(1000);
+    BEGIN
+        exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT"= TRUE';
+        EXECUTE IMMEDIATE(exec_commander);
+        
+        exec_commander:='CREATE ROLE '||role_name ||' IDENTIFIED BY '||identify;
+        EXECUTE IMMEDIATE(exec_commander);
+
+          exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT"= FALSE';
+        EXECUTE IMMEDIATE(exec_commander);
+    COMMIT;
+    END proc_createRole;
+/
+EXEC proc_createRole('role_temp_06','role_temp_06');
+
+-- A10. Allows delete role
+CREATE OR REPLACE PROCEDURE proc_deleteRole(
+ip_rolename IN NVARCHAR2)
+IS 
+role_name NVARCHAR2(20):=ip_rolename;
+exec_commander varchar(1000);
+BEGIN
+    exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE';
+      EXECUTE IMMEDIATE(exec_commander);
+
+    exec_commander:='DROP ROLE '|| role_name;
+    EXECUTE IMMEDIATE (exec_commander);
+    
+      exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT"=FALSE';
+      EXECUTE IMMEDIATE(exec_commander);
+COMMIT;
+END proc_deleteRole;
+/
+EXEC proc_deleteRole('ROLE_TEMP_07');
+
+
+-- 
+update all_user set username = 'USER_TEMP_01_updated' where username='USER_TEMP_01';
 
 
 -- CANNOT GRANT TO A ROLE WITH GRANT OPTION
@@ -86,6 +164,10 @@ CREATE USER DUCCAO IDENTIFIED BY DUCCAO;
 CREATE USER USER_TEMP_01 IDENTIFIED BY USER_TEMP_01;
 CREATE USER USER_TEMP_02 IDENTIFIED BY USER_TEMP_02;
 CREATE USER USER_TEMP_03 IDENTIFIED BY USER_TEMP_03;
+GRANT CONNECT TO USER_TEMP_01;
+GRANT CONNECT TO USER_TEMP_02;
+GRANT CONNECT TO USER_TEMP_03;
+
 
 GRANT ALL PRIVILEGES TO DUCCAO;
 GRANT select, insert ON Employee TO duccao WITH GRANT OPTION;

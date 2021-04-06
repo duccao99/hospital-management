@@ -18,9 +18,11 @@ const roleModel = {
     return db.load(sql);
   },
   deleteRole(rolename) {
-    console.log(rolename);
-    const sql = `DROP ROLE ${rolename}`;
-
+    const sql = `
+    BEGIN
+    proc_deleteRole('${rolename}');
+    END;
+    `;
     return db.load(sql);
   },
   revokeRolePermission(
