@@ -3,7 +3,7 @@
     <h2>Create Role</h2>
 
 
-    <form id="fmCreateUser">
+    <form id="fmCreateRole">
         <div class="mb-3">
             <label for="rolename" class="form-label">Role name</label>
             <input type="text" class="form-control" id="rolename" aria-describedby="emailHelp">
@@ -23,22 +23,22 @@
 {{#section 'js'}}
 
 <script>
-    /*function createRole() {
-        const fmCreateUser = $("#fmCreateUser");
-        const username = $("#username");
+    function createRole() {
+        const fmCreateRole = $("#fmCreateRole");
+        const rolename = $("#rolename");
         const identify = $("#identify");
 
-        fmCreateUser.on("submit", function (e) {
+        fmCreateRole.on("submit", function (e) {
             e.preventDefault();
 
             const data = {
-                username: username.val(),
+                rolename: rolename.val(),
                 identify: identify.val()
             }
 
 
             $.ajax({
-                url: "http://localhost:1212/create-user",
+                url: "http://localhost:1212/create-role",
                 type: "post",
                 data: data,
                 success: data => {
@@ -52,7 +52,7 @@
         })
 
     }
-    createRole();*/
+    createRole();
 </script>
 
 {{/section}}

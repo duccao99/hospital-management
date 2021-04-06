@@ -17,8 +17,9 @@ function createWindow() {
   });
 
   win.webContents.openDevTools();
+  win.loadURL("http://localhost:1212/dashboard");
 
-  win.loadURL("http://localhost:1212/sign-in");
+  //win.loadURL("http://localhost:1212/sign-in");
 
   //win.loadFile("./src/html&css/pages/examples/sign-in.html");
 }

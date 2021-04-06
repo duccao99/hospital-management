@@ -1,5 +1,6 @@
 -- A3. View the list of users in the system
 SELECT * FROM Dba_users;
+SELECT * FROM ALL_USERS ;
 
 -- A4. Information about the privileges of each user  on data objects
 SELECT * FROM  USER_TAB_PRIVS WHERE TABLE_NAME = 'CHAMCONG' OR  TABLE_NAME = 'BENHNHAN'
@@ -15,6 +16,142 @@ OR  TABLE_NAME = 'NHANVIEN' OR  TABLE_NAME = 'DONVI' OR  TABLE_NAME = 'DONTHUOC'
 OR  TABLE_NAME = 'DICHVU' OR  TABLE_NAME = 'CTHOADON' OR  TABLE_NAME = 'CTDONTHUOC'
 OR  TABLE_NAME = 'THUOC';
 
+-- A6. Allows to create user
+CREATE OR REPLACE PROCEDURE createUser(
+    pi_username IN NVARCHAR2,
+    pi_password IN NVARCHAR2)
+IS    
+    user_name  NVARCHAR2(20):= pi_username;
+    pwd NVARCHAR2(20):= pi_password;
+    li_count INTEGER :=0;
+    lv_stmt VARCHAR(1000);
+    BEGIN
+    SELECT COUNT (1)
+    INTO li_count
+    FROM all_users
+    WHERE username =UPPER(user_name);
+    
+    
+    IF li_count !=0
+    THEN 
+        lv_stmt:='DROP USER ' ||user_name ||' CASCADE';
+        EXECUTE IMMEDIATE (lv_stmt);      
+    END IF;
+    
+    lv_stmt:='ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE ';
+    EXECUTE IMMEDIATE (lv_stmt);
+    
+   -- lv_stmt:='CREATE USER ' || user_name|| ' IDENTIFIED BY ' || pwd|| ' DEFAULT TABLESPACE SYSTEM ';
+    lv_stmt:='CREATE USER ' || user_name|| ' IDENTIFIED BY ' || pwd;
+
+  --  DBMS_OUTPUT.put_line(lv_stmt);
+    
+    EXECUTE IMMEDIATE (lv_stmt);
+    
+     -- ****** Object: Roles for user ******
+     lv_stmt:='GRANT CONNECT TO ' ||user_name;
+         EXECUTE IMMEDIATE (lv_stmt);
+
+-- PRIVILEGES resource, unlimited table 
+     
+         -- ****** Object: System privileges for user ******
+--	lv_stmt := 'GRANT ALTER SESSION,
+--	       	    	  CREATE ANY TABLE,
+--	       	    	  CREATE CLUSTER,
+--	            	  CREATE DATABASE LINK,
+--	            	  CREATE MATERIALIZED VIEW,
+--	       		  CREATE SYNONYM,
+--	       		  CREATE TABLE,
+--	       		  CREATE VIEW,
+--	       		  CREATE SESSION,
+--	       		  UNLIMITED TABLESPACE
+--	       	    TO ' || user_name;
+
+      --  EXECUTE IMMEDIATE ( lv_stmt );
+      
+          lv_stmt:='ALTER SESSION SET "_ORACLE_SCRIPT"=FALSE ';
+    EXECUTE IMMEDIATE (lv_stmt);
+       COMMIT;
+    END createUser;
+/
+
+
+ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
+CREATE USER USER_TEMP_04 IDENTIFIED BY USER_TEMP_04;
+EXEC createUser('USER_TEMP_05','USER_TEMP_05');
+SELECT * FROM all_users WHERE USERNAME = 'USER_TEMP_01';
+
+
+-- A7 Allows to delete user
+CREATE OR REPLACE PROCEDURE deleteUser(
+    ip_username IN NVARCHAR2)
+IS
+user_name NVARCHAR2(20):=ip_username;
+exec_commander VARCHAR(1000);
+    BEGIN
+        exec_commander := 'ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE ';
+        EXECUTE IMMEDIATE (exec_commander);
+        
+       exec_commander :='DROP USER ' || user_name|| ' CASCADE ';
+           EXECUTE IMMEDIATE (exec_commander);
+          exec_commander := 'ALTER SESSION SET "_ORACLE_SCRIPT"=FALSE ';
+        EXECUTE IMMEDIATE (exec_commander);
+        COMMIT;    
+    END deleteUser;
+/
+
+EXEC deleteUser('duc11');
+
+
+-- A8. Allows to edit user
+ALTER USER USERNAME IDENTIFIED BY newPass;
+
+
+-- A9. Allows to create role
+CREATE OR REPLACE PROCEDURE proc_createRole(
+    ip_rolename IN NVARCHAR2,
+    ip_identify IN NVARCHAR2)
+IS
+role_name nvarchar2(20):= ip_rolename;
+identify nvarchar2(20):= ip_identify;
+exec_commander varchar(1000);
+    BEGIN
+        exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT"= TRUE';
+        EXECUTE IMMEDIATE(exec_commander);
+        
+        exec_commander:='CREATE ROLE '||role_name ||' IDENTIFIED BY '||identify;
+        EXECUTE IMMEDIATE(exec_commander);
+
+          exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT"= FALSE';
+        EXECUTE IMMEDIATE(exec_commander);
+    COMMIT;
+    END proc_createRole;
+/
+EXEC proc_createRole('role_temp_06','role_temp_06');
+
+-- A10. Allows delete role
+CREATE OR REPLACE PROCEDURE proc_deleteRole(
+ip_rolename IN NVARCHAR2)
+IS 
+role_name NVARCHAR2(20):=ip_rolename;
+exec_commander varchar(1000);
+BEGIN
+    exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE';
+      EXECUTE IMMEDIATE(exec_commander);
+
+    exec_commander:='DROP ROLE '|| role_name;
+    EXECUTE IMMEDIATE (exec_commander);
+    
+      exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT"=FALSE';
+      EXECUTE IMMEDIATE(exec_commander);
+COMMIT;
+END proc_deleteRole;
+/
+EXEC proc_deleteRole('ROLE_TEMP_07');
+
+
+-- 
+update all_user set username = 'USER_TEMP_01_updated' where username='USER_TEMP_01';
 
 
 -- CANNOT GRANT TO A ROLE WITH GRANT OPTION
@@ -27,6 +164,10 @@ CREATE USER DUCCAO IDENTIFIED BY DUCCAO;
 CREATE USER USER_TEMP_01 IDENTIFIED BY USER_TEMP_01;
 CREATE USER USER_TEMP_02 IDENTIFIED BY USER_TEMP_02;
 CREATE USER USER_TEMP_03 IDENTIFIED BY USER_TEMP_03;
+GRANT CONNECT TO USER_TEMP_01;
+GRANT CONNECT TO USER_TEMP_02;
+GRANT CONNECT TO USER_TEMP_03;
+
 
 GRANT ALL PRIVILEGES TO DUCCAO;
 GRANT select, insert ON Employee TO duccao WITH GRANT OPTION;
@@ -195,7 +336,7 @@ CREATE USER user_ketoan_03 IDENTIFIED BY user_ketoan_03;
 -- Create Role &  Grant policy to it
 ---
 
---A42 Grant policy to management deparment
+--A82 Grant policy to management deparment
 --Quan ly tai nguyen & nhan su
 alter session set "_ORACLE_SCRIPT"=true;
 CREATE ROLE dep_ql_tainguyen_nhansu IDENTIFIED BY dep_ql_tainguyen_nhansu;
@@ -217,7 +358,7 @@ GRANT dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_01;
 GRANT dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_02;
 GRANT dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_03;
 
---Quan ly tai vu
+--A85 Quan ly tai vu
 alter session set "_ORACLE_SCRIPT"=true; 
 CREATE ROLE dep_ql_taivu IDENTIFIED BY dep_ql_taivu;
 --Grant policy
@@ -239,7 +380,7 @@ GRANT dep_ql_taivu TO user_quanly_taivu_02;
 GRANT dep_ql_taivu TO user_quanly_taivu_03;
 
 
---Quan ly chuyen mon
+-- A82. Quan ly chuyen mon
 alter session set "_ORACLE_SCRIPT"=true; 
 CREATE ROLE dep_ql_chuyenmon IDENTIFIED BY dep_ql_chuyenmon;
 --Grant policy
@@ -258,7 +399,7 @@ GRANT dep_ql_chuyenmon TO user_quanly_chuyenmon_03;
 -- Reception Role
 alter session set "_ORACLE_SCRIPT"=true;  
 CREATE ROLE dep_letan  IDENTIFIED BY dep_letan;
--- A43. Grant policy to reception department
+-- A83. Grant policy to reception department
 GRANT INSERT, SELECT, UPDATE ON BENHNHAN TO dep_letan;
 GRANT INSERT, SELECT, UPDATE ON HOSOBENHNHAN TO dep_letan;
 -- REVOKE SELECT ON THUOC FROM dep_letan;
@@ -266,7 +407,7 @@ GRANT dep_letan TO user_tieptan_01;
 GRANT dep_letan TO user_tieptan_02;
 GRANT dep_letan TO user_tieptan_03;
 
---  Doctor role
+-- A84 Doctor role
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 CREATE ROLE doctor IDENTIFIED BY doctor;
 -- A44. Grant policy to doctor
@@ -278,7 +419,7 @@ GRANT doctor TO user_bacsi_02;
 GRANT doctor TO user_bacsi_03;
 
 
---A46 Grant policy to pharmacy
+--A86 Grant policy to pharmacy
 --user_banthuoc_01
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 CREATE ROLE dep_banthuoc IDENTIFIED BY dep_banthuoc;
@@ -291,7 +432,7 @@ GRANT dep_banthuoc TO user_banthuoc_03;
 -- Accounting role
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 CREATE ROLE dep_ketoan IDENTIFIED BY dep_ketoan;
--- A47. Grant policy to dep ketoan
+-- A85. Grant policy to dep ketoan
 GRANT INSERT, DELETE, UPDATE, SELECT ON CHAMCONG TO dep_ketoan;
 -- Add role to user
 GRANT dep_ketoan to user_ketoan_01;
@@ -329,5 +470,8 @@ CREATE ROLE TELLER IDENTIFIED BY TELLER;
 GRANT  TELLER TO SCOTT;
 GRANT SELECT ON CHAMCONG TO TELLER;
 
+
+
+-- 
 
 
