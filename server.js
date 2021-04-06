@@ -65,8 +65,8 @@ server.get("*", function (req, res) {
 });
 
 server.use(function (er, req, res, next) {
-  console.log(er.stack);
-  res.join({ error_message: er });
+  console.log("Asycn error: ", er.stack);
+  res.join({ error_message: er.stack });
 });
 
 const PORT = 1212;

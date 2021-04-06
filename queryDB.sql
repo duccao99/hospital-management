@@ -15,6 +15,65 @@ OR  TABLE_NAME = 'NHANVIEN' OR  TABLE_NAME = 'DONVI' OR  TABLE_NAME = 'DONTHUOC'
 OR  TABLE_NAME = 'DICHVU' OR  TABLE_NAME = 'CTHOADON' OR  TABLE_NAME = 'CTDONTHUOC'
 OR  TABLE_NAME = 'THUOC';
 
+-- A6. Allows to create user
+CREATE OR REPLACE PROCEDURE createUser(
+    pi_username IN NVARCHAR2,
+    pi_password IN NVARCHAR2)
+IS    
+    user_name  NVARCHAR2(20):= pi_username;
+    pwd NVARCHAR2(20):= pi_password;
+    li_count INTEGER :=0;
+    lv_stmt VARCHAR(1000);
+    BEGIN
+    SELECT COUNT (1)
+    INTO li_count
+    FROM dba_users
+    WHERE username =UPPER(user_name);
+    
+    
+    IF li_count !=0
+    THEN 
+        lv_stmt:='DROP USER ' ||user_name ||' CASCADE';
+        EXECUTE IMMEDIATE (lv_stmt);      
+    END IF;
+    
+    lv_stmt:='ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE ';
+    EXECUTE IMMEDIATE (lv_stmt);
+    
+   -- lv_stmt:='CREATE USER ' || user_name|| ' IDENTIFIED BY ' || pwd|| ' DEFAULT TABLESPACE SYSTEM ';
+    lv_stmt:='CREATE USER ' || user_name|| ' IDENTIFIED BY ' || pwd;
+
+  --  DBMS_OUTPUT.put_line(lv_stmt);
+    
+    EXECUTE IMMEDIATE (lv_stmt);
+    
+     -- ****** Object: Roles for user ******
+     lv_stmt:='GRANT CONNECT TO ' ||user_name;
+         EXECUTE IMMEDIATE (lv_stmt);
+
+-- PRIVILEGES resource, unlimited table 
+     
+         -- ****** Object: System privileges for user ******
+--	lv_stmt := 'GRANT ALTER SESSION,
+--	       	    	  CREATE ANY TABLE,
+--	       	    	  CREATE CLUSTER,
+--	            	  CREATE DATABASE LINK,
+--	            	  CREATE MATERIALIZED VIEW,
+--	       		  CREATE SYNONYM,
+--	       		  CREATE TABLE,
+--	       		  CREATE VIEW,
+--	       		  CREATE SESSION,
+--	       		  UNLIMITED TABLESPACE
+--	       	    TO ' || user_name;
+
+      --  EXECUTE IMMEDIATE ( lv_stmt );
+       COMMIT;
+    END createUser;
+/
+ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
+CREATE USER USER_TEMP_04 IDENTIFIED BY USER_TEMP_04;
+EXEC createUser('USER_TEMP_05','USER_TEMP_05');
+SELECT * FROM all_users;
 
 
 -- CANNOT GRANT TO A ROLE WITH GRANT OPTION
@@ -195,7 +254,7 @@ CREATE USER user_ketoan_03 IDENTIFIED BY user_ketoan_03;
 -- Create Role &  Grant policy to it
 ---
 
---A42 Grant policy to management deparment
+--A82 Grant policy to management deparment
 --Quan ly tai nguyen & nhan su
 alter session set "_ORACLE_SCRIPT"=true;
 CREATE ROLE dep_ql_tainguyen_nhansu IDENTIFIED BY dep_ql_tainguyen_nhansu;
@@ -217,7 +276,7 @@ GRANT dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_01;
 GRANT dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_02;
 GRANT dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_03;
 
---Quan ly tai vu
+--A85 Quan ly tai vu
 alter session set "_ORACLE_SCRIPT"=true; 
 CREATE ROLE dep_ql_taivu IDENTIFIED BY dep_ql_taivu;
 --Grant policy
@@ -239,7 +298,7 @@ GRANT dep_ql_taivu TO user_quanly_taivu_02;
 GRANT dep_ql_taivu TO user_quanly_taivu_03;
 
 
---Quan ly chuyen mon
+-- A82. Quan ly chuyen mon
 alter session set "_ORACLE_SCRIPT"=true; 
 CREATE ROLE dep_ql_chuyenmon IDENTIFIED BY dep_ql_chuyenmon;
 --Grant policy
@@ -258,7 +317,7 @@ GRANT dep_ql_chuyenmon TO user_quanly_chuyenmon_03;
 -- Reception Role
 alter session set "_ORACLE_SCRIPT"=true;  
 CREATE ROLE dep_letan  IDENTIFIED BY dep_letan;
--- A43. Grant policy to reception department
+-- A83. Grant policy to reception department
 GRANT INSERT, SELECT, UPDATE ON BENHNHAN TO dep_letan;
 GRANT INSERT, SELECT, UPDATE ON HOSOBENHNHAN TO dep_letan;
 -- REVOKE SELECT ON THUOC FROM dep_letan;
@@ -266,7 +325,7 @@ GRANT dep_letan TO user_tieptan_01;
 GRANT dep_letan TO user_tieptan_02;
 GRANT dep_letan TO user_tieptan_03;
 
---  Doctor role
+-- A84 Doctor role
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 CREATE ROLE doctor IDENTIFIED BY doctor;
 -- A44. Grant policy to doctor
@@ -278,7 +337,7 @@ GRANT doctor TO user_bacsi_02;
 GRANT doctor TO user_bacsi_03;
 
 
---A46 Grant policy to pharmacy
+--A86 Grant policy to pharmacy
 --user_banthuoc_01
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 CREATE ROLE dep_banthuoc IDENTIFIED BY dep_banthuoc;
@@ -291,7 +350,7 @@ GRANT dep_banthuoc TO user_banthuoc_03;
 -- Accounting role
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 CREATE ROLE dep_ketoan IDENTIFIED BY dep_ketoan;
--- A47. Grant policy to dep ketoan
+-- A85. Grant policy to dep ketoan
 GRANT INSERT, DELETE, UPDATE, SELECT ON CHAMCONG TO dep_ketoan;
 -- Add role to user
 GRANT dep_ketoan to user_ketoan_01;
@@ -329,5 +388,8 @@ CREATE ROLE TELLER IDENTIFIED BY TELLER;
 GRANT  TELLER TO SCOTT;
 GRANT SELECT ON CHAMCONG TO TELLER;
 
+
+
+-- 
 
 

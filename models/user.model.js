@@ -33,6 +33,12 @@ const userModel = {
 
     return db.load(sql);
   },
+  async createUser(username, identify) {
+    const sql = `BEGIN createUser('${username}','${identify}'); END;`;
+    const status = await db.load(sql);
+    console.log(status);
+    return status;
+  },
 };
 
 // oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;

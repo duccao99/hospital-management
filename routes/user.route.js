@@ -15,19 +15,14 @@ router.get("/create-user", function (req, res) {
 });
 
 router.post("/create-user", async function (req, res) {
-  try {
-    const data = {
-      username: req.body.username,
-      identify: req.body.identify,
-    };
-    console.log(data);
-    const trigger = await userModel.loadBeforeCreateUser();
-    const status = await userModel.createUser(data.username, data.identify);
+  const data = {
+    username: req.body.username,
+    identify: req.body.identify,
+  };
+  console.log(data);
+  const status = await userModel.createUser(data.username, data.identify);
 
-    res.status(200);
-  } catch (e) {
-    return res.status(500).json({ e });
-  }
+  res.status(200).json({ message: "Create user success!" });
 });
 
 //update

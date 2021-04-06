@@ -1,3 +1,14 @@
+{{#section 'css'}}
+<style>
+    .w-br {
+
+        word-wrap: break-word;
+
+    }
+</style>
+{{/section}}
+
+
 <div class="card border-light shadow-sm mb-4">
     <div class="card-body">
         <div class="table-responsive">
@@ -6,15 +17,15 @@
 
                 <thead class="thead-light">
                     <tr>
-                        <th class="border-0">USER_ID</th>
-                        <th class="border-0">USERNAME</th>
-                        <th class="border-0">PASSWORD</th>
-                        <th class="border-0">ACCOUNT_STATUS</th>
-                        <th class="border-0">LOCK_DATE</th>
-                        <th class="border-0">EXPIRY_DATE</th>
-                        <th class="border-0">DEFAULT_TABLESPACE</th>
-                        <th class="border-0">CREATED</th>
-                        <th class="border-0">PROFILE</th>
+                        <th class="border-0 w-br ">USER_ID</th>
+                        <th class="border-0 w-br">USERNAME</th>
+                        <th class="border-0 w-br">PASSWORD</th>
+                        <th class="border-0 w-br">ACCOUNT_STATUS</th>
+                        <th class="border-0 w-br">LOCK_DATE</th>
+                        <th class="border-0 w-br">EXPIRY_DATE</th>
+                        <th class="border-0 w-br">DEFAULT_TABLESPACE</th>
+                        <th class="border-0 w-br">CREATED</th>
+                        <th class="border-0 w-br">PROFILE</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,43 +33,43 @@
 
                     {{#each users }}
                     <tr>
-                        <td class="border-0"><a href="#" class="text-primary font-weight-bold">
+                        <td class="border-0 w-br"><a href="#" class="text-primary font-weight-bold">
                                 {{this.USER_ID}}
                             </a>
                         </td>
 
-                        <td class="border-0">
+                        <td class="border-0 w-br">
                             {{this.USERNAME}}
                         </td>
-                        <td class="border-0">
+                        <td class="border-0 w-br">
                             {{ this.PASSWORD}}
                         </td>
 
-                        <td class="border-0">
+                        <td class="border-0 w-br">
                             {{this.ACCOUNT_STATUS}}
                         </td>
 
 
-                        <td class="border-0">
+                        <td class="border-0 w-br">
                             {{this.LOCK_DATE}}
                         </td>
 
 
-                        <td class="border-0">
+                        <td class="border-0 w-br">
                             {{ this.EXPIRY_DATE}}
                         </td>
 
-                        <td class="border-0">
+                        <td class="border-0 w-br">
                             {{this.DEFAULT_TABLESPACE}}
                         </td>
 
 
-                        <td class="border-0">
+                        <td class="border-0 w-br">
                             {{this.CREATED}}
                         </td>
 
 
-                        <td class="border-0">
+                        <td class="border-0 w-br">
                             {{this.PROFILE}}
                         </td>
 
