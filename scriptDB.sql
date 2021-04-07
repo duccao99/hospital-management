@@ -87,6 +87,7 @@ begin
        EXECUTE IMMEDIATE 'DROP TABLE ' || 'THUOC ' || 'CASCADE CONSTRAINTS';
     end if;
 end;
+/
 
 
 --
@@ -326,6 +327,12 @@ insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
 values (9,'Chung Uy V?',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'148 Ph? Khu?t Khoa M?n, X? Th?c, Huy?n Trinh Danh ,C? Mau','vaitro',6);
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
 values (10,'Tr??ng Quang Th?ng',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'45 Ph? Tr?, X? T??ng ??i, Qu?n Oanh H?c, C?n Th?','vaitro',6);
+
+insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
+values (11,'USER_TEMP_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN',6);
+insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
+values (12,'USER_TEMP_02',69120020,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN',6);
+
 
 --insert cham cong
 insert into CHAMCONG (maNV, thang, soNgayCong)
