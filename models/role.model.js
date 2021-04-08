@@ -44,9 +44,9 @@ const roleModel = {
     let sql = ``;
 
     if (columnValue === "" || columnValue === undefined) {
-      sql = `GRANT ${privilege} ON ${tableName} TO ${rolename}`;
+      sql = `REVOKE ${privilege} ON ${tableName} FROM ${rolename}`;
     } else {
-      sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${rolename}`;
+      sql = `REVOKE ${privilege}(${columnValue}) ON ${tableName} FROM ${rolename}`;
     }
 
     console.log(sql);
