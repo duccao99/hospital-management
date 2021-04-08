@@ -97,7 +97,7 @@ end;
 -- Table
 --
 CREATE TABLE CHAMCONG (
-    maNV int,
+     maNV  nchar(200),
     thang date,
     soNgayCong int,
     PRIMARY KEY(maNV,thang)
@@ -115,7 +115,8 @@ CREATE TABLE BENHNHAN (
 CREATE TABLE HOSOBENHNHAN (
     maKB int,
     ngayKB date,
-    maNV int,
+     maNV  nchar(200),
+    tenBacSi VARCHAR2(200),
     maBN int,
     tinhTrangBanDau nchar(200),
     ketLuanCuaBacSi nchar(200),
@@ -141,7 +142,7 @@ CREATE TABLE HOADON (
 );
 
 CREATE TABLE NHANVIEN (
-    maNV int,
+    maNV  nchar(200),
     hoTen nchar(200),
     luong nchar(200),
     ngaySinh date,
@@ -304,65 +305,59 @@ insert into DONVI (maDonVi, tenDonVi)
 values (5,'PHONG BAN THUOC');
 insert into DONVI (maDonVi, tenDonVi) 
 values (6,'BO PHAN KE TOAN');
+insert into DONVI (maDonVi, tenDonVi) 
+values (7,'ADMIN');
 
 --insert NHANVIEN
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values (1,'??ng Ng?c Ph?ng',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'3102 Ph? Y?n, X? H?a, Huy?n 38, B?nh Thu?n','vaitro',1);
+values ('NVQL01','??ng Ng?c Ph?ng',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'3102 Ph? Y?n, X? H?a, Huy?n 38, B?nh Thu?n','vaitro',1);
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values (2,'T?ng H??ng Ly',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'905 Ph? Anh, X? Tri?t ??m, Huy?n Khu?t Xu?n, H? Ch? Minh','vaitro',1);
+values ('NVQL02','T?ng H??ng Ly',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'905 Ph? Anh, X? Tri?t ??m, Huy?n Khu?t Xu?n, H? Ch? Minh','vaitro',1);
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values (3,'D??ng V?n Kh?nh',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'0018, ?p B?nh Dinh, Ph??ng ??nh Mang, Qu?n Tr?, Long An','vaitro',2);
+values ('NVQL03','D??ng V?n Kh?nh',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'0018, ?p B?nh Dinh, Ph??ng ??nh Mang, Qu?n Tr?, Long An','vaitro',2);
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values (4,'Ch? H?o Nhi',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'316 Ph? Xa Khang Nhi?n, X? 27, Qu?n ???ng ??i, T?y Ninh','vaitro',3);
+values ('NVLT01','Ch? H?o Nhi',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'316 Ph? Xa Khang Nhi?n, X? 27, Qu?n ???ng ??i, T?y Ninh','vaitro',3);
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values (5,'Ng? H?nh Dung',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'5, Th?n 3, Th?n Ki?u T?, Qu?n B?ch, V?nh Ph?c','vaitro',2);
+values ('NVLT02','Ng? H?nh Dung',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'5, Th?n 3, Th?n Ki?u T?, Qu?n B?ch, V?nh Ph?c','vaitro',2);
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values (6,'U?t Kh?nh Minh',12800000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'683, ?p Dao C?, X? 1, Qu?n Ninh ,Kh?nh H?a','vaitro',3);
+values ('BS01','USER_BACSI_01',12800000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'683, ?p Dao C?, X? 1, Qu?n Ninh ,Kh?nh H?a','vaitro',3);
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values (7,'V?n ??c Duy',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'01, Th?n H?n, Ph??ng Kh??ng, Huy?n T?ng ,Kon Tum','vaitro',4);
+values ('BS02','USER_BACSI_02',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'01, Th?n H?n, Ph??ng Kh??ng, Huy?n T?ng ,Kon Tum','vaitro',4);
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values (8,'Ho?ng L?m Vi?n',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'8, ?p Khanh Ng?n, Ph??ng Nhi?n, Huy?n 95 ,Ninh Thu?n','vaitro',5);
+values ('NVTV01','USER_TAIVU_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'8, ?p Khanh Ng?n, Ph??ng Nhi?n, Huy?n 95 ,Ninh Thu?n','vaitro',5);
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values (9,'Chung Uy V?',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'148 Ph? Khu?t Khoa M?n, X? Th?c, Huy?n Trinh Danh ,C? Mau','vaitro',6);
+values ('NVBT01','USER_BANTHUOC_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'148 Ph? Khu?t Khoa M?n, X? Th?c, Huy?n Trinh Danh ,C? Mau','vaitro',6);
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
-values (10,'Tr??ng Quang Th?ng',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'45 Ph? Tr?, X? T??ng ??i, Qu?n Oanh H?c, C?n Th?','vaitro',6);
+values ('NVKT01','USER_KETOAN_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'45 Ph? Tr?, X? T??ng ??i, Qu?n Oanh H?c, C?n Th?','vaitro',6);
+
+-- NHAN VIEN TEMP
+insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
+values ('NVTEMP01','USER_TEMP_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN',2);
+insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
+values ('NVTEMP02','USER_TEMP_02',69120020,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN',2);
 
 -- NHAN VIEN LE TAN & DIEU PHOI
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
-values (11,'USER_TEMP_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN',2);
+values ('NVTIEPTAN01','user_tieptan_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN_TIEPTAN',1);
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
-values (12,'USER_TEMP_02',69120020,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN',2);
+values ('NVTIEPTAN02','user_tieptan_02',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN_TIEPTAN',1);
 
-
+-- NHAN VIEN ADMIN
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
-values (13,'user_tieptan_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN_TIEPTAN',1);
-insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
-values (14,'user_tieptan_02',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN_TIEPTAN',1);
+values ('NVADMIN','DUCCAO_ADMIN',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN_TIEPTAN',1);
 
 
 --insert cham cong
 insert into CHAMCONG (maNV, thang, soNgayCong)
-values (1,TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
+values ('BS01',TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
 insert into CHAMCONG (maNV, thang, soNgayCong)
-values (2,TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
+values ('BS02',TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
 insert into CHAMCONG (maNV, thang, soNgayCong)
-values (3,TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
+values ('NVTIEPTAN01',TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
 insert into CHAMCONG (maNV, thang, soNgayCong)
-values (4,TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
-insert into CHAMCONG (maNV, thang, soNgayCong)
-values (5,TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
-insert into CHAMCONG (maNV, thang, soNgayCong)
-values (6,TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
-insert into CHAMCONG (maNV, thang, soNgayCong)
-values (7,TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
-insert into CHAMCONG (maNV, thang, soNgayCong)
-values (8,TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
-insert into CHAMCONG (maNV, thang, soNgayCong)
-values (9,TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
-insert into CHAMCONG (maNV, thang, soNgayCong)
-values (10,TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
+values ('NVTIEPTAN02',TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
 
---insert cham cong
+--insert THUOC
 insert into THUOC (maThuoc,tenThuoc, donViThuoc, donGia, luuY)
 values (1,'TITANIUM DIOXIDE','Vi?n','16.200','Kh?ng t? ? ng?ng ho?c t?ng li?u');
 insert into THUOC (maThuoc,tenThuoc, donViThuoc, donGia, luuY)
@@ -385,28 +380,16 @@ insert into THUOC (maThuoc,tenThuoc, donViThuoc, donGia, luuY)
 values (10,'Hydroxyzine Pamoate','Vi?n','3.000','Kh?ng t? ? ng?ng ho?c t?ng li?u');
 
 --insert Ho so benh nhan
-insert into HOSOBENHNHAN (maKB,ngayKB, maNV, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
-values (1,TO_DATE('12/01/2020', 'DD/MM/YYYY'),4,1,'Ho n?ng','Ung th? ph?i');
-insert into HOSOBENHNHAN (maKB,ngayKB, maNV, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
-values (2,TO_DATE('12/01/2020', 'DD/MM/YYYY'),4,3,'?au b?ng','ketLuanCuaBacSi');
-insert into HOSOBENHNHAN (maKB,ngayKB, maNV, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
-values (3,TO_DATE('12/01/2020', 'DD/MM/YYYY'),4,4,'?au n?a ??u','ketLuanCuaBacSi');
-insert into HOSOBENHNHAN (maKB,ngayKB, maNV, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
-values (4,TO_DATE('12/01/2020', 'DD/MM/YYYY'),6,5,'?au b?ng b?n ph?i','ketLuanCuaBacSi');
-insert into HOSOBENHNHAN (maKB,ngayKB, maNV, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
-values (5,TO_DATE('12/01/2020', 'DD/MM/YYYY'),6,6,'?au c? ch?n','ketLuanCuaBacSi');
-insert into HOSOBENHNHAN (maKB,ngayKB, maNV, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
-values (6,TO_DATE('12/01/2020', 'DD/MM/YYYY'),6,7,'S?t cao','ketLuanCuaBacSi');
-insert into HOSOBENHNHAN (maKB,ngayKB, maNV, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
-values (7,TO_DATE('12/01/2020', 'DD/MM/YYYY'),4,8,'S?t cao v? ho','ketLuanCuaBacSi');
-insert into HOSOBENHNHAN (maKB,ngayKB, maNV, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
-values (8,TO_DATE('12/01/2020', 'DD/MM/YYYY'),6,9,'S?t cao','ketLuanCuaBacSi');
-insert into HOSOBENHNHAN (maKB,ngayKB, maNV, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
-values (9,TO_DATE('12/01/2020', 'DD/MM/YYYY'),4,10,'B? c?m','ketLuanCuaBacSi');
-insert into HOSOBENHNHAN (maKB,ngayKB, maNV, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
-values (10,TO_DATE('12/01/2020', 'DD/MM/YYYY'),6,2,'S?t cao','ketLuanCuaBacSi');
-
-
+insert into HOSOBENHNHAN (maKB,ngayKB, maNV, tenBacSi, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
+values (1,TO_DATE('12/01/2020', 'DD/MM/YYYY'),'BS01','USER_BACSI_01',1,'Ho 1','Viem phoi 1');
+insert into HOSOBENHNHAN (maKB,ngayKB, maNV, tenBacSi, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
+values (2,TO_DATE('12/01/2020', 'DD/MM/YYYY'),'BS01','USER_BACSI_01',2,'Ho 1','Viem phoi 1');
+insert into HOSOBENHNHAN (maKB,ngayKB, maNV, tenBacSi, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
+values (3,TO_DATE('12/01/2020', 'DD/MM/YYYY'),'BS01','USER_BACSI_01',3,'Ho 1','Viem phoi 1');
+insert into HOSOBENHNHAN (maKB,ngayKB, maNV, tenBacSi, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
+values (4,TO_DATE('12/01/2020', 'DD/MM/YYYY'),'BS02','USER_BACSI_02',4,'Ho 2','Viem phoi 2');
+insert into HOSOBENHNHAN (maKB,ngayKB, maNV, tenBacSi, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
+values (5,TO_DATE('12/01/2020', 'DD/MM/YYYY'),'BS02','USER_BACSI_02',5,'Ho 2','Viem phoi 2');
 --insert don thuoc
 insert into DONTHUOC (maKB,nhanVienPhuTrach)
 values (1,'Nguy?n V?n Ni');
@@ -418,16 +401,6 @@ insert into DONTHUOC (maKB,nhanVienPhuTrach)
 values (4,'Nguy?n V?n Ni');
 insert into DONTHUOC (maKB,nhanVienPhuTrach)
 values (5,'Nguy?n V?n Ni');
-insert into DONTHUOC (maKB,nhanVienPhuTrach)
-values (6,'Nguy?n V?n Ni');
-insert into DONTHUOC (maKB,nhanVienPhuTrach)
-values (7,'Nguy?n V?n Ni');
-insert into DONTHUOC (maKB,nhanVienPhuTrach)
-values (8,'Nguy?n V?n Ni');
-insert into DONTHUOC (maKB,nhanVienPhuTrach)
-values (9,'Nguy?n V?n Ni');
-insert into DONTHUOC (maKB,nhanVienPhuTrach)
-values (10,'Nguy?n V?n Ni');
 
 
 --insert don thuoc
@@ -441,16 +414,6 @@ insert into CTDONTHUOC (maKB,maThuoc, soLuong, lieuDung, moTa)
 values (3,4,'6', 'lieudung', 'mota');
 insert into CTDONTHUOC (maKB,maThuoc, soLuong, lieuDung, moTa)
 values (3,5,'6', 'lieudung', 'mota');
-insert into CTDONTHUOC (maKB,maThuoc, soLuong, lieuDung, moTa)
-values (4,6,'4', 'lieudung', 'mota');
-insert into CTDONTHUOC (maKB,maThuoc, soLuong, lieuDung, moTa)
-values (2,7,'3', 'lieudung', 'mota');
-insert into CTDONTHUOC (maKB,maThuoc, soLuong, lieuDung, moTa)
-values (5,8,'7', 'lieudung', 'mota');
-insert into CTDONTHUOC (maKB,maThuoc, soLuong, lieuDung, moTa)
-values (6,9,'8', 'lieudung', 'mota');
-insert into CTDONTHUOC (maKB,maThuoc, soLuong, lieuDung, moTa)
-values (8,10,'9', 'lieudung', 'mota');
 
 --insert dich vu
 insert into DICHVU (maDV, tenDV, donGia)
@@ -463,16 +426,6 @@ insert into DICHVU (maDV, tenDV, donGia)
 values (4,'Kh?m s? sinh','150.000');
 insert into DICHVU (maDV, tenDV, donGia)
 values (5,'Chi?u b?ng m?y plasmamend h? tr? ?i?u tr? v?t th??ng','240.000');
-insert into DICHVU (maDV, tenDV, donGia)
-values (6,'S?ng l?c th?nh l? s? sinh','200.000');
-insert into DICHVU (maDV, tenDV, donGia)
-values (7,'T?m kh?','300.000');
-insert into DICHVU (maDV, tenDV, donGia)
-values (8,'D?ch v? massage s? sinh','150.000');
-insert into DICHVU (maDV, tenDV, donGia)
-values (9,'Gi?m ?au th? thu?t','1.000.000');
-insert into DICHVU (maDV, tenDV, donGia)
-values (10,'Theo d?i chuy?n d? v? ?? ??','1.000.000');
 
 --insert dich vu
 insert into HOSODICHVU (maKB, maDV, nguoiThucHien, ngayGio,ketLuan)
@@ -485,16 +438,6 @@ insert into HOSODICHVU (maKB, maDV, nguoiThucHien, ngayGio,ketLuan)
 values (4,3,'nguoi thuc hien', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'ketLuan');
 insert into HOSODICHVU (maKB, maDV, nguoiThucHien, ngayGio,ketLuan)
 values (5,4,'nguoi thuc hien', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'ketLuan');
-insert into HOSODICHVU (maKB, maDV, nguoiThucHien, ngayGio,ketLuan)
-values (6,1,'nguoi thuc hien', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'ketLuan');
-insert into HOSODICHVU (maKB, maDV, nguoiThucHien, ngayGio,ketLuan)
-values (7,2,'nguoi thuc hien', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'ketLuan');
-insert into HOSODICHVU (maKB, maDV, nguoiThucHien, ngayGio,ketLuan)
-values (8,3,'nguoi thuc hien', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'ketLuan');
-insert into HOSODICHVU (maKB, maDV, nguoiThucHien, ngayGio,ketLuan)
-values (9,2,'nguoi thuc hien', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'ketLuan');
-insert into HOSODICHVU (maKB, maDV, nguoiThucHien, ngayGio,ketLuan)
-values (10,7,'nguoi thuc hien', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'ketLuan');
 
 
 --insert Hoa Don
@@ -508,16 +451,6 @@ insert into HOADON (soHD, maKB, ngayGio, nguoiPhuTrach,tongTien)
 values (4, 4, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'nguoiphutrach',0);
 insert into HOADON (soHD, maKB, ngayGio, nguoiPhuTrach,tongTien)
 values (5, 5, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'nguoiphutrach',0);
-insert into HOADON (soHD, maKB, ngayGio, nguoiPhuTrach,tongTien)
-values (6, 5, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'nguoiphutrach',0);
-insert into HOADON (soHD, maKB, ngayGio, nguoiPhuTrach,tongTien)
-values (7, 6, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'nguoiphutrach',0);
-insert into HOADON (soHD, maKB, ngayGio, nguoiPhuTrach,tongTien)
-values (8, 7, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'nguoiphutrach',0);
-insert into HOADON (soHD, maKB, ngayGio, nguoiPhuTrach,tongTien)
-values (9, 7, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'nguoiphutrach',0);
-insert into HOADON (soHD, maKB, ngayGio, nguoiPhuTrach,tongTien)
-values (10, 2, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'nguoiphutrach',0);
 
 
 --insert chi tiet hoa don
@@ -531,16 +464,7 @@ insert into CTHOADON (soHD, maDV)
 values (3, 1);
 insert into CTHOADON (soHD, maDV)
 values (4, 1);
-insert into CTHOADON (soHD, maDV)
-values (6, 9);
-insert into CTHOADON (soHD, maDV)
-values (1, 5);
-insert into CTHOADON (soHD, maDV)
-values (3, 6);
-insert into CTHOADON (soHD, maDV)
-values (10, 1);
-insert into CTHOADON (soHD, maDV)
-values (10, 3);
+
 
 
 
@@ -628,17 +552,16 @@ GRANT INSERT, UPDATE ON CTDONTHUOC TO ROLE_DOCTOR;
 GRANT INSERT, UPDATE (ketLuanCuaBacSi) ON HOSOBENHNHAN TO ROLE_DOCTOR;
 GRANT INSERT, UPDATE (maKB,maDV,ngayGio) ON HOSODICHVU TO ROLE_DOCTOR;
 -- Grant role to user - role_doctor
-DROP USER user_bacsi_01;
-DROP USER user_bacsi_02;
+DROP USER USER_BACSI_01;
+DROP USER USER_BACSI_02;
 
-CREATE USER user_bacsi_01 IDENTIFIED BY user_bacsi_01;
-CREATE USER user_bacsi_02 IDENTIFIED BY user_bacsi_02;
-GRANT CREATE SESSION TO user_bacsi_01;
-GRANT CREATE SESSION TO user_bacsi_02;
+CREATE USER USER_BACSI_01 IDENTIFIED BY USER_BACSI_01;
+CREATE USER USER_BACSI_02 IDENTIFIED BY USER_BACSI_02;
+GRANT CREATE SESSION TO USER_BACSI_01;
+GRANT CREATE SESSION TO USER_BACSI_02;
 
-GRANT ROLE_DOCTOR TO user_bacsi_01;
-GRANT ROLE_DOCTOR TO user_bacsi_02;
-
+GRANT ROLE_DOCTOR TO USER_BACSI_01;
+GRANT ROLE_DOCTOR TO USER_BACSI_02;
 
 
 
