@@ -4,18 +4,18 @@
 
     <form id="fmGrantRolePermission">
         <div class="mb-3">
-              <label for="listRoleName" class="form-label">List role name</label>
+            <label for="listRoleName" class="form-label">List role name</label>
             <select id="listRoleName" class="form-select" aria-label="listRoleName">
                 <option disabled selected>Open this select rolename </option>
-              
-          {{#each roleNames }}
-               <option value="{{this.ROLE}}">{{this.ROLE}}</option>
-          {{/each}}
+
+                {{#each roleNames }}
+                <option value="{{this.ROLE}}">{{this.ROLE}}</option>
+                {{/each}}
 
             </select>
         </div>
 
-        
+
         <div class="mb-3">
             <label for="privileges" class="form-label">Privileges</label>
             <select id="listPrivileges" class="form-select" aria-label="privileges">
@@ -55,10 +55,10 @@
         </div>
 
 
- <label id="label_column_levels" for="" class="form-label">Grant Privilege
+        <label id="label_column_levels" for="" class="form-label">Grant Privilege
             At Column Level </label>
 
-           {{#each arrayColumns }}
+        {{#each arrayColumns }}
 
         <div class="mb-3" id="column_level">
 
@@ -76,7 +76,7 @@
         {{/each}}
 
 
-        
+
         {{!-- <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="withGrantOption">
             <label class="form-check-label" for="withGrantOption">
@@ -92,7 +92,7 @@
 {{#section 'js'}}
 
 <script>
-      function handleListTableChange() {
+    function handleListTableChange() {
         // handle show columns of table
         const listTable = $("#listTable");
         const column_level = $("#column_level select");
@@ -231,7 +231,7 @@
 
 
 
-  function isCheckedSelectAndUpdate() {
+    function isCheckedSelectAndUpdate() {
 
         const listPrivileges = $("#listPrivileges");
         const columns = $("#columns");
@@ -249,7 +249,7 @@
             column_level[i].style.display = "none";
         }
 
-        
+
 
         columns.css({ display: "none" });
 
@@ -278,28 +278,31 @@
         const listRoleName = $("#listRoleName");
         const listPrivileges = $("#listPrivileges");
         const listTable = $("#listTable");
-           const withGrantOption = $("#withGrantOption");
-                let columnValue = "";
+        const withGrantOption = $("#withGrantOption");
+        let columnValue = "";
+        const column_level = $("#column_level select");
 
 
         fmGrantUserPermission.on("submit", function (e) {
             e.preventDefault();
-  
-              for (let i = 0; i < column_level.length; ++i) {
+
+            for (let i = 0; i < column_level.length; ++i) {
                 if (column_level[i].style.display === "block") {
+                    console.log(i);
                     const option = $(`#${column_level[i].id}`);
+                    console.log(option);
                     columnValue = option.val();
                     console.log(columnValue);
                 }
             }
 
 
-                      const data = {
+            const data = {
                 rolename: listRoleName.val(),
                 privilege: listPrivileges.val(),
                 tableName: listTable.val(),
-   //   withGrantOption: withGrantOption.is(":checked"),
-   withGrantOption:false,
+                //   withGrantOption: withGrantOption.is(":checked"),
+                withGrantOption: false,
                 columnValue
             }
             console.log(data);

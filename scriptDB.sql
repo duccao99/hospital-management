@@ -1,3 +1,6 @@
+------------------------
+-- Auto re-run 
+------------------------
 DECLARE 
     CHAMCONG_c number;BENHNHAN_c number;HOSOBENHNHAN_c number;HOSODICHVU_c number;HOADON_c number;NHANVIEN_c number;DONVI_c number;DONTHUOC_c number;DICHVU_c number;CTHOADON_c number;CTDONTHUOC_c number;THUOC_c number;
 begin
@@ -192,9 +195,9 @@ CREATE TABLE THUOC (
 );
 
 
---
--- FOREIGN KEY
---
+------------------------
+-- Add Foreign Key
+------------------------
 
 ALTER TABLE CHAMCONG
 ADD CONSTRAINT FK_CHAMCONG_NHANVIEN
@@ -210,11 +213,7 @@ ALTER TABLE HOSOBENHNHAN
 ADD CONSTRAINT FK_HOSOBENHNHAN_BENHNHAN
 FOREIGN KEY (maBN)
 REFERENCES BENHNHAN(maBN);
---trung
---ALTER TABLE HOSOBENHNHAN
---ADD CONSTRAINT FK_HOSOBENHNHAN_NHANVIEN
---FOREIGN KEY (maNV)
---REFERENCES NHANVIEN(maNV);
+
 
 ALTER TABLE HOSODICHVU
 ADD CONSTRAINT FK_HOSODICHVU_HOSOBENHNHAN
@@ -266,9 +265,9 @@ ADD CONSTRAINT FK_CTDONTHUOC_THUOC
 FOREIGN KEY (maThuoc)
 REFERENCES THUOC(maThuoc);
 
---
--- Records
---
+------------------------
+-- Add records
+------------------------
 
 --insert benh nhan
 insert into BENHNHAN (maBN, hoTen, ngaySinh, diaChi, sdt) 
@@ -294,17 +293,17 @@ values (10, 'Nguy?n Tr?ng Vinh', TO_DATE('12/01/1960', 'DD/MM/YYYY'),'8, Th?n Th
 
 --insert Don vi
 insert into DONVI (maDonVi, tenDonVi) 
-values (1,'B? ph?n qu?n l?');
+values (1,'BO PHAN QUAN LY');
 insert into DONVI (maDonVi, tenDonVi) 
-values (2,'B? ph?n ti?p t?n v? ?i?u ph?i b?nh');
+values (2,'BO PHAN TIEP TAN VA DIEU PHOI');
 insert into DONVI (maDonVi, tenDonVi) 
-values (3,'B?c s?');
+values (3,'BAC SI');
 insert into DONVI (maDonVi, tenDonVi) 
-values (4,'Ph?ng t?i v?');
+values (4,'PHONG TAI VU');
 insert into DONVI (maDonVi, tenDonVi) 
-values (5,'Ph?ng b?n thu?c');
+values (5,'PHONG BAN THUOC');
 insert into DONVI (maDonVi, tenDonVi) 
-values (6,'B? ph?n k? to?n');
+values (6,'BO PHAN KE TOAN');
 
 --insert NHANVIEN
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
@@ -328,10 +327,17 @@ values (9,'Chung Uy V?',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'148 Ph? Khu
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
 values (10,'Tr??ng Quang Th?ng',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'45 Ph? Tr?, X? T??ng ??i, Qu?n Oanh H?c, C?n Th?','vaitro',6);
 
+-- NHAN VIEN LE TAN & DIEU PHOI
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
-values (11,'USER_TEMP_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN',6);
+values (11,'USER_TEMP_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN',2);
 insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
-values (12,'USER_TEMP_02',69120020,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN',6);
+values (12,'USER_TEMP_02',69120020,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN',2);
+
+
+insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
+values (13,'user_tieptan_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN_TIEPTAN',1);
+insert into NHANVIEN (maNV, hoTen, luong, ngaySinh, diaChi, vaiTro, maDonVi)
+values (14,'user_tieptan_02',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'HO CHI MINH','NHANVIEN_TIEPTAN',1);
 
 
 --insert cham cong
@@ -535,6 +541,106 @@ insert into CTHOADON (soHD, maDV)
 values (10, 1);
 insert into CTHOADON (soHD, maDV)
 values (10, 3);
+
+
+
+
+
+
+
+------------------------
+-- B. Add Roles
+------------------------
+
+
+
+
+--• Mandatory Access Control Models (MAC)
+--• Definition When a system mechanism controls access to an
+--object and an individual user cannot alter that access, the
+--control is a mandatory access control (MAC), occasionally
+--called a rule-based access control.
+
+-- Discretionary Access Control Models (DAC)
+--• Definition If an individual user can set an access control
+-- mechanism to allow or deny access to an object, that
+-- mechanism is a discretionary access control (DAC),
+
+-- • RBAC (Role-based Access Control)
+
+
+------------------------
+-- B.1. Reception Role 
+------------------------
+ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;  
+DROP ROLE role_dep_letan;
+CREATE ROLE role_dep_letan IDENTIFIED BY role_dep_letan;
+GRANT CREATE SESSION TO role_dep_letan;
+
+-- Grant policy to reception department
+GRANT CREATE SESSION TO role_dep_letan;
+GRANT INSERT, SELECT, UPDATE ON BENHNHAN TO role_dep_letan;
+GRANT INSERT, SELECT, UPDATE ON HOSOBENHNHAN TO role_dep_letan;
+GRANT SELECT ON DICHVU TO role_dep_letan;
+
+CREATE OR REPLACE VIEW VW_DEP_LETAN 
+AS
+SELECT MADV, TENDV
+FROM DICHVU;
+
+
+
+-- Test User Le Tan
+DROP USER user_tieptan_01;
+DROP USER user_tieptan_02;
+CREATE USER user_tieptan_01 IDENTIFIED BY user_tieptan_01;
+CREATE USER user_tieptan_02 IDENTIFIED BY user_tieptan_02;
+GRANT CREATE SESSION TO user_tieptan_01;
+GRANT CREATE SESSION TO user_tieptan_02;
+
+
+GRANT role_dep_letan TO user_tieptan_01;
+GRANT role_dep_letan TO user_tieptan_02;
+GRANT SELECT ON VW_DEP_LETAN TO user_tieptan_01;
+GRANT SELECT ON VW_DEP_LETAN TO user_tieptan_02;
+
+
+------------------------
+-- B.2. Doctor Role 
+------------------------
+DROP ROLE ROLE_DOCTOR;
+CREATE ROLE ROLE_DOCTOR IDENTIFIED BY ROLE_DOCTOR;
+GRANT CREATE SESSION TO ROLE_DOCTOR;
+
+
+-- Grant policy to role_doctor
+GRANT SELECT ON HOSOBENHNHAN TO ROLE_DOCTOR;
+GRANT SELECT ON CTDONTHUOC TO ROLE_DOCTOR;
+GRANT SELECT ON HOSODICHVU TO ROLE_DOCTOR;
+GRANT SELECT ON DONTHUOC TO ROLE_DOCTOR;
+
+GRANT INSERT(ketLuanCuaBacSi), UPDATE(ketLuanCuaBacSi)ON HOSOBENHNHAN TO ROLE_DOCTOR;
+GRANT INSERT (maKB,maDV,ngayGio), UPDATE (maKB,maDV,ngayGio) ON HOSODICHVU TO ROLE_DOCTOR;
+GRANT INSERT, UPDATE ON DONTHUOC TO ROLE_DOCTOR;
+GRANT INSERT, UPDATE ON CTDONTHUOC TO ROLE_DOCTOR;
+
+
+GRANT INSERT, UPDATE (ketLuanCuaBacSi) ON HOSOBENHNHAN TO ROLE_DOCTOR;
+GRANT INSERT, UPDATE (maKB,maDV,ngayGio) ON HOSODICHVU TO ROLE_DOCTOR;
+-- Grant role to user - role_doctor
+DROP USER user_bacsi_01;
+DROP USER user_bacsi_02;
+
+CREATE USER user_bacsi_01 IDENTIFIED BY user_bacsi_01;
+CREATE USER user_bacsi_02 IDENTIFIED BY user_bacsi_02;
+GRANT CREATE SESSION TO user_bacsi_01;
+GRANT CREATE SESSION TO user_bacsi_02;
+
+GRANT ROLE_DOCTOR TO user_bacsi_01;
+GRANT ROLE_DOCTOR TO user_bacsi_02;
+
+
+
 
 
 
