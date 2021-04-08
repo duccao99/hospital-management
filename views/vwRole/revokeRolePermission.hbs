@@ -250,6 +250,55 @@
         const listRoleName = $("#listRoleName");
         const listPrivileges = $("#listPrivileges");
         const listTable = $("#listTable");
+        //const withGrantOption = $("#withGrantOption");
+        let columnValue = "";
+        const column_level = $("#column_level select");
+
+
+        fmRevokeRolePermission.on("submit", function (e) {
+            e.preventDefault();
+
+            for (let i = 0; i < column_level.length; ++i) {
+                if (column_level[i].style.display === "block") {
+                    console.log(i);
+                    const option = $(`#${column_level[i].id}`);
+                    console.log(option);
+                    columnValue = option.val();
+                    console.log(columnValue);
+                }
+            }
+
+
+            const data = {
+                rolename: listRoleName.val(),
+                privilege: listPrivileges.val(),
+                tableName: listTable.val(),
+                //   withGrantOption: withGrantOption.is(":checked"),
+                withGrantOption: false,
+                columnValue
+            }
+            console.log(data);
+
+
+            $.ajax({
+                url: "http://localhost:1212/revoke-role-permission",
+                type: "patch",
+                data: data,
+                success: res => {
+                    alert("REVOKED!")
+                },
+                error: e => {
+                    console.log(e);
+                    alert("Something when wrong!");
+
+                }
+            })
+
+        })
+        /*const fmRevokeRolePermission = $("#fmRevokeRolePermission");
+        const listRoleName = $("#listRoleName");
+        const listPrivileges = $("#listPrivileges");
+        const listTable = $("#listTable");
         //{ { !-- const withGrantOption = $("#withGrantOption"); --} }
         let columnValue = "";
 
@@ -291,7 +340,7 @@
                 }
             })
 
-        })
+        })*/
     }
 
     revokeRolePermission();

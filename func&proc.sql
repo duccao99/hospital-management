@@ -82,6 +82,9 @@ exec_commander varchar(1000);
         exec_commander:='CREATE ROLE '||role_name ||' IDENTIFIED BY '||identify;
         EXECUTE IMMEDIATE(exec_commander);
 
+     exec_commander:='GRANT CREATE SESSION TO '||role_name;
+        EXECUTE IMMEDIATE(exec_commander);
+        
           exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT"= FALSE';
         EXECUTE IMMEDIATE(exec_commander);
     COMMIT;
@@ -108,5 +111,56 @@ BEGIN
       EXECUTE IMMEDIATE(exec_commander);
 COMMIT;
 END proc_deleteRole;
+/
+
+----------------
+-- 6. Procedure Alter a user
+------------------
+CREATE OR REPLACE PROCEDURE proc_alterUser(
+    ip_username nvarchar2,
+    ip_identify nvarchar2)
+IS
+user_name nvarchar2(200):=ip_username;
+user_identify nvarchar2(200):=ip_identify;
+exec_commander varchar(1000);
+BEGIN
+ exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE';
+EXECUTE IMMEDIATE (exec_commander);
+
+exec_commander:='ALTER USER '||user_name||' IDENTIFIED BY '||user_identify;
+EXECUTE IMMEDIATE (exec_commander);
+
+ exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT"=false';
+ EXECUTE IMMEDIATE (exec_commander);
+
+
+END proc_alterUser;
+/
+
+
+
+
+----------------
+-- 7. Procedure Alter a ROLE
+------------------
+CREATE OR REPLACE PROCEDURE proc_AlterRole(
+    ip_rolename nvarchar2,
+    ip_identify nvarchar2)
+IS
+role_name nvarchar2(200):=ip_rolename;
+role_identify nvarchar2(200):=ip_identify;
+exec_commander varchar(1000);
+BEGIN
+ exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE';
+EXECUTE IMMEDIATE (exec_commander);
+
+exec_commander:='ALTER ROLE '||role_name||' IDENTIFIED BY '||role_identify;
+EXECUTE IMMEDIATE (exec_commander);
+
+ exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT"=false';
+ EXECUTE IMMEDIATE (exec_commander);
+
+
+END proc_AlterRole;
 /
 

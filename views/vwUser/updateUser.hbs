@@ -29,7 +29,7 @@
 {{#section 'js'}}
 
 <script>
-   function updateUser() {
+    function updateUser() {
         const fmUpdateUser = $("#fmUpdateUser");
         const username = $("#username");
         const newPassword = $("#newPassword");
@@ -45,7 +45,7 @@
             console.log(data);
 
 
-            
+
             $.ajax({
                 url: "http://localhost:1212/update-user",
                 type: "patch",
