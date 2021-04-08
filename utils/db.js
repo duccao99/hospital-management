@@ -9,11 +9,20 @@ async function run(sql) {
     connection = await oracledb.getConnection({
       host: "localhost",
       port: 1521,
-      user: "sys",
-      password: "1",
+      user: "DUCCAO_ADMIN",
+      password: "DUCCAO_ADMIN",
       database: "HospitalManagement",
-      privilege: require("oracledb").SYSDBA,
+      privilege: require("oracledb").DEFAULT,
     });
+
+    // connection = await oracledb.getConnection({
+    //   host: "localhost",
+    //   port: 1521,
+    //   user: "sys",
+    //   password: "1",
+    //   database: "HospitalManagement",
+    //   privilege: require("oracledb").SYSDBA,
+    // });
 
     const result = await connection.execute(sql);
     return result.rows;
