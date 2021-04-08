@@ -1,3 +1,21 @@
+----------------------
+-- CREATE AN ADMIN
+----------------------
+ALTER SESSION  SET "_ORACLE_SCRIPT"=TRUE;  
+DROP USER DUCCAO_ADMIN CASCADE;
+CREATE USER DUCCAO_ADMIN IDENTIFIED BY DUCCAO_ADMIN;
+GRANT CREATE SESSION TO DUCCAO_ADMIN WITH ADMIN OPTION;
+GRANT CONNECT, RESOURCE, DBA TO DUCCAO_ADMIN WITH ADMIN OPTION;
+GRANT CREATE USER TO DUCCAO_ADMIN WITH ADMIN OPTION;
+GRANT ALTER USER TO DUCCAO_ADMIN WITH ADMIN OPTION;
+GRANT DROP USER TO DUCCAO_ADMIN WITH ADMIN OPTION;
+
+GRANT CREATE ROLE TO DUCCAO_ADMIN WITH ADMIN OPTION;
+
+
+
+
+
 -- A3. View the list of users in the system
 SELECT * FROM Dba_users;
 SELECT * FROM ALL_USERS ;
@@ -8,6 +26,8 @@ OR  TABLE_NAME = 'HOSOBENHNHAN' OR  TABLE_NAME = 'HOSODICHVU' OR  TABLE_NAME = '
 OR  TABLE_NAME = 'NHANVIEN' OR  TABLE_NAME = 'DONVI' OR  TABLE_NAME = 'DONTHUOC'
 OR  TABLE_NAME = 'DICHVU' OR  TABLE_NAME = 'CTHOADON' OR  TABLE_NAME = 'CTDONTHUOC'
 OR  TABLE_NAME = 'THUOC';
+
+SELECT * FROM USER_TAB_PRIVS;
 
 -- A5. Information about the privileges of each role  on data objects
 SELECT * FROM  Role_tab_privs WHERE TABLE_NAME = 'CHAMCONG' OR  TABLE_NAME = 'BENHNHAN'
@@ -104,7 +124,7 @@ EXEC deleteUser('duc11');
 
 
 -- A8. Allows to edit user
-ALTER USER USERNAME IDENTIFIED BY newPass;
+ALTER USER USER_TEMP_02 IDENTIFIED BY USER_TEMP_02;
 
 
 -- A9. Allows to create role
@@ -159,6 +179,11 @@ update all_user set username = 'USER_TEMP_01_updated' where username='USER_TEMP_
 
 
 -- A12. Grant user permission
+
+
+-- Only INSERT, UPDATE, and REFERENCES privileges can be granted at the column level. 
+-- When granting INSERT at the column level, you must include all the not null columns in the row.
+
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 CREATE USER DUCCAO IDENTIFIED BY DUCCAO;
 CREATE USER USER_TEMP_01 IDENTIFIED BY USER_TEMP_01;
@@ -207,6 +232,16 @@ CREATE ROLE ROLE_TEMP_01 IDENTIFIED BY ROLE_TEMP_01;
 CREATE ROLE ROLE_TEMP_02 IDENTIFIED BY ROLE_TEMP_02;
 CREATE ROLE ROLE_TEMP_03 IDENTIFIED BY ROLE_TEMP_03;
 GRANT SELECT ON CHAMCONG TO ROLE_TEMP_01;
+ALTER SESSION  SET "_ORACLE_SCRIPT"=TRUE;  
+GRANT SELECT ON CHAMCONG TO ROLE_TEMP_01;
+
+GRANT update(manv) ON CHAMCONG TO ROLE_TEMP_01 
+
+SELECT * FROM  Role_tab_privs WHERE TABLE_NAME = 'CHAMCONG' OR  TABLE_NAME = 'BENHNHAN'
+OR  TABLE_NAME = 'HOSOBENHNHAN' OR  TABLE_NAME = 'HOSODICHVU' OR  TABLE_NAME = 'HOADON'
+OR  TABLE_NAME = 'NHANVIEN' OR  TABLE_NAME = 'DONVI' OR  TABLE_NAME = 'DONTHUOC'
+OR  TABLE_NAME = 'DICHVU' OR  TABLE_NAME = 'CTHOADON' OR  TABLE_NAME = 'CTDONTHUOC'
+OR  TABLE_NAME = 'THUOC';
 
 -- A14. Grant Role To User
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
@@ -279,6 +314,10 @@ alter session set "_ORACLE_SCRIPT"=true;
 CREATE USER user_tainguyen_nhansu_01 IDENTIFIED BY user_tainguyen_nhansu_01;
 CREATE USER user_tainguyen_nhansu_02 IDENTIFIED BY user_tainguyen_nhansu_02;
 CREATE USER user_tainguyen_nhansu_03 IDENTIFIED BY user_tainguyen_nhansu_03;
+GRANT CONNECT TO user_tainguyen_nhansu_01;
+GRANT CONNECT TO user_tainguyen_nhansu_02;
+GRANT CONNECT TO user_tainguyen_nhansu_03;
+
 
 
 
@@ -286,7 +325,9 @@ CREATE USER user_tainguyen_nhansu_03 IDENTIFIED BY user_tainguyen_nhansu_03;
 CREATE USER user_quanly_taivu_01 IDENTIFIED BY user_quanly_taivu_01;
 CREATE USER user_quanly_taivu_02 IDENTIFIED BY user_quanly_taivu_02;
 CREATE USER user_quanly_taivu_03 IDENTIFIED BY user_quanly_taivu_03;
-
+GRANT CONNECT TO user_quanly_taivu_01;
+GRANT CONNECT TO user_quanly_taivu_02;
+GRANT CONNECT TO user_quanly_taivu_03;
 
 
 
@@ -294,6 +335,9 @@ CREATE USER user_quanly_taivu_03 IDENTIFIED BY user_quanly_taivu_03;
 CREATE USER user_quanly_chuyenmon_01 IDENTIFIED BY user_quanly_chuyenmon_01;
 CREATE USER user_quanly_chuyenmon_02 IDENTIFIED BY user_quanly_chuyenmon_02;
 CREATE USER user_quanly_chuyenmon_03 IDENTIFIED BY user_quanly_chuyenmon_03;
+GRANT CONNECT TO user_quanly_chuyenmon_01;
+GRANT CONNECT TO user_quanly_chuyenmon_02;
+GRANT CONNECT TO user_quanly_chuyenmon_03;
 
 
 
@@ -301,6 +345,9 @@ CREATE USER user_quanly_chuyenmon_03 IDENTIFIED BY user_quanly_chuyenmon_03;
 CREATE USER user_tieptan_01 IDENTIFIED BY user_tieptan_01;
 CREATE USER user_tieptan_02 IDENTIFIED BY user_tieptan_02;
 CREATE USER user_tieptan_03 IDENTIFIED BY user_tieptan_03;
+GRANT CONNECT TO user_tieptan_01;
+GRANT CONNECT TO user_tieptan_02;
+GRANT CONNECT TO user_tieptan_03;
 
 
 
@@ -308,13 +355,18 @@ CREATE USER user_tieptan_03 IDENTIFIED BY user_tieptan_03;
 CREATE USER user_bacsi_01 IDENTIFIED BY user_bacsi_01;
 CREATE USER user_bacsi_02 IDENTIFIED BY user_bacsi_02;
 CREATE USER user_bacsi_03 IDENTIFIED BY user_bacsi_03;
+GRANT CONNECT TO user_bacsi_01;
+GRANT CONNECT TO user_bacsi_02;
+GRANT CONNECT TO user_bacsi_03;
 
 
 -- Phong tai vu
 CREATE USER user_taivu_01 IDENTIFIED BY user_taivu_01;
 CREATE USER user_taivu_02 IDENTIFIED BY user_taivu_02;
 CREATE USER user_taivu_03 IDENTIFIED BY user_taivu_03;
-
+GRANT CONNECT TO user_taivu_01;
+GRANT CONNECT TO user_taivu_02;
+GRANT CONNECT TO user_taivu_03;
 
 
 
@@ -322,6 +374,9 @@ CREATE USER user_taivu_03 IDENTIFIED BY user_taivu_03;
 CREATE USER user_banthuoc_01 IDENTIFIED BY user_banthuoc_01;
 CREATE USER user_banthuoc_02 IDENTIFIED BY user_banthuoc_02;
 CREATE USER user_banthuoc_03 IDENTIFIED BY user_banthuoc_03;
+GRANT CONNECT TO user_banthuoc_01;
+GRANT CONNECT TO user_banthuoc_02;
+GRANT CONNECT TO user_banthuoc_03;
 
 
 
@@ -330,7 +385,9 @@ CREATE USER user_banthuoc_03 IDENTIFIED BY user_banthuoc_03;
 CREATE USER user_ketoan_01 IDENTIFIED BY user_ketoan_01;
 CREATE USER user_ketoan_02 IDENTIFIED BY user_ketoan_02;
 CREATE USER user_ketoan_03 IDENTIFIED BY user_ketoan_03;
-
+GRANT CONNECT TO user_ketoan_01;
+GRANT CONNECT TO user_ketoan_02;
+GRANT CONNECT TO user_ketoan_03;
 
 ---
 -- Create Role &  Grant policy to it
@@ -339,120 +396,145 @@ CREATE USER user_ketoan_03 IDENTIFIED BY user_ketoan_03;
 --A82 Grant policy to management deparment
 --Quan ly tai nguyen & nhan su
 alter session set "_ORACLE_SCRIPT"=true;
-CREATE ROLE dep_ql_tainguyen_nhansu IDENTIFIED BY dep_ql_tainguyen_nhansu;
+CREATE ROLE role_dep_ql_tainguyen_nhansu IDENTIFIED BY role_dep_ql_tainguyen_nhansu;
 --Grant policy
-GRANT INSERT, DELETE, UPDATE, SELECT ON NHANVIEN TO dep_ql_tainguyen_nhansu;
-GRANT INSERT, DELETE, UPDATE, SELECT ON DONVI TO dep_ql_tainguyen_nhansu;
-GRANT SELECT ON BENHNHAN TO dep_ql_tainguyen_nhansu;
-GRANT SELECT ON CHAMCONG TO dep_ql_tainguyen_nhansu;
-GRANT SELECT ON CTDONTHUOC TO dep_ql_tainguyen_nhansu;
-GRANT SELECT ON CTHOADON TO dep_ql_tainguyen_nhansu;
-GRANT SELECT ON DICHVU TO dep_ql_tainguyen_nhansu;
-GRANT SELECT ON DONTHUOC TO dep_ql_tainguyen_nhansu;
-GRANT SELECT ON HOADON TO dep_ql_tainguyen_nhansu;
-GRANT SELECT ON HOSOBENHNHAN TO dep_ql_tainguyen_nhansu;
-GRANT SELECT ON HOSODICHVU TO dep_ql_tainguyen_nhansu;
-GRANT SELECT ON THUOC TO dep_ql_tainguyen_nhansu;
+GRANT INSERT, DELETE, UPDATE, SELECT ON NHANVIEN TO role_dep_ql_tainguyen_nhansu;
+GRANT INSERT, DELETE, UPDATE, SELECT ON DONVI TO role_dep_ql_tainguyen_nhansu;
+GRANT SELECT ON BENHNHAN TO role_dep_ql_tainguyen_nhansu;
+GRANT SELECT ON CHAMCONG TO role_dep_ql_tainguyen_nhansu;
+GRANT SELECT ON CTDONTHUOC TO role_dep_ql_tainguyen_nhansu;
+GRANT SELECT ON CTHOADON TO role_dep_ql_tainguyen_nhansu;
+GRANT SELECT ON DICHVU TO role_dep_ql_tainguyen_nhansu;
+GRANT SELECT ON DONTHUOC TO role_dep_ql_tainguyen_nhansu;
+GRANT SELECT ON HOADON TO role_dep_ql_tainguyen_nhansu;
+GRANT SELECT ON HOSOBENHNHAN TO role_dep_ql_tainguyen_nhansu;
+GRANT SELECT ON HOSODICHVU TO role_dep_ql_tainguyen_nhansu;
+GRANT SELECT ON THUOC TO role_dep_ql_tainguyen_nhansu;
 --Grant role to user
-GRANT dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_01;
-GRANT dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_02;
-GRANT dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_03;
+GRANT role_dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_01;
+GRANT role_dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_02;
+GRANT role_dep_ql_tainguyen_nhansu TO user_tainguyen_nhansu_03;
 
 --A85 Quan ly tai vu
 alter session set "_ORACLE_SCRIPT"=true; 
-CREATE ROLE dep_ql_taivu IDENTIFIED BY dep_ql_taivu;
+CREATE ROLE role_dep_ql_taivu IDENTIFIED BY role_dep_ql_taivu;
 --Grant policy
-GRANT INSERT,UPDATE ON DICHVU TO dep_ql_taivu;
-GRANT INSERT,UPDATE ON HOADON TO dep_ql_taivu;
-GRANT INSERT,UPDATE ON CTHOADON TO dep_ql_taivu;
-GRANT SELECT ON BENHNHAN TO dep_ql_taivu;
-GRANT SELECT ON CTDONTHUOC TO dep_ql_taivu;
-GRANT SELECT ON DONTHUOC TO dep_ql_taivu;
-GRANT SELECT ON HOSOBENHNHAN TO dep_ql_taivu;
-GRANT SELECT ON HOSODICHVU TO dep_ql_taivu;
-GRANT SELECT ON THUOC TO dep_ql_taivu;
-GRANT SELECT ON NHANVIEN TO dep_ql_taivu;
-GRANT SELECT ON CHAMCONG TO dep_ql_taivu;
-GRANT SELECT ON DONVI TO dep_ql_taivu;
+GRANT INSERT,UPDATE ON DICHVU TO role_dep_ql_taivu;
+GRANT INSERT,UPDATE ON HOADON TO role_dep_ql_taivu;
+GRANT INSERT,UPDATE ON CTHOADON TO role_dep_ql_taivu;
+GRANT SELECT ON BENHNHAN TO role_dep_ql_taivu;
+GRANT SELECT ON CTDONTHUOC TO role_dep_ql_taivu;
+GRANT SELECT ON DONTHUOC TO role_dep_ql_taivu;
+GRANT SELECT ON HOSOBENHNHAN TO role_dep_ql_taivu;
+GRANT SELECT ON HOSODICHVU TO role_dep_ql_taivu;
+GRANT SELECT ON THUOC TO role_dep_ql_taivu;
+GRANT SELECT ON NHANVIEN TO role_dep_ql_taivu;
+GRANT SELECT ON CHAMCONG TO role_dep_ql_taivu;
+GRANT SELECT ON DONVI TO role_dep_ql_taivu;
 --Grant role to user
-GRANT dep_ql_taivu TO user_quanly_taivu_01;
-GRANT dep_ql_taivu TO user_quanly_taivu_02;
-GRANT dep_ql_taivu TO user_quanly_taivu_03;
+GRANT role_dep_ql_taivu TO user_quanly_taivu_01;
+GRANT role_dep_ql_taivu TO user_quanly_taivu_02;
+GRANT role_dep_ql_taivu TO user_quanly_taivu_03;
 
 
 -- A82. Quan ly chuyen mon
 alter session set "_ORACLE_SCRIPT"=true; 
-CREATE ROLE dep_ql_chuyenmon IDENTIFIED BY dep_ql_chuyenmon;
+CREATE ROLE role_dep_ql_chuyenmon IDENTIFIED BY role_dep_ql_chuyenmon;
 --Grant policy
-GRANT SELECT ON BENHNHAN TO dep_ql_chuyenmon;
-GRANT SELECT ON CTDONTHUOC TO dep_ql_chuyenmon;
-GRANT SELECT ON DONTHUOC TO dep_ql_chuyenmon;
-GRANT SELECT ON HOSOBENHNHAN TO dep_ql_chuyenmon;
-GRANT SELECT ON HOSODICHVU TO dep_ql_chuyenmon;
-GRANT SELECT ON THUOC TO dep_ql_chuyenmon;
-GRANT SELECT ON CHAMCONG TO dep_ql_chuyenmon;
+GRANT SELECT ON BENHNHAN TO role_dep_ql_chuyenmon;
+GRANT SELECT ON CTDONTHUOC TO role_dep_ql_chuyenmon;
+GRANT SELECT ON DONTHUOC TO role_dep_ql_chuyenmon;
+GRANT SELECT ON HOSOBENHNHAN TO role_dep_ql_chuyenmon;
+GRANT SELECT ON HOSODICHVU TO role_dep_ql_chuyenmon;
+GRANT SELECT ON THUOC TO role_dep_ql_chuyenmon;
+GRANT SELECT ON CHAMCONG TO role_dep_ql_chuyenmon;
 --Grant role to user
-GRANT dep_ql_chuyenmon TO user_quanly_chuyenmon_01;
-GRANT dep_ql_chuyenmon TO user_quanly_chuyenmon_02;
-GRANT dep_ql_chuyenmon TO user_quanly_chuyenmon_03;
+GRANT role_dep_ql_chuyenmon TO user_quanly_chuyenmon_01;
+GRANT role_dep_ql_chuyenmon TO user_quanly_chuyenmon_02;
+GRANT role_dep_ql_chuyenmon TO user_quanly_chuyenmon_03;
 
 -- Reception Role
 alter session set "_ORACLE_SCRIPT"=true;  
-CREATE ROLE dep_letan  IDENTIFIED BY dep_letan;
+CREATE ROLE role_dep_letan  IDENTIFIED BY role_dep_letan;
 -- A83. Grant policy to reception department
-GRANT INSERT, SELECT, UPDATE ON BENHNHAN TO dep_letan;
-GRANT INSERT, SELECT, UPDATE ON HOSOBENHNHAN TO dep_letan;
--- REVOKE SELECT ON THUOC FROM dep_letan;
-GRANT dep_letan TO user_tieptan_01;
-GRANT dep_letan TO user_tieptan_02;
-GRANT dep_letan TO user_tieptan_03;
+GRANT INSERT, SELECT, UPDATE ON BENHNHAN TO role_dep_letan;
+GRANT INSERT, SELECT, UPDATE ON HOSOBENHNHAN TO role_dep_letan;
 
--- A84 Doctor role
+-- content base access controll
+-- SELECT MADV,TENDV FROM DICHVU;
+CREATE OR REPLACE VIEW VW_RECEPTION_DICHVU
+AS
+SELECT MADV,TENDV FROM DICHVU;
+GRANT SELECT ON VW_RECEPTION_DICHVU TO user_tieptan_01;
+GRANT SELECT ON VW_RECEPTION_DICHVU TO user_tieptan_02;
+GRANT SELECT ON VW_RECEPTION_DICHVU TO user_tieptan_03;
+-- SELECT * FROM VW_RECEPTION_DICHVU;
+-- not working, dont understant @_@
+
+
+-- REVOKE SELECT ON THUOC FROM role_dep_letan;
+GRANT role_dep_letan TO user_tieptan_01;
+GRANT role_dep_letan TO user_tieptan_02;
+GRANT role_dep_letan TO user_tieptan_03;
+
+-- A84 role_doctor role
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
-CREATE ROLE doctor IDENTIFIED BY doctor;
--- A44. Grant policy to doctor
-GRANT INSERT, UPDATE (ketLuanCuaBacSi) ON HOSOBENHNHAN TO doctor;
-GRANT INSERT, UPDATE (maKB,maDV,ngayGio) ON HOSODICHVU TO doctor;
--- Grant role to user - doctor
-GRANT doctor TO user_bacsi_01;
-GRANT doctor TO user_bacsi_02;
-GRANT doctor TO user_bacsi_03;
+CREATE ROLE role_doctor IDENTIFIED BY role_doctor;
+-- A44. Grant policy to role_doctor
+GRANT INSERT, UPDATE (ketLuanCuaBacSi) ON HOSOBENHNHAN TO role_doctor;
+GRANT INSERT, UPDATE (maKB,maDV,ngayGio) ON HOSODICHVU TO role_doctor;
+-- Grant role to user - role_doctor
+GRANT role_doctor TO user_bacsi_01;
+GRANT role_doctor TO user_bacsi_02;
+GRANT role_doctor TO user_bacsi_03;
 
 
 --A86 Grant policy to pharmacy
 --user_banthuoc_01
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
-CREATE ROLE dep_banthuoc IDENTIFIED BY dep_banthuoc;
-GRANT SELECT ON THUOC TO dep_banthuoc;
--- Grant role to user - doctor
-GRANT dep_banthuoc TO user_banthuoc_01;
-GRANT dep_banthuoc TO user_banthuoc_02;
-GRANT dep_banthuoc TO user_banthuoc_03;
+DROP ROLE role_dep_banthuoc;
+CREATE ROLE role_dep_banthuoc IDENTIFIED BY role_dep_banthuoc;
+GRANT SELECT ON THUOC TO role_dep_banthuoc;
+-- Grant role to user - role_doctor
+GRANT role_dep_banthuoc TO user_banthuoc_01;
+GRANT role_dep_banthuoc TO user_banthuoc_02;
+GRANT role_dep_banthuoc TO user_banthuoc_03;
 
 -- Accounting role
 ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
-CREATE ROLE dep_ketoan IDENTIFIED BY dep_ketoan;
+CREATE ROLE role_dep_ketoan IDENTIFIED BY role_dep_ketoan;
 -- A85. Grant policy to dep ketoan
-GRANT INSERT, DELETE, UPDATE, SELECT ON CHAMCONG TO dep_ketoan;
+GRANT INSERT, UPDATE, SELECT ON CHAMCONG TO role_dep_ketoan;
+GRANT INSERT, UPDATE, SELECT ON CHAMCONG TO role_dep_ketoan;
 -- Add role to user
-GRANT dep_ketoan to user_ketoan_01;
-GRANT dep_ketoan to user_ketoan_02;
-GRANT dep_ketoan to user_ketoan_03;
+GRANT role_dep_ketoan to user_ketoan_01;
+GRANT role_dep_ketoan to user_ketoan_02;
+GRANT role_dep_ketoan to user_ketoan_03;
 
 
 
 
 
 
+
+
+
+-------------------
 -- TEST
--- TEST
--- TEST
+-------------------
 SELECT * FROM CHAMCONG;
 SELECT * FROM benhnhan;
 SELECT * FROM hosobenhnhan;
 SELECT * FROM hosodichvu;
 SELECT * FROM hoadon;
-SELECT * FROM nhanvien;
+SELECT MANV ,
+HOTEN ,
+LUONG ,
+NGAYSINH ,
+DIACHI ,
+VAITRO ,
+MADONVI  FROM nhanvien;
+select luong from nhanvien;
 SELECT * FROM donthuoc;
 SELECT * FROM dichvu;
 SELECT * FROM cthoadon;
@@ -465,13 +547,30 @@ SELECT * FROM  DBA_ROLE_PRIVS;
 SELECT * FROM  USER_ROLE_PRIVS;
 SELECT * FROM  DBA_TAB_PRIVS;
 
+-- Check Current User logging Infor
+SELECT SYS_CONTEXT('USERENV','CURRENT_SCHEMA') FROM DUAL;
+SELECT SYS_CONTEXT('USERENV','ISDBA') FROM DUAL;
+SELECT SYS_CONTEXT('USERENV','CURRENT_USER') FROM DUAL;
+SELECT SYS_CONTEXT('USERENV','SESSION_USER') FROM DUAL;
+SELECT SYS_CONTEXT('USERENV','SYS_SESSION_ROLES') FROM DUAL;
+SELECT SYS_CONTEXT('SYS_SESSION_ROLES', 'default') FROM DUAL;
+SELECT * FROM ROLE_TAB_PRIVS;
 
-CREATE ROLE TELLER IDENTIFIED BY TELLER;
-GRANT  TELLER TO SCOTT;
-GRANT SELECT ON CHAMCONG TO TELLER;
+SELECT * FROM HospitalManagement.NHANVIEN;
 
 
+SELECT OBJECT_NAME, OBJECT_TYPE 
+    FROM USER_OBJECTS;
+    
+-- watch owner of an object    
+select owner from ALL_TABLES where TABLE_NAME ='DONTHUOC';
+-- When login set Role !!
+SET ROLE ROLE_DOCTOR IDENTIFIED BY ROLE_DOCTOR;
+--  owner of table
+SELECT * FROM SYS.DONTHUOC;
+SELECT * FROM SYS.CTDONTHUOC;
+SELECT * FROM sys.CHAMCONG;
 
--- 
+
 
 

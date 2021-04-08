@@ -375,11 +375,14 @@ router.post("/grant-role-permission", authUser, async function (req, res) {
       withGrantOption: req.body.withGrantOption,
       columnValue: req.body.columnValue,
     };
+    console.log(data);
 
     const status = await adminModel.grantRolePrivilege(
       data.rolename,
       data.privilege,
-      data.tableName
+      data.tableName,
+      false,
+      data.columnValue
     );
 
     res.json({ message: "success!" });
@@ -417,18 +420,12 @@ router.get("/grant-role-to-user", authUser, async function (req, res) {
 });
 
 router.post("/grant-role-to-user", authUser, async function (req, res) {
-  try {
-    const data = {
-      rolename: req.body.rolename,
-      username: req.body.username,
-    };
-    const status = await adminModel.grantRoleToUser(
-      data.rolename,
-      data.username
-    );
-  } catch (e) {
-    return res.status(500).json({ e });
-  }
+  const data = {
+    rolename: req.body.rolename,
+    username: req.body.username,
+  };
+  const status = await adminModel.grantRoleToUser(data.rolename, data.username);
+  res.json({ message: "Granted!" });
 });
 
 module.exports = router;
