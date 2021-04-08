@@ -50,7 +50,11 @@ router.patch("/update-user", authUser, async function (req, res) {
   };
 
   console.log(data);
-  const status = await userModel.updateUser(data.username, data.newPassword);
+  // const status = await userModel.updateUser(data.username, data.newPassword);
+  const status = await userModel.updateUserUsingProc(
+    data.username,
+    data.newPassword
+  );
 
   res.json({ message: "success!" });
 });

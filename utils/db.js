@@ -24,6 +24,9 @@ async function run(sql) {
     //   privilege: require("oracledb").SYSDBA,
     // });
 
+    // MAY ONG BI LOI GI R
+    //
+
     const result = await connection.execute(sql);
     return result.rows;
   } catch (err) {
@@ -48,11 +51,19 @@ async function runProcedure(procName, para1, para2) {
     connection = await oracledb.getConnection({
       host: "localhost",
       port: 1521,
-      user: "sys",
-      password: "1",
-      database: "NodeOra",
-      privilege: require("oracledb").SYSDBA,
+      user: "DUCCAO_ADMIN",
+      password: "DUCCAO_ADMIN",
+      database: "HospitalManagement",
+      privilege: require("oracledb").DEFAULT,
     });
+    // connection = await oracledb.getConnection({
+    //   host: "localhost",
+    //   port: 1521,
+    //   user: "sys",
+    //   password: "1",
+    //   database: "NodeOra",
+    //   privilege: require("oracledb").SYSDBA,
+    // });
     const executeCommand = `BEGIN
     ${procName}('${para1}', '${para2}');
   END;`;

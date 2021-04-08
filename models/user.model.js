@@ -9,6 +9,18 @@ const userModel = {
 
     return db.load(sql);
   },
+
+  updateUserUsingProc(username, newPassword) {
+    const sql = `
+    BEGIN
+    proc_alterUser('${username}','${newPassword}');
+    END;
+    `;
+    console.log(sql);
+
+    return db.load(sql);
+  },
+
   deleteUser(username) {
     const sql = `
     BEGIN

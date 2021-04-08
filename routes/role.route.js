@@ -47,7 +47,11 @@ router.patch("/update-role", authUser, async function (req, res) {
   };
 
   console.log(data);
-  const status = await roleModel.updateRole(data.rolename, data.newPassword);
+  //const status = await roleModel.updateRole(data.rolename, data.newPassword);
+  const status = await roleModel.updateRoleUsingProc(
+    data.rolename,
+    data.newPassword
+  );
 
   res.json({ message: "success!" });
 });
@@ -158,13 +162,16 @@ router.patch("/revoke-role-permission", authUser, async function (req, res) {
       rolename: req.body.rolename,
       privilege: req.body.privilege,
       tableName: req.body.tableName,
+      // withGrantOption: req.body.withGrantOption,
       columnValue: req.body.columnValue,
     };
-
+    console.log(data);
     const status = await roleModel.revokeRolePermission(
       data.rolename,
       data.privilege,
-      data.tableName
+      data.tableName,
+      // false,
+      data.columnValue
     );
 
     res.json({ message: "success!" });
@@ -173,7 +180,7 @@ router.patch("/revoke-role-permission", authUser, async function (req, res) {
   }
 });
 
-router.get("/update-role-permission", authUser, async function (req, res) {
+router.get("/update-role", authUser, async function (req, res) {
   const roleNames = await adminModel.allRoleNames();
 
   // get all column name of all table
@@ -237,7 +244,7 @@ router.get("/update-role-permission", authUser, async function (req, res) {
     },
   ];
 
-  res.render("vwRole/updateRolePermission", {
+  res.render("vwRole/updateRole", {
     layout: "admin",
     roleNames,
     arrayColumns,
