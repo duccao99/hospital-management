@@ -2,8 +2,15 @@
 -- Auto re-run 
 ------------------------
 DECLARE 
-    CHAMCONG_c number;BENHNHAN_c number;HOSOBENHNHAN_c number;HOSODICHVU_c number;HOADON_c number;NHANVIEN_c number;DONVI_c number;DONTHUOC_c number;DICHVU_c number;CTHOADON_c number;CTDONTHUOC_c number;THUOC_c number;
+    VIEW_COLUMN_SELECT_USER_c NUMBER; CHAMCONG_c number;BENHNHAN_c number;
+    HOSOBENHNHAN_c number;HOSODICHVU_c number;HOADON_c number;
+    NHANVIEN_c number;DONVI_c number;DONTHUOC_c number;
+    DICHVU_c number;CTHOADON_c number;CTDONTHUOC_c number;THUOC_c number;
 begin
+    SELECT COUNT(*) INTO VIEW_COLUMN_SELECT_USER_c FROM ALL_OBJECTS
+    WHERE OBJECT_TYPE IN ('TABLE','VIEW')
+    AND OBJECT_NAME ='VIEW_COLUMN_SELECT_USER';
+
     SELECT count(*) into CHAMCONG_c from all_objects
     where object_type in ('TABLE','VIEW')
     and object_name = 'CHAMCONG';
@@ -52,7 +59,9 @@ begin
     where object_type in ('TABLE','VIEW')
     and object_name = 'THUOC';
     
-    
+    IF VIEW_COLUMN_SELECT_USER_c !=0 THEN
+        EXECUTE IMMEDIATE 'DROP TABLE '|| 'VIEW_COLUMN_SELECT_USER ' || ' CASCADE CONSTRAINTS' ;
+    END IF;
     IF CHAMCONG_c != 0 then
        EXECUTE IMMEDIATE 'DROP TABLE ' || 'CHAMCONG ' || 'CASCADE CONSTRAINTS';
     end if;
@@ -116,7 +125,7 @@ CREATE TABLE HOSOBENHNHAN (
     maKB int,
     ngayKB date,
      maNV  nchar(200),
-    tenBacSi VARCHAR2(200),
+    TENBACSI VARCHAR2(200),
     maBN int,
     tinhTrangBanDau nchar(200),
     ketLuanCuaBacSi nchar(200),
@@ -196,6 +205,15 @@ CREATE TABLE THUOC (
     PRIMARY KEY(maThuoc)
 );
 
+
+CREATE TABLE VIEW_COLUMN_SELECT_USER(
+    USERNAME NVARCHAR2(200),
+    PRIV NVARCHAR2(200),
+    COLUMN_NAME NVARCHAR2(200),
+    TABLE_NAME NVARCHAR2(200),
+    GRANTABLE NVARCHAR2(200),
+    VIEW_NAME NVARCHAR2(200)
+);
 
 ------------------------
 -- Add Foreign Key

@@ -164,3 +164,100 @@ EXECUTE IMMEDIATE (exec_commander);
 END proc_AlterRole;
 /
 
+
+----------------
+-- 8. Procedure Create View That User Can Select Column Level 
+------------------
+CREATE OR REPLACE PROCEDURE proc_CreateViewUserSelectColumnLevel(
+    ip_username nvarchar2,
+    ip_column_name nvarchar2,
+    ip_table_name nvarchar2,
+    ip_granable nvarchar2
+    )
+IS
+    user_name nvarchar2(200):=ip_username;
+    column_name nvarchar2(200):=ip_column_name;
+    table_name nvarchar2(200):=ip_table_name;
+    exec_commander varchar(1000);
+    priv nvarchar2(200);
+    vw_name nvarchar2(200);
+BEGIN 
+    priv:='SELECT';
+    exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE ';
+    EXECUTE IMMEDIATE (exec_commander);
+    
+    IF UPPER(ip_granable) = 'TRUE' THEN
+
+     exec_commander:='CREATE VIEW VW_USER_SELECT_COLUMN_LEVEL_'||ip_username||'_'||ip_column_name||'_'||ip_table_name
+    || ' AS '|| 'SELECT ' ||column_name|| ' FROM '|| table_name;
+    EXECUTE IMMEDIATE (exec_commander);
+    
+    
+        vw_name:='VW_USER_SELECT_COLUMN_LEVEL_'||ip_username||'_'||ip_column_name||'_'||ip_table_name;
+    exec_commander:='GRANT SELECT ON '||vw_name || ' TO ' ||ip_username|| ' WITH GRANT OPTION ';
+        EXECUTE IMMEDIATE (exec_commander);
+           
+    ELSE 
+     exec_commander:='CREATE VIEW VW_USER_SELECT_COLUMN_LEVEL_'||ip_username||'_'||ip_column_name||'_'||ip_table_name
+    || ' AS '|| 'SELECT ' ||column_name|| ' FROM '|| table_name;
+    EXECUTE IMMEDIATE (exec_commander);
+    END IF;
+
+    
+   exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT" = FALSE ';
+    EXECUTE IMMEDIATE (exec_commander);
+END proc_CreateViewUserSelectColumnLevel;
+/
+
+
+------------- TEST 8.
+-- EXEC proc_UserSelectColumnLevel('user_temp_2','MANV','NHANVIEN');
+-- SELECT * FROM VW_USER_SELECT_COLUMN_LEVEL_USER_TEMP_2_MANV_NHANVIEN;
+
+--INSERT INTO VIEW_COLUMN_SELECT_USER(USERNAME,PRIV,COLUMN_NAME,TABLE_NAME,VIEW_NAME)
+--VALUES ('USER_TEMP_02','SELECT','MANV','NHANVIEN','VW_SELECT_USER_TEMP_02_COLUMN');
+
+
+----------------
+-- 9. Procedure Insert into VIEW_COLUMN_SELECT_USER
+------------------
+CREATE OR REPLACE PROCEDURE proc_insertViewUserSelectColumnLevel(
+       p_USERNAME IN VIEW_COLUMN_SELECT_USER.USERNAME%TYPE,
+       p_PRIV IN VIEW_COLUMN_SELECT_USER.PRIV%TYPE,
+       p_COLUMN_NAME IN VIEW_COLUMN_SELECT_USER.COLUMN_NAME%TYPE,
+       p_TABLE_NAME IN VIEW_COLUMN_SELECT_USER.TABLE_NAME%TYPE,
+     p_GRANTABLE VIEW_COLUMN_SELECT_USER.GRANTABLE%TYPE,
+       p_VIEW_NAME IN VIEW_COLUMN_SELECT_USER.VIEW_NAME%TYPE)
+IS
+exec_commander VARCHAR(1000);
+BEGIN
+    exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT" = FALSE ';
+    EXECUTE IMMEDIATE (exec_commander);
+    
+  INSERT INTO VIEW_COLUMN_SELECT_USER ( USERNAME, PRIV ,COLUMN_NAME ,TABLE_NAME ,GRANTABLE,VIEW_NAME ) 
+  VALUES (p_USERNAME, p_PRIV,p_COLUMN_NAME, p_TABLE_NAME,p_GRANTABLE,p_VIEW_NAME);
+  
+
+   exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT" = FALSE ';
+    EXECUTE IMMEDIATE (exec_commander);
+  COMMIT;
+
+END;
+/
+
+-- exec proc_insertViewUserSelectColumnLevel('aa','asdd','manv','nhanvien','asdvew');
+ -- SELECT * FROM VIEW_COLUMN_SELECT_USER;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
