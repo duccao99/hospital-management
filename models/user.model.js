@@ -10,6 +10,18 @@ const userModel = {
     return db.load(sql);
   },
 
+  insertUserSelectColumnPriv(username, column, tbl, grantable) {
+    let viewName = `VW_USER_SELECT_COLUMN_LEVEL_${username}_${column}_${tbl}`;
+    viewName = viewName.toUpperCase();
+    const sql = `
+      BEGIN
+      proc_insertViewUserSelectColumnLevel('${username}','SELECT','${column}','${tbl}','${grantable}','${viewName}');
+      END;
+    `;
+    console.log(sql);
+    return db.load(sql);
+  },
+
   updateUserUsingProc(username, newPassword) {
     const sql = `
     BEGIN

@@ -588,4 +588,7 @@ select * from all_users;
 SET ROLE R2 IDENTIFIED BY R22;
 -- DONE
 
+select * from nhanvien;
+select * from sys.user$ where name = 'DUCCAO_ADMIN';
+select username, password from dba_users where username = 'DUCCAO_ADMIN';
 

@@ -7,6 +7,8 @@ const userAndTheirRole = require("./../config/config.js").oracle.system
 const allRoles = config.oracle.system.all_roles;
 const userColPrivs = config.oracle.system.User_col_privs;
 const rolePriv = require("./../config/config.js").oracle.system.rolePriv;
+const usermodel = require("./user.model");
+
 module.exports = {
   allUser() {
     const sql = `select * from ${allUser}`;
@@ -40,7 +42,7 @@ module.exports = {
     return db.load(sql);
   },
 
-  grantUserPrivilege(
+  async grantUserPrivilege(
     username,
     privilege,
     tableName,
@@ -48,19 +50,60 @@ module.exports = {
     columnValue
   ) {
     let sql = ``;
-    if (withGrantOption === "false") {
-      if (columnValue === "" || columnValue === undefined) {
-        sql = `GRANT ${privilege} ON ${tableName} TO ${username}`;
+
+    if (privilege === "select") {
+      if (withGrantOption === "false") {
+        if (columnValue === "" || columnValue === undefined) {
+          sql = `GRANT ${privilege} ON ${tableName} TO ${username}`;
+        } else {
+          // 1. INSERT TO VIEW FIRST
+          const check = await usermodel.insertUserSelectColumnPriv(
+            username,
+            columnValue,
+            tableName,
+            withGrantOption
+          );
+
+          sql = `
+          BEGIN
+          proc_CreateViewUserSelectColumnLevel('${username}','${columnValue}','${tableName}','${withGrantOption}');
+          END;
+          `;
+        }
       } else {
-        sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${username}`;
+        if (columnValue === "" || columnValue === undefined) {
+          sql = `GRANT ${privilege} ON ${tableName} TO ${username}  WITH GRANT OPTION`;
+        } else {
+          const check = await usermodel.insertUserSelectColumnPriv(
+            username,
+            columnValue,
+            tableName,
+            withGrantOption
+          );
+
+          sql = `
+          BEGIN
+          proc_CreateViewUserSelectColumnLevel('${username}','${columnValue}','${tableName}','${withGrantOption}');
+          END;
+          `;
+        }
       }
     } else {
-      if (columnValue === "" || columnValue === undefined) {
-        sql = `GRANT ${privilege} ON ${tableName} TO ${username}  WITH GRANT OPTION`;
+      if (withGrantOption === "false") {
+        if (columnValue === "" || columnValue === undefined) {
+          sql = `GRANT ${privilege} ON ${tableName} TO ${username}`;
+        } else {
+          sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${username}`;
+        }
       } else {
-        sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${username}  WITH GRANT OPTION`;
+        if (columnValue === "" || columnValue === undefined) {
+          sql = `GRANT ${privilege} ON ${tableName} TO ${username}  WITH GRANT OPTION`;
+        } else {
+          sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${username}  WITH GRANT OPTION`;
+        }
       }
     }
+
     console.log(sql);
 
     return db.load(sql);
@@ -152,6 +195,11 @@ module.exports = {
 
   getListUsers(username, pass) {
     const sql = `select hoten, matkhau,vaitro from duccao_admin.nhanvien`;
+    return db.load(sql);
+  },
+
+  getViewUserSelectColumnLevel() {
+    const sql = `SELECT * FROM VIEW_COLUMN_SELECT_USER`;
     return db.load(sql);
   },
 };
