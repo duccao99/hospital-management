@@ -124,6 +124,7 @@ router.get("/user-priv", authUser, async function (req, res) {
   res.render("vwAdmin/userPriv", {
     layout: "admin",
     roleInfo,
+    authUser: req.session.authUser,
   });
 });
 
@@ -161,6 +162,7 @@ router.get("/role-priv", authUser, async function (req, res) {
   res.render("vwAdmin/rolePriv", {
     layout: "admin",
     rolePrivs,
+    authUser: req.session.authUser,
   });
 });
 
@@ -194,6 +196,7 @@ router.get("/user-role", async function (req, res) {
   res.render("vwAdmin/userAndTheirRole", {
     layout: "admin",
     userAndTheirRoles,
+    authUser: req.session.authUser,
   });
 });
 
@@ -203,6 +206,7 @@ router.get("/user-column-privilege", async function (req, res) {
   res.render("vwAdmin/userColPrivileges", {
     layout: "admin",
     userColPrivs,
+    authUser: req.session.authUser,
   });
 });
 
@@ -444,5 +448,18 @@ router.post("/grant-role-to-user", authUser, async function (req, res) {
   const status = await adminModel.grantRoleToUser(data.rolename, data.username);
   res.json({ message: "Granted!" });
 });
+
+router.get(
+  "/user-select-column-privilege",
+  authUser,
+  async function (req, res) {
+    const userSelectColumnPrivs = await adminModel.getViewUserSelectColumnLevel();
+    res.render("vwAdmin/UserSelectColumnPriv", {
+      layout: "admin",
+      authUser: req.session.authUser,
+      userSelectColumnPrivs,
+    });
+  }
+);
 
 module.exports = router;

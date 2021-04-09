@@ -1,5 +1,4 @@
 function authUser(req, res, next) {
-  console.log("why here ?");
   if (req.session.authUser === undefined) {
     return res.redirect("/");
   }
