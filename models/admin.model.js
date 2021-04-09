@@ -149,4 +149,9 @@ module.exports = {
     console.log(sql);
     return db.load(sql);
   },
+
+  getListUsers(username, pass) {
+    const sql = `select hoten, matkhau,vaitro from duccao_admin.nhanvien`;
+    return db.load(sql);
+  },
 };
