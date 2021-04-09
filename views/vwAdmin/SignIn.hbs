@@ -238,7 +238,7 @@
                         }
 
 
-                        window.location.href = "/dashboard"
+                        window.location.href = data.href;
 
 
 
@@ -249,7 +249,7 @@
                             timer: 2500,
                             html: '',
                             icon: 'error',
-                            title: er.responseJSON.message,
+                            title: 'Unauthorized!',
                         }
                         openAlert(messageTrigger)
                     }

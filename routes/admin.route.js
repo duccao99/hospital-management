@@ -6,9 +6,11 @@ const oracleModel = require("./../models/oracle.model.js");
 const { authUser } = require("./../middlewares/user.mdw");
 const { oracle } = require("../config/config");
 
-router.get("/", function (req, res) {
-  //res.redirect("/sign-in");
-  res.redirect("/dashboard");
+router.get("/dashboard", authUser, function (req, res) {
+  res.render("vwAdmin/dashboard", {
+    layout: "admin",
+    authUser: req.session.authUser,
+  });
 });
 
 router.get("/test", function (req, res) {
@@ -18,39 +20,54 @@ router.get("/test", function (req, res) {
 });
 
 router.get("/sign-in", function (req, res) {
-  try {
-    return res.render("vwAdmin/SignIn", {
-      layout: false,
-    });
-  } catch (e) {
-    return res.status(500).json(e);
-  }
+  res.render("vwAdmin/SignIn", {
+    layout: false,
+  });
 });
 
-router.post("/sign-in", function (req, res) {
-  try {
-    const data = req.body;
-    //console.log(data);
-    req.session.authUser = {
-      username: data.username,
-    };
+router.post("/sign-in", async function (req, res) {
+  const data = req.body;
 
-    return res.redirect("/dashboard");
-  } catch (e) {
-    return res.status(500).json(e);
+  let listUsers = await adminModel.getListUsers(data.username, data.password);
+
+  listUsers = listUsers.map((u) => {
+    return {
+      username: u.HOTEN.trim(),
+      password: u.MATKHAU.trim(),
+      role: u.VAITRO.trim(),
+    };
+  });
+
+  for (let u of listUsers) {
+    if (u.username === data.username) {
+      if (u.password !== data.password) {
+        return res.status(401).json({ error_message: "Unauthorize!" });
+      } else {
+        console.log(u);
+        if (u.role === "NHANVIEN_ADMIN") {
+          req.session.authUser = {
+            username: data.username,
+            password: data.password,
+            role: u.role,
+          };
+          return res.json({ href: "/dashboard" });
+        } else {
+          req.session.authUser = {
+            username: data.username,
+            password: data.password,
+            role: u.role,
+          };
+          return res.json({ href: "/home" });
+        }
+      }
+    }
   }
+  return res.status(401).json({ error_message: "Unauthorize!" });
 });
 
 router.post("/sign-out", function (req, res) {
   req.session.authUser = undefined;
   return res.redirect("/");
-});
-
-router.get("/dashboard", authUser, function (req, res) {
-  res.render("vwAdmin/dashboard", {
-    layout: "admin",
-    authUser: req.session.authUser,
-  });
 });
 
 router.get("/sign-up", function (req, res) {
