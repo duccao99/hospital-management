@@ -7,9 +7,10 @@ const { authUser } = require("./../middlewares/user.mdw");
 const { oracle } = require("../config/config");
 
 //create role
-router.get("/create-role", function (req, res) {
+router.get("/create-role", authUser, function (req, res) {
   res.render("vwRole/createRole", {
     layout: "admin",
+    authUser: req.session.authUser,
   });
 });
 
