@@ -8,9 +8,10 @@ const { oracle } = require("../config/config");
 const { route } = require("./admin.route");
 
 //create user
-router.get("/create-user", function (req, res) {
+router.get("/create-user", authUser, function (req, res) {
   res.render("vwUser/create", {
     layout: "admin",
+    authUser: req.session.authUser,
   });
 });
 
