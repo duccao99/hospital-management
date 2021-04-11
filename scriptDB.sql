@@ -291,25 +291,25 @@ REFERENCES THUOC(maThuoc);
 
 --insert benh nhan
 insert into BENHNHAN (maBN, hoTen, ngaySinh, diaChi, sdt) 
-values (1, 'Nguy?n B?nh An', TO_DATE('12/01/1984', 'DD/MM/YYYY'),'4186 Ph? Qu?, X? ??n, Qu?n Kh?ng Thanh Thoa,H?i Ph?ng','0755586591');
+values (1, 'Tiep Thi Lan', TO_DATE('12/01/1984', 'DD/MM/YYYY'),'5/9 Ap Tay Vinh Phu Thuan An Binh Duong, Ho Chi Minh','0755586591');
 insert into BENHNHAN (maBN, hoTen, ngaySinh, diaChi, sdt)
-values (2, 'Trang Quang T?i', TO_DATE('12/01/1975', 'DD/MM/YYYY'),'093 Ph? ?ng Khuy?n Gi?c, Th?n B?nh ?an, Huy?n Tr?ng Sang Ph?ng,C?n Th?','0755586592');
+values (2, 'Trang Quang Tri', TO_DATE('12/01/1975', 'DD/MM/YYYY'),'485 Huynh Van Banh, Ho Chi Minh','0755586592');
 insert into BENHNHAN (maBN, hoTen, ngaySinh, diaChi, sdt) 
-values (3, 'Nguy?n An Ninh', TO_DATE('12/01/1988', 'DD/MM/YYYY'),'115 Ph? B?i Sang H?o, ?p Tu? Dung, Qu?n L?m C??ng,S?n La','0755586593');
+values (3, 'Nguyen An Ninh', TO_DATE('12/01/1988', 'DD/MM/YYYY'),'173/44/15 Duong Quang Ham St Go Vap Dist Ho Chi Minh City, ho chi minh','0755586593');
 insert into BENHNHAN (maBN, hoTen, ngaySinh, diaChi, sdt) 
-values (4, 'Nguy?n Th?nh Trung', TO_DATE('12/01/1983', 'DD/MM/YYYY'),'116 Ph? D? K? Khi?u, X? Ch? Kim T?m, Huy?n Hu?nh,T?y Ninh','0755586594');
+values (4, 'Nguyen Thanh Trung', TO_DATE('12/01/1983', 'DD/MM/YYYY'),'164/22 Le Dinh Tham Str., Ho Chi Minh','0755586594');
 insert into BENHNHAN (maBN, hoTen, ngaySinh, diaChi, sdt) 
-values (5, 'Tr?n Minh Ki?t', TO_DATE('12/01/1972', 'DD/MM/YYYY'),'3376 Ph? Ti?p Tr?m Ng?n, Ph??ng ?i?p Ph??ng, Qu?n Hu? H?u,C?n Th?','0755586595');
+values (5, 'Tran Minh Kiet', TO_DATE('12/01/1972', 'DD/MM/YYYY'),'102 Le Thi Rieng Street, Ho Chi Minh','0755586595');
 insert into BENHNHAN (maBN, hoTen, ngaySinh, diaChi, sdt) 
-values (6, '?? Ch?nh H?u', TO_DATE('12/01/1973', 'DD/MM/YYYY'),'48 Ph? M?, Ph??ng Tr?c, Huy?n Ho?n Mai,?? N?ng','0755586596');
+values (6, 'Nguyen Van Ni', TO_DATE('12/01/1973', 'DD/MM/YYYY'),'176 / 38 Tran Huy Lieu. Phu Nhuan District, Ho Chi Minh','0755586596');
 insert into BENHNHAN (maBN, hoTen, ngaySinh, diaChi, sdt) 
-values (7, 'Tr?m C?ng L?', TO_DATE('12/01/1974', 'DD/MM/YYYY'),'2923, ?p Qu?nh, Ph??ng ??u Ki?n L?, Huy?n Kh?i,Ninh Thu?n','0755586597');
+values (7, 'Le Trong Thang', TO_DATE('12/01/1974', 'DD/MM/YYYY'),'67 / 140 Bui Dinh Tuy Street-Ward12-Binh Thanh, Ho Chi Minh','0755586597');
 insert into BENHNHAN (maBN, hoTen, ngaySinh, diaChi, sdt)
-values (8, 'Tr?n Tu?n Ch?u', TO_DATE('12/01/1981', 'DD/MM/YYYY'),'8387 Ph? T?n C?ng Ki?n, Ph??ng Ph??c, Huy?n Xa Ho?n,B?n Tre','0755586598');
+values (8, 'Ho Ngoc Thanh', TO_DATE('12/01/1981', 'DD/MM/YYYY'),'376 / 24 Nguyen Dinh Chieu Street. District 3, Ho Chi Minh','0755586598');
 insert into BENHNHAN (maBN, hoTen, ngaySinh, diaChi, sdt) 
-values (9, 'V? Trung Nh?n', TO_DATE('12/01/1969', 'DD/MM/YYYY'),'6545 Ph? Xu?n, Ph??ng Th?o B?, Qu?n Nghi?p C?t,B? R?a - V?ng T?u','0755586599');
+values (9, 'Lo Trong Lanh', TO_DATE('12/01/1969', 'DD/MM/YYYY'),'2nd Floor 54 Phung Van Cung Street, Ho Chi Minh','0755586599');
 insert into BENHNHAN (maBN, hoTen, ngaySinh, diaChi, sdt) 
-values (10, 'Nguy?n Tr?ng Vinh', TO_DATE('12/01/1960', 'DD/MM/YYYY'),'8, Th?n Th?nh, X? Chinh, Qu?n Trang,B?nh ??nh','0755586511');
+values (10, 'Phu Van Huu', TO_DATE('12/01/1960', 'DD/MM/YYYY'),'72 Vo Thi Sau, Dist.1, TP HCM','0755586511');
 
 --insert Don vi
 insert into DONVI (maDonVi, tenDonVi) 
@@ -329,25 +329,25 @@ values (7,'ADMIN');
 
 --insert NHANVIEN
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values ('NVQL01','user_nvquanli_01','user_nvquanli_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'3102 Ph? Y?n, X? H?a, Huy?n 38, B?nh Thu?n','NHANVIEN_QUANLY_TAINGUYEN_NHANSU',1);
+values ('NVQL01','user_nvquanli_01','user_nvquanli_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'174 Tran Quang Khai, Thu Duc Ward, Dist.1,TP HCM','NHANVIEN_QUANLY_TAINGUYEN_NHANSU',1);
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values ('NVQL02','user_nvquanli_02','user_nvquanli_02',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'905 Ph? Anh, X? Tri?t ??m, Huy?n Khu?t Xu?n, H? Ch? Minh','NHANVIEN_QUANLY_TAIVU',1);
+values ('NVQL02','user_nvquanli_02','user_nvquanli_02',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'49 Dong Khoi Street,  Ben Nghe Ward, District 1, Tp HCM','NHANVIEN_QUANLY_TAIVU',1);
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values ('NVQL03','user_nvquanli_03','user_nvquanli_03',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'0018, ?p B?nh Dinh, Ph??ng ??nh Mang, Qu?n Tr?, Long An','NHANVIEN_QUANLY_CHUYENMON',2);
+values ('NVQL03','user_nvquanli_03','user_nvquanli_03',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'15 Hau Giang Street, Ward 4, Tan Binh','NHANVIEN_QUANLY_CHUYENMON',2);
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values ('NVLT01','user_nvletan_01','user_nvletan_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'316 Ph? Xa Khang Nhi?n, X? 27, Qu?n ???ng ??i, T?y Ninh','NHANVIEN_LETAN',3);
+values ('NVLT01','user_nvletan_01','user_nvletan_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'24/2 Tran Khac Tran Strees, Tan Dinh Ward, District 1, TP HCM','NHANVIEN_LETAN',3);
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values ('NVLT02','user_nvletan_02','user_nvletan_02',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'5, Th?n 3, Th?n Ki?u T?, Qu?n B?ch, V?nh Ph?c','NHANVIEN_LETAN',2);
+values ('NVLT02','user_nvletan_02','user_nvletan_02',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'196/18 To Hieu St., Hiep Tan Ward, Tan Phu','NHANVIEN_LETAN',2);
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values ('BS01','USER_BACSI_01','USER_BACSI_01',12800000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'683, ?p Dao C?, X? 1, Qu?n Ninh ,Kh?nh H?a','NHANVIEN_BACSI',3);
+values ('BS01','USER_BACSI_01','USER_BACSI_01',12800000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'107 Hoa Hung St., Ward 12, Dist. 10, TP HCM','NHANVIEN_BACSI',3);
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values ('BS02','USER_BACSI_02','USER_BACSI_02',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'01, Th?n H?n, Ph??ng Kh??ng, Huy?n T?ng ,Kon Tum','NHANVIEN_BACSI',4);
+values ('BS02','USER_BACSI_02','USER_BACSI_02',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'180-182 Ly Chinh Thang Street, Ward 9, District 3, TP HCM','NHANVIEN_BACSI',4);
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values ('NVTV01','USER_TAIVU_01','USER_TAIVU_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'8, ?p Khanh Ng?n, Ph??ng Nhi?n, Huy?n 95 ,Ninh Thu?n','NHANVIEN_TAIVU',5);
+values ('NVTV01','USER_TAIVU_01','USER_TAIVU_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'288R No Trang Long Street, Ward 12, Binh Thanh','NHANVIEN_TAIVU',5);
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
 values ('NVBT01','USER_BANTHUOC_01','USER_BANTHUOC_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'148 Ph? Khu?t Khoa M?n, X? Th?c, Huy?n Trinh Danh ,C? Mau','NHANVIEN_KETOAN',6);
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi)
-values ('NVKT01','USER_KETOAN_01','USER_KETOAN_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'45 Ph? Tr?, X? T??ng ??i, Qu?n Oanh H?c, C?n Th?','NHANVIEN_KETOAN',6);
+values ('NVKT01','USER_KETOAN_01','USER_KETOAN_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'297/5F Nguyen Xi, Ward 13, Binh Thanh','NHANVIEN_KETOAN',6);
 
 -- NHAN VIEN TEMP
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi)
@@ -378,25 +378,25 @@ values ('NVTIEPTAN02',TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
 
 --insert THUOC
 insert into THUOC (maThuoc,tenThuoc, donViThuoc, donGia, luuY)
-values (1,'TITANIUM DIOXIDE','Vi?n','16.200','Kh?ng t? ? ng?ng ho?c t?ng li?u');
+values (1,'TITANIUM DIOXIDE','Vien','16.200','Khong tu y ngung hoac tang lieu thuoc uong');
 insert into THUOC (maThuoc,tenThuoc, donViThuoc, donGia, luuY)
-values (2,'Clotrimazole 1%','Vi?n','5.200','Kh?ng t? ? ng?ng ho?c t?ng li?u');
+values (2,'Clotrimazole 1%','Vien','5.200','Khong tu y ngung hoac tang lieu thuoc uong');
 insert into THUOC (maThuoc,tenThuoc, donViThuoc, donGia, luuY)
-values (3,'Levofloxacin','Vi?n','5.260','Kh?ng t? ? ng?ng ho?c t?ng li?u');
+values (3,'Levofloxacin','Vien','5.260','Khong tu y ngung hoac tang lieu thuoc uong');
 insert into THUOC (maThuoc,tenThuoc, donViThuoc, donGia, luuY)
-values (4,'Povidone Iodine','Vi?n','134.400','Kh?ng t? ? ng?ng ho?c t?ng li?u');
+values (4,'Povidone Iodine','Vien','134.400','Khong tu y ngung hoac tang lieu thuoc uong');
 insert into THUOC (maThuoc,tenThuoc, donViThuoc, donGia, luuY)
-values (5,'DEXTROSE','Chai','16.200','Kh?ng t? ? ng?ng ho?c t?ng li?u');
+values (5,'DEXTROSE','Chai','16.200','Khong tu y ngung hoac tang lieu thuoc uong');
 insert into THUOC (maThuoc,tenThuoc, donViThuoc, donGia, luuY)
-values (6,'ENALAPRIL MALEATE','Vi?n','8.000','Kh?ng t? ? ng?ng ho?c t?ng li?u');
+values (6,'ENALAPRIL MALEATE','Vien','8.000','Khong tu y ngung hoac tang lieu thuoc uong');
 insert into THUOC (maThuoc,tenThuoc, donViThuoc, donGia, luuY)
-values (7,'Hydroxychloroquine Sulfate','Chai','6.700','Kh?ng t? ? ng?ng ho?c t?ng li?u');
+values (7,'Hydroxychloroquine Sulfate','Chai','6.700','Khong tu y ngung hoac tang lieu thuoc uong');
 insert into THUOC (maThuoc,tenThuoc, donViThuoc, donGia, luuY)
-values (8,'Imipramine Hydrochloride','Chai','26.500','Kh?ng t? ? ng?ng ho?c t?ng li?u');
+values (8,'Imipramine Hydrochloride','Chai','26.500','Khong tu y ngung hoac tang lieu thuoc uong');
 insert into THUOC (maThuoc,tenThuoc, donViThuoc, donGia, luuY)
-values (9,'Benzalkonium Chloride, Lidocaine Hydrochloride','Vi?n','39.000','Kh?ng t? ? ng?ng ho?c t?ng li?u');
+values (9,'Benzalkonium Chloride, Lidocaine Hydrochloride','Vien','39.000','Khong tu y ngung hoac tang lieu thuoc uong');
 insert into THUOC (maThuoc,tenThuoc, donViThuoc, donGia, luuY)
-values (10,'Hydroxyzine Pamoate','Vi?n','3.000','Kh?ng t? ? ng?ng ho?c t?ng li?u');
+values (10,'Hydroxyzine Pamoate','Vien','3.000','Khong tu y ngung hoac tang lieu thuoc uong');
 
 --insert Ho so benh nhan
 insert into HOSOBENHNHAN (maKB,ngayKB, maNV, tenBacSi, maBN, tinhTrangBanDau, ketLuanCuaBacSi)
@@ -411,65 +411,65 @@ insert into HOSOBENHNHAN (maKB,ngayKB, maNV, tenBacSi, maBN, tinhTrangBanDau, ke
 values (5,TO_DATE('12/01/2020', 'DD/MM/YYYY'),'BS02','USER_BACSI_02',5,'Ho 2','Viem phoi 2');
 --insert don thuoc
 insert into DONTHUOC (maKB,nhanVienPhuTrach)
-values (1,'Nguy?n V?n Ni');
+values (1,'Nguyen Van Ni');
 insert into DONTHUOC (maKB,nhanVienPhuTrach)
-values (2,'Nguy?n ??c Tr?nh');
+values (2,'Nguyen Duc Trinh');
 insert into DONTHUOC (maKB,nhanVienPhuTrach)
-values (3,'Nguy?n V?n L?m');
+values (3,'Vo Quoc Thai');
 insert into DONTHUOC (maKB,nhanVienPhuTrach)
-values (4,'Nguy?n V?n Ni');
+values (4,'Truong Hoang Phuc');
 insert into DONTHUOC (maKB,nhanVienPhuTrach)
-values (5,'Nguy?n V?n Ni');
+values (5,'Nguyen Hoang Viet');
 
 
 --insert don thuoc
 insert into CTDONTHUOC (maKB,maThuoc, soLuong, lieuDung, moTa)
-values (1,1,'4', 'lieudung', 'mota');
+values (1,1,'4', '2 vien', 'Ngay 2 vien sang chieu sau khi an');
 insert into CTDONTHUOC (maKB,maThuoc, soLuong, lieuDung, moTa)
-values (1,2,'12', 'lieudung', 'mota');
+values (1,2,'12', '30ml', 'Uong sang-trua-chieu truoc khi an');
 insert into CTDONTHUOC (maKB,maThuoc, soLuong, lieuDung, moTa)
-values (2,3,'5', 'lieudung', 'mota');
+values (2,3,'5', '2 vien', 'Uong luc 8 sang - 8 gio toi');
 insert into CTDONTHUOC (maKB,maThuoc, soLuong, lieuDung, moTa)
-values (3,4,'6', 'lieudung', 'mota');
+values (3,4,'6', '2 vien', 'Uong sang va chieu sau khi an');
 insert into CTDONTHUOC (maKB,maThuoc, soLuong, lieuDung, moTa)
-values (3,5,'6', 'lieudung', 'mota');
+values (3,5,'6', '4 vien', 'Sang chieu sau an');
 
 --insert dich vu
 insert into DICHVU (maDV, tenDV, donGia)
-values (1,'Si?u ?m 2D','150.000');
+values (1,'Sieu am 2D','150.000');
 insert into DICHVU (maDV, tenDV, donGia)
-values (2,'Si?u ?m 3D','250.000');
+values (2,'Sieu am 3D','250.000');
 insert into DICHVU (maDV, tenDV, donGia)
-values (3,'Kh?m, n?i soi Tai, M?i, H?ng','230.000');
+values (3,'Kham, noi soi Tai, M?i','230.000');
 insert into DICHVU (maDV, tenDV, donGia)
-values (4,'Kh?m s? sinh','150.000');
+values (4,'Kham so sinh','150.000');
 insert into DICHVU (maDV, tenDV, donGia)
-values (5,'Chi?u b?ng m?y plasmamend h? tr? ?i?u tr? v?t th??ng','240.000');
+values (5,'Chieu bang may plasmamend ho tro dieu tri vet thuong','240.000');
 
 --insert dich vu
 insert into HOSODICHVU (maKB, maDV, nguoiThucHien, ngayGio,ketLuan)
-values (1,2,'nguoi thuc hien', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'ketLuan');
+values (1,2,'Pham Minh Tuan', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'Bi sot xuat huyet');
 insert into HOSODICHVU (maKB, maDV, nguoiThucHien, ngayGio,ketLuan)
-values (2,1,'nguoi thuc hien', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'ketLuan');
+values (2,1,'Nguyen Phuong Vy', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'Bi viem hong');
 insert into HOSODICHVU (maKB, maDV, nguoiThucHien, ngayGio,ketLuan)
-values (3,3,'nguoi thuc hien', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'ketLuan');
+values (3,3,'Thong Quang Hao', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'Bi viem phoi');
 insert into HOSODICHVU (maKB, maDV, nguoiThucHien, ngayGio,ketLuan)
-values (4,3,'nguoi thuc hien', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'ketLuan');
+values (4,3,'Luong Ngoc Uoc', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'Bi viem tai');
 insert into HOSODICHVU (maKB, maDV, nguoiThucHien, ngayGio,ketLuan)
-values (5,4,'nguoi thuc hien', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'ketLuan');
+values (5,4,'Ton Quang Dung', TO_DATE('12/01/2020', 'DD/MM/YYYY'), 'bi gay chan');
 
 
 --insert Hoa Don
 insert into HOADON (soHD, maKB, ngayGio, nguoiPhuTrach,tongTien)
-values (1, 1, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'nguoiphutrach',0);
+values (1, 1, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'Tran Duc Huy',150000);
 insert into HOADON (soHD, maKB, ngayGio, nguoiPhuTrach,tongTien)
-values (2, 2, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'nguoiphutrach',0);
+values (2, 2, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'Do Duy Manh',150000);
 insert into HOADON (soHD, maKB, ngayGio, nguoiPhuTrach,tongTien)
-values (3, 3, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'nguoiphutrach',0);
+values (3, 3, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'Tran Dinh Trong',150000);
 insert into HOADON (soHD, maKB, ngayGio, nguoiPhuTrach,tongTien)
-values (4, 4, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'nguoiphutrach',0);
+values (4, 4, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'Pham Duc Huy',150000);
 insert into HOADON (soHD, maKB, ngayGio, nguoiPhuTrach,tongTien)
-values (5, 5, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'nguoiphutrach',0);
+values (5, 5, TO_DATE('12/01/2020', 'DD/MM/YYYY'),'Nguyen Quang Hai',0);
 
 
 --insert chi tiet hoa don
