@@ -8,6 +8,7 @@ const allRoles = config.oracle.system.all_roles;
 const userColPrivs = config.oracle.system.User_col_privs;
 const rolePriv = require("./../config/config.js").oracle.system.rolePriv;
 const usermodel = require("./user.model");
+const roleModel = require("./role.model");
 
 module.exports = {
   allUser() {
@@ -108,7 +109,7 @@ module.exports = {
 
     return db.load(sql);
   },
-  grantRolePrivilege(
+  async grantRolePrivilege(
     rolename,
     privilege,
     tableName,
@@ -116,18 +117,48 @@ module.exports = {
     columnValue
   ) {
     let sql = ``;
-    if (withGrantOption === "false") {
-      if (columnValue === "" || columnValue === undefined) {
-        sql = `GRANT ${privilege} ON ${tableName} TO ${rolename}`;
+    if (privilege === "select") {
+      if (withGrantOption === "false") {
+        if (columnValue === "" || columnValue === undefined) {
+          sql = `GRANT ${privilege} ON ${tableName} TO ${rolename}`;
+        } else {
+          // 1. INSERT TO VIEW FIRST
+          const check = await roleModel.insertRoleSelectColumnPriv(
+            rolename,
+            columnValue,
+            tableName,
+            withGrantOption
+          );
+
+          sql = `
+              BEGIN
+              proc_CreateViewRoleSelectColumnLevel('${rolename}','${columnValue}','${tableName}','${withGrantOption}');
+              END;
+              `;
+          console.log("alo");
+        }
       } else {
-        sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${rolename}`;
+        // cannot grant to a role with grant option
+        if (columnValue === "" || columnValue === undefined) {
+          sql = `GRANT ${privilege} ON ${tableName} TO ${rolename} `;
+        } else {
+          sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${rolename} `;
+        }
       }
     } else {
-      // cannot grant to a role with grant option
-      if (columnValue === "" || columnValue === undefined) {
-        sql = `GRANT ${privilege} ON ${tableName} TO ${rolename} `;
+      if (withGrantOption === "false") {
+        if (columnValue === "" || columnValue === undefined) {
+          sql = `GRANT ${privilege} ON ${tableName} TO ${rolename}`;
+        } else {
+          sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${rolename}`;
+        }
       } else {
-        sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${rolename} `;
+        // cannot grant to a role with grant option
+        if (columnValue === "" || columnValue === undefined) {
+          sql = `GRANT ${privilege} ON ${tableName} TO ${rolename} `;
+        } else {
+          sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${rolename} `;
+        }
       }
     }
     console.log(sql);
@@ -200,6 +231,10 @@ module.exports = {
 
   getViewUserSelectColumnLevel() {
     const sql = `SELECT * FROM VIEW_COLUMN_SELECT_USER`;
+    return db.load(sql);
+  },
+  getViewRoleSelectColumnLevel() {
+    const sql = `SELECT * FROM VIEW_COLUMN_SELECT_ROLE`;
     return db.load(sql);
   },
 };

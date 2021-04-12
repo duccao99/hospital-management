@@ -402,7 +402,7 @@ router.post("/grant-role-permission", authUser, async function (req, res) {
       data.rolename,
       data.privilege,
       data.tableName,
-      false,
+      "false",
       data.columnValue
     );
 
@@ -458,6 +458,19 @@ router.get(
       layout: "admin",
       authUser: req.session.authUser,
       userSelectColumnPrivs,
+    });
+  }
+);
+
+router.get(
+  "/role-select-column-privilege",
+  authUser,
+  async function (req, res) {
+    const roleSeletColumnPrivs = await adminModel.getViewRoleSelectColumnLevel();
+    res.render("vwAdmin/UserSelectColumnPriv", {
+      layout: "admin",
+      authUser: req.session.authUser,
+      roleSeletColumnPrivs,
     });
   }
 );

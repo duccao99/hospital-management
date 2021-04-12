@@ -1,3 +1,35 @@
+/*****************************
+--- A. Admin Test
+/*****************************/
+
+---------------------------------------------
+--- 1. Test Select grant with column level
+------------------------------------------------
+CONN U1/U1;
+SELECT * FROM DUCCAO_ADMIN.VW_USER_SELECT_COLUMN_LEVEL_U1_NGAYKB_HOSOBENHNHAN;
+
+CONN U1/U1;
+GRANT SELECT ON DUCCAO_ADMIN.VW_USER_SELECT_COLUMN_LEVEL_U1_NGAYKB_HOSOBENHNHAN TO U2;
+
+CONN U2/U2;
+SELECT * FROM DUCCAO_ADMIN.VW_USER_SELECT_COLUMN_LEVEL_U1_NGAYKB_HOSOBENHNHAN;
+
+---------------------------------------------
+--- 2. Test Select grant with role level
+------------------------------------------------
+GRANT R2 TO U2;
+
+CONN U2/U2;
+SET ROLE R2 IDENTIFIED BY R2;
+SELECT * FROM DUCCAO_ADMIN.VW_ROLE_SELECT_COLUMN_LEVEL_R2_MANV_HOSOBENHNHAN;
+
+
+
+
+
+
+
+
 
 
 -------------------------
@@ -25,4 +57,16 @@ select * from duccao_admin.hosobenhnhan where tenBacSi = 'USER_BACSI_01';
 
 SELECT * FROM DUCCAO_ADMIN.HOSOBENHNHAN WHERE MAKB IN 
 (SELECT MAKB FROM DUCCAO_ADMIN.HOSOBENHNHAN WHERE tenBacSi = upper('user_bacsi_01'));
+
+
+
+
+
+
+
+
+
+
+
+
 

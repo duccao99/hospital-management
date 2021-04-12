@@ -53,6 +53,17 @@ const roleModel = {
 
     return db.load(sql);
   },
+  insertRoleSelectColumnPriv(rolename, column, tbl, grantable) {
+    let viewName = `VW_ROLE_SELECT_COLUMN_LEVEL_${rolename}_${column}_${tbl}`;
+    viewName = viewName.toUpperCase();
+    const sql = `
+    BEGIN 
+    proc_insertViewUserSelectColumnLevel('${rolename}','SELECT','${column}','${tbl}','${grantable}','${viewName}');
+    END;
+    `;
+    console.log(sql);
+    return db.load(sql);
+  },
 };
 
 module.exports = roleModel;
