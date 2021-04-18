@@ -1,7 +1,7 @@
 
-----
+--------------------------------
 -- 2. Procedure Create A User
-------
+------------------------------
 CREATE OR REPLACE PROCEDURE createUser(
     pi_username IN NVARCHAR2,
     pi_password IN NVARCHAR2)
@@ -328,10 +328,6 @@ BEGIN
     EXECUTE IMMEDIATE (exec_commander);
 END proc_CreateViewRoleSelectColumnLevel;
 /
-
---CREATE OR REPLACE VIEW RTEMP
---AS
---SELECT MANV FROM NHANVIEN;
 
 
 
