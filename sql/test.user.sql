@@ -2,6 +2,9 @@
 --- A. Admin Test
 /*****************************/
 
+
+
+
 ---------------------------------------------
 --- 1. Test Select grant with column level
 ------------------------------------------------
@@ -22,6 +25,39 @@ GRANT R2 TO U2;
 CONN U2/U2;
 SET ROLE R2 IDENTIFIED BY R2;
 SELECT * FROM DUCCAO_ADMIN.VW_ROLE_SELECT_COLUMN_LEVEL_R2_MANV_HOSOBENHNHAN;
+
+
+
+
+---------------------------------------------
+--- 3. TEST FUNCTION ENCRYPT VARCHAR2 
+------------------------------------------------
+
+SET SERVEROUTPUT ON SIZE 30000;
+DECLARE
+RET RAW(128);
+BEGIN
+    RET:=func_encrypt_varchar2('US01','US01');
+    DBMS_OUTPUT.PUT_LINE(RET);
+END;
+/
+
+---------------------------------------------
+--- 4.  TEST FUNCTION DECRYPT VARCHAR2
+------------------------------------------------
+SET SERVEROUTPUT ON SIZE 30000;
+DECLARE 
+encrypted_raw RAW(2048);
+DECRYPTED_STRING VARCHAR2(2048);  
+  KEY_STRING VARCHAR2(200) := 'KEY-USING-TO-Encrypt-&-Decrypt';
+
+BEGIN
+    encrypted_raw:=func_encrypt_varchar2('US01',key_string);
+   
+ DECRYPTED_STRING:= func_decrypt_varchar2(encrypted_raw,key_string);
+  dbms_output.put_line(DECRYPTED_STRING);
+END;
+/
 
 
 

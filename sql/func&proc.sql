@@ -1,4 +1,7 @@
 
+
+
+
 --------------------------------
 -- 2. Procedure Create A User
 ------------------------------
@@ -330,6 +333,75 @@ END proc_CreateViewRoleSelectColumnLevel;
 /
 
 
+----------------------------------------------------------------------------------
+-- 12. Function Encrypt varchar2
+-- Input: Data to encrypt Type VARCHAR2, key string Type VARCHAR2
+-- Output: Encrypted Data Type Raw
+--------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION func_encrypt_varchar2(input_data IN VARCHAR2,input_key_string IN VARCHAR2)
+RETURN RAW
+IS
+input_varchar2 VARCHAR2(200) :=input_data;
+raw_input RAW(128):= utl_raw.cast_to_raw(convert(input_varchar2,'AL32UTF8','US7ASCII'));
+
+key_string VARCHAR2(200):=input_key_string;
+raw_key RAW(128):=utl_raw.cast_to_raw(convert(key_string,'AL32UTF8','US7ASCII'));
+
+encrypted_raw RAW(128);
+
+
+BEGIN
+    dbms_output.put_line('>------------- Begin Encrypt ----------------');
+    
+    encrypted_raw := dbms_crypto.encrypt(
+        src => raw_input,
+        typ => dbms_crypto.DES_CBC_PKCS5,
+        key => raw_key
+    );
+    
+        dbms_output.put_line('>------------- End Encrypt ----------------');
+        
+        RETURN encrypted_raw;
+END func_encrypt_varchar2;
+/
+
+
+
+----------------------------------------------------------------------------------
+-- 13. Function Decrypt varchar2
+-- Input: Data was encrypted need to Decrypt Type RAW, key string Type VARCHAR2
+-- Output: Decrypted Data Type Raw
+--------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION func_decrypt_varchar2 (input_encrypted_raw IN RAW, input_key_string IN VARCHAR2)
+RETURN VARCHAR2
+IS
+   ENCRYPTED_RAW RAW(2048):=input_encrypted_raw;
+   
+KEY_STRING VARCHAR2(200) := input_key_string;
+RAW_KEY RAW(128):=
+UTL_RAW.CAST_TO_RAW(CONVERT(KEY_STRING,'AL32UTF8','US7ASCII'));
+    
+  DECRYPTED_RAW RAW(2048);
+DECRYPTED_STRING VARCHAR2(2048);
+
+BEGIN 
+           dbms_output.put_line('>------------- Begin Decrypt ----------------');
+
+            DECRYPTED_RAW :=DBMS_CRYPTO.DECRYPT(
+                SRC =>ENCRYPTED_RAW,
+                TYP => DBMS_CRYPTO.DES_CBC_PKCS5,
+                KEY => RAW_KEY
+            ); 
+ 
+             DECRYPTED_STRING := CONVERT(UTL_RAW.CAST_TO_VARCHAR2(DECRYPTED_RAW),'US7ASCII','AL32UTF8');
+
+            dbms_output.put_line('>------------- End Decrypt ----------------');
+            
+            RETURN DECRYPTED_STRING;
+
+
+END func_decrypt_varchar2;
+/
 
 
 
