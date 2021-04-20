@@ -60,7 +60,17 @@ END;
 /
 
 
+---------------------------------------------
+--- 5.  TEST FUNCTION MAT KHAU NHANVIEN
+------------------------------------------------
 
+declare 
+ret varchar2(200);
+begin
+ret:= func_decrypt_matkhau_nhanvien('AD092236E69A5BD3572C79FFF90DA52B');
+dbms_output.put_line('>ret = '||ret);
+end;
+/
 
 
 
@@ -162,7 +172,16 @@ CONN USER_BACSI_01/USER_BACSI_01;
 SET ROLE ROLE_DOCTOR IDENTIFIED  BY ROLE_DOCTOR;
 SELECT * FROM DUCCAO_ADMIN.VIEW_VPD_DOCTOR_CTDONTHUOC;
 
+----------------------------
+-- More policies for Doctor Role
+----------------------------
 
+-- mp1. Doctor see their infor only
+CONN USER_BACSI_01/USER_BACSI_01;
+SET ROLE ROLE_DOCTOR IDENTIFIED  BY ROLE_DOCTOR;
+SELECT * FROM DUCCAO_ADMIN.VW_DOCTOR_SEE_THEIR_INFO;
+
+SELECT * FROM DUCCAO_ADMIN.nhanvien;
 
 
 

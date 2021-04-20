@@ -116,7 +116,7 @@ end;
 -- Table
 --
 CREATE TABLE CHAMCONG (
-     maNV  nchar(200),
+     maNV  VARCHAR2(200),
     thang date,
     soNgayCong int,
     PRIMARY KEY(maNV,thang)
@@ -124,30 +124,30 @@ CREATE TABLE CHAMCONG (
 
 CREATE TABLE BENHNHAN (
     maBN int,
-    hoTen nchar(200),
+    hoTen VARCHAR2(200),
     ngaySinh date,
-    diaChi nchar(200),
-    sdt nchar(200),
+    diaChi VARCHAR2(200),
+    sdt VARCHAR2(200),
     PRIMARY KEY(maBN)
 );
 
 CREATE TABLE HOSOBENHNHAN (
     maKB int,
     ngayKB date,
-     maNV  nchar(200),
+     maNV  VARCHAR2(200),
     TENBACSI VARCHAR2(200),
     maBN int,
-    tinhTrangBanDau nchar(200),
-    ketLuanCuaBacSi nchar(200),
+    tinhTrangBanDau VARCHAR2(200),
+    ketLuanCuaBacSi VARCHAR2(200),
     PRIMARY KEY(maKB)
 );
 
 CREATE TABLE HOSODICHVU (
     maKB int,
     maDV int,
-    nguoiThucHien nchar(200),
+    nguoiThucHien VARCHAR2(200),
     ngayGio date,
-    ketLuan nchar(200),
+    ketLuan VARCHAR2(200),
     PRIMARY KEY(maKB,maDV)
 );
 
@@ -155,39 +155,39 @@ CREATE TABLE HOADON (
     soHD int,
     maKB int,
     ngayGio date,
-    nguoiPhuTrach nchar(200),
-    tongTien nchar(200),
+    nguoiPhuTrach VARCHAR2(200),
+    tongTien VARCHAR2(200),
     PRIMARY KEY(soHD)
 );
 
 CREATE TABLE NHANVIEN (
-    maNV  nchar(200),
-    hoTen nchar(200),
-    matKhau nchar(200),
-    luong nchar(200),
+    maNV  VARCHAR2(200),
+    hoTen VARCHAR2(200),
+    matKhau varchar2(200),
+    luong VARCHAR2(200),
     ngaySinh date,
-    diaChi nchar(200),
-    vaiTro nchar(200),
+    diaChi VARCHAR2(200),
+    vaiTro VARCHAR2(200),
     maDonVi int,
     PRIMARY KEY(maNV)
 );
 
 CREATE TABLE DONVI (
      maDonVi int,
-     tenDonVi nchar(200),
+     tenDonVi VARCHAR2(200),
     PRIMARY KEY(maDonVi)
 );
 
 CREATE TABLE DONTHUOC (
      maKB int,
-     nhanVienPhuTrach nchar(200),
+     nhanVienPhuTrach VARCHAR2(200),
     PRIMARY KEY(maKB)
 );
 
 CREATE TABLE DICHVU (
      maDV int,
-     tenDV nchar(200),
-     donGia nchar(200),
+     tenDV VARCHAR2(200),
+     donGia VARCHAR2(200),
     PRIMARY KEY(maDV)
 );
 
@@ -200,18 +200,18 @@ CREATE TABLE CTHOADON (
 CREATE TABLE CTDONTHUOC (
     maKB int,
     maThuoc int,
-    soLuong nchar(200),
-    lieuDung nchar(200),
-    moTa nchar(200),
+    soLuong VARCHAR2(200),
+    lieuDung VARCHAR2(200),
+    moTa VARCHAR2(200),
     PRIMARY KEY(maKB,maThuoc)
 );
 
 CREATE TABLE THUOC (
     maThuoc int,
-    tenThuoc nchar(200),
-    donViThuoc nchar(200),
-    donGia nchar(200),
-    luuY nchar(200),
+    tenThuoc VARCHAR2(200),
+    donViThuoc VARCHAR2(200),
+    donGia VARCHAR2(200),
+    luuY VARCHAR2(200),
     PRIMARY KEY(maThuoc)
 );
 
@@ -657,21 +657,8 @@ LEFT JOIN HOSOBENHNHAN
 ON HOSOBENHNHAN.MAKB = CTDONTHUOC.MAKB;
 
 
-GRANT SELECT ON VIEW_VPD_DOCTOR_CTDONTHUOC TO ROLE_DOCTOR;
--- ADD POLICY
-BEGIN
-    DBMS_RLS.ADD_POLICY (
-        OBJECT_SCHEMA =>'DUCCAO_ADMIN',
-        OBJECT_NAME => 'VIEW_VPD_DOCTOR_CTDONTHUOC',
-        POLICY_NAME => 'POLICY_VPD_DOCTOR_CTDONTHUOC',
-        POLICY_FUNCTION =>'FUNC_VPD_DOCTOR_CTDONTHUOC',
-        STATEMENT_TYPES =>'SELECT, INSERT, UPDATE',
-        UPDATE_CHECK =>TRUE );
-END;
-/
 
 
-SELECT * FROM CTDONTHUOC;
 
 CREATE ROLE ROLE_DOCTOR IDENTIFIED BY ROLE_DOCTOR;
 GRANT CREATE SESSION TO ROLE_DOCTOR;
@@ -702,11 +689,71 @@ GRANT ROLE_DOCTOR TO USER_BACSI_01;
 GRANT ROLE_DOCTOR TO USER_BACSI_02;
 
 
+GRANT SELECT ON VIEW_VPD_DOCTOR_CTDONTHUOC TO ROLE_DOCTOR;
+-- ADD POLICY
+BEGIN
+    DBMS_RLS.ADD_POLICY (
+        OBJECT_SCHEMA =>'DUCCAO_ADMIN',
+        OBJECT_NAME => 'VIEW_VPD_DOCTOR_CTDONTHUOC',
+        POLICY_NAME => 'POLICY_VPD_DOCTOR_CTDONTHUOC',
+        POLICY_FUNCTION =>'FUNC_VPD_DOCTOR_CTDONTHUOC',
+        STATEMENT_TYPES =>'SELECT, INSERT, UPDATE',
+        UPDATE_CHECK =>TRUE );
+END;
+/
 
 
 
 
 
 
+/*****************
+C. Encrypt 
+*****************/
+
+
+-- Thuc thi ma hoa - matkhau - nhanvien
+SET SERVEROUTPUT ON SIZE 30000;
+EXEC proc_encrypt_matkhau_nhanvien;
+
+-- More policy
+-- Doctor see their infor only
+CREATE OR REPLACE VIEW VW_DOCTOR_SEE_THEIR_INFO
+AS
+SELECT DUCCAO_ADMIN.NHANVIEN.MANV, DUCCAO_ADMIN.NHANVIEN.HOTEN, 
+func_decrypt_matkhau_nhanvien(DUCCAO_ADMIN.NHANVIEN.MATKHAU) AS MATKHAU ,
+DUCCAO_ADMIN.NHANVIEN.LUONG, DUCCAO_ADMIN.NHANVIEN.NGAYSINH, DUCCAO_ADMIN.NHANVIEN.DIACHI,
+DUCCAO_ADMIN.NHANVIEN.VAITRO, DUCCAO_ADMIN.NHANVIEN.MADONVI
+FROM DUCCAO_ADMIN.NHANVIEN;
+
+-- Function VPD DOCTOR_SEE_THEIR_INFO
+CREATE OR REPLACE FUNCTION FUNC_VPD_DOCTOR_SEE_THEIR_INFO_ONLY(
+    v_schema IN VARCHAR2,
+    v_object IN VARCHAR2
+)
+RETURN VARCHAR2
+IS 
+predicate VARCHAR2(2048);
+curr VARCHAR2(2048);
+BEGIN
+    predicate:= 'HOTEN = ''' ||sys_context('USERENV','SESSION_USER') || '''';
+    RETURN predicate;
+END FUNC_VPD_DOCTOR_SEE_THEIR_INFO_ONLY;
+/
+
+-- Add policy VPD
+BEGIN
+    dbms_rls.add_policy(
+    object_schema    => 'DUCCAO_ADMIN', 
+    object_name      => 'VW_DOCTOR_SEE_THEIR_INFO',
+    policy_name      => 'POLICY_VPD_DOCTOR_SEE_THEIR_INFO_ONLY',
+    policy_function  => 'FUNC_VPD_DOCTOR_SEE_THEIR_INFO_ONLY',
+    statement_types => 'SELECT',
+    update_check => TRUE);    
+END;
+/
+
+
+GRANT SELECT ON DUCCAO_ADMIN.VW_DOCTOR_SEE_THEIR_INFO TO ROLE_DOCTOR;
 
 

@@ -405,4 +405,106 @@ END func_decrypt_varchar2;
 
 
 
+----------------------------------------------------------------------------------
+-- 14. Procedure Encrypt matKhau on nhanvien
+-- Input: 
+-- Output: Encrypt all matKhau Field on table nhanvien
+--------------------------------------------------------------------------------
+CREATE OR REPLACE PROCEDURE proc_encrypt_matkhau_nhanvien
+IS
+encrypted_raw RAW(2048);
+
+executer VARCHAR2(2048);
+
+len_tbl_nhanvien INT;
+
+CURSOR c_ma_nhanvien IS SELECT MANV FROM DUCCAO_ADMIN.NHANVIEN;
+CURSOR c_matkhau IS SELECT MATKHAU FROM DUCCAO_ADMIN.NHANVIEN;
+
+TYPE arr_ma_nhanvien IS VARRAY(100) OF DUCCAO_ADMIN.NHANVIEN.MANV%TYPE;
+TYPE arr_matkhau IS VARRAY(100) OF DUCCAO_ADMIN.NHANVIEN.MATKHAU%TYPE;
+
+ma_nhanviens arr_ma_nhanvien:=arr_ma_nhanvien();
+matkhaus arr_matkhau:=arr_matkhau();
+
+counter INT :=0;
+ii INT :=0;
+
+input_data VARCHAR2(2048);
+key_string VARCHAR2(2048):='KEY-TO-ENCRYPT-AND-DECRYPT-MATKHAU-NHANVIEN';
+
+BEGIN
+      dbms_output.put_line('>----Begin encrypt matkhau - nhanvien ----');
+    -- Init array ma nhanvien
+    FOR maa IN c_ma_nhanvien LOOP
+    counter:=counter+1;
+    ma_nhanviens.EXTEND;
+    ma_nhanviens(counter):=maa.manv;
+    END LOOP;
+    
+    counter:=0;
+    
+    -- Init array mat khau
+    FOR mk IN c_matkhau LOOP
+    counter:=counter+1;
+    matkhaus.EXTEND;
+    matkhaus(counter):=mk.matkhau;
+    END LOOP;
+    
+    
+    -- Encrypt
+    executer:='SELECT COUNT(*) FROM DUCCAO_ADMIN.NHANVIEN ';
+    EXECUTE IMMEDIATE(executer) INTO len_tbl_nhanvien;
+    
+    FOR II IN 1..len_tbl_nhanvien LOOP
+    
+    input_data:=matkhaus(ii);
+    encrypted_raw:=func_encrypt_varchar2(input_data,key_string);
+
+    
+    executer:='UPDATE DUCCAO_ADMIN.NHANVIEN SET MATKHAU = '''
+    || utl_raw.cast_to_varchar2(utl_raw.cast_to_raw(encrypted_raw)) 
+    || ''' WHERE MANV = '''|| ma_nhanviens(ii)||'''';
+    
+--        dbms_output.put_line('executer  : '||executer);
+
+    EXECUTE IMMEDIATE (executer);
+    
+    dbms_output.put_line('encrypted string : '||encrypted_raw);
+    END LOOP;
+    
+    dbms_output.put_line('>----End encrypt matkhau - nhanvien raw----');
+    
+END proc_encrypt_matkhau_nhanvien;
+/
+
+
+
+
+
+----------------------------------------------------------------------------------
+-- 15. Procedure Decrypt matKhau on nhanvien
+-- Input:  matkhau encrypted Type raw
+-- Output: Encrypt all matKhau Field on table nhanvien
+--------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION func_decrypt_matkhau_nhanvien(
+    matkhau_encrypted_raw IN RAW
+)
+RETURN VARCHAR2
+IS
+encrypted_raw RAW(2048):=matkhau_encrypted_raw;
+executer VARCHAR2(2048);
+key_string VARCHAR2(2048):='KEY-TO-ENCRYPT-AND-DECRYPT-MATKHAU-NHANVIEN';
+
+ret VARCHAR2(2048);
+BEGIN
+      dbms_output.put_line('>----Begin Decrypt matkhau - nhanvien ----');
+      ret:=func_decrypt_varchar2(encrypted_raw,key_string);
+    dbms_output.put_line('>----End Decrypt matkhau - nhanvien raw----');
+    
+    RETURN ret;
+END func_decrypt_matkhau_nhanvien;
+/
+
+
 

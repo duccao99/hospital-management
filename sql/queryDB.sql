@@ -608,10 +608,11 @@ SELECT MANV FROM NHANVIEN;
 
 SELECT * FROM VIEW_COLUMN_SELECT_ROLE;
 
-
+--- TESTING Encrypt View
+--- TESTING Encrypt View
 create table testing(
-    username nvarchar2(200),
-    passwrod nvarchar2(200)
+    username varchar2(200),
+    pass varchar2(200)
 );
 
 INSERT INTO testing VALUES ('US01','US01');
@@ -628,16 +629,80 @@ GRANT SELECT ON VW_USER_TEST TO USER_TEST;
 
 CONN USER_TEST/USER_TEST;
 SELECT * FROM DUCCAO_ADMIN.VW_USER_TEST;
+----
+----
+CREATE OR REPLACE PROCEDURE encrypt_pw
+IS 
+len_vw_user_test INT;
+executer VARCHAR2(2048);
 
+ii INT;
+
+CURSOR c_username IS SELECT username FROM DUCCAO_ADMIN.VW_USER_TEST;
+CURSOR c_pass IS SELECT pass FROM DUCCAO_ADMIN.VW_USER_TEST;
+
+TYPE arr_pass IS VARRAY(100) OF DUCCAO_ADMIN.VW_USER_TEST.pass%TYPE;
+TYPE arr_username IS VARRAY(100) OF DUCCAO_ADMIN.VW_USER_TEST.USERNAME%TYPE;
+
+passwords arr_pass:=arr_pass();
+usernames arr_username:=arr_username();
+
+
+counter INT:=0;
+input_data VARCHAR2(2048);
+encrypted_raw RAW(2048);
+key_string VARCHAR2(2048):='KEY-USING-TO-Encrypt-&-Decrypt';
+BEGIN
+
+  -- init array usname
+    FOR usname IN c_username LOOP
+    counter:=counter+1;
+    usernames.EXTEND;
+    usernames(counter):=usname.username; 
+    END LOOP;
+
+    counter:=0;
+    -- init array passwrod
+    FOR pw IN c_pass LOOP
+    counter:=counter+1;
+    passwords.EXTEND;
+    passwords(counter):=pw.pass; 
+    END LOOP;
+    
+    -- encrypt
+    executer :='SELECT COUNT(*) FROM DUCCAO_ADMIN.VW_USER_TEST ';
+    EXECUTE IMMEDIATE (executer) INTO len_vw_user_test;
+    
+    FOR II IN 1..len_vw_user_test LOOP
+    input_data:=passwords(ii);
+    
+    encrypted_raw:= func_encrypt_varchar2(input_data,key_string);
+    
+--    update DUCCAO_ADMIN.VW_USER_TEST SET pass = 'pass1'
+--    where username = 'US01';
+    
+    executer:='UPDATE DUCCAO_ADMIN.VW_USER_TEST SET pass = '
+    || rawtohex(UTL_RAW.CAST_TO_RAW(encrypted_raw))
+    || 'WHERE username = ''' ||usernames(ii)|| '''';
+
+        EXECUTE IMMEDIATE (executer) ;
+        dbms_output.put_line('Ma hoa thu: '|| ii || ' la : '|| encrypted_raw);  
+
+
+    END LOOP;
+    
+    
+END encrypt_pw;
+/
+
+SET SERVEROUTPUT ON SIZE 30000;
+exec encrypt_pw;
+
+------------------
 
 
 select * from dba_users where username ='DUCCAO_ADMIN';
-
-
-
-
-
-
+select * from all_policies;
 
 
 
