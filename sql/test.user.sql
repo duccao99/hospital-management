@@ -186,6 +186,84 @@ SELECT * FROM DUCCAO_ADMIN.nhanvien;
 
 
 
+-----------------------------
+-- 3. TEST MANAGEMENT DEPARTMENT ROLE
+--------------------------
+-- Quan ly tai nguyen & nhan su
+-- Can see every column except the others's salary
+CONN USER_TAINGUYEN_NHANSU_01/USER_TAINGUYEN_NHANSU_01;
+SET ROLE ROLE_DEP_QL_TG_NS IDENTIFIED  BY ROLE_DEP_QL_TG_NS;
+SELECT * FROM DUCCAO_ADMIN.VW_DEP_QL_TAINGUYEN_NHANSU;
+
+-- Insert nhan vien into table NHANVIEN except luong column can't be insert
+CONN USER_TAINGUYEN_NHANSU_01/USER_TAINGUYEN_NHANSU_01;
+SET ROLE ROLE_DEP_QL_TG_NS IDENTIFIED  BY ROLE_DEP_QL_TG_NS;
+insert into DUCCAO_ADMIN.NHANVIEN (maNV, hoTen,matKhau, ngaySinh, diaChi, vaiTro, maDonVi) 
+values ('testnv01','testnv01','testnv01',TO_DATE('12/01/1960', 'DD/MM/YYYY'),'174 Tran Quang Khai, Thu Duc Ward, Dist.1,TP HCM','NHANVIEN_QUANLY_TAINGUYEN_NHANSU',1);
+
+-- Delete nhan vien recode in table NHANVIEN
+Delete from NHANVIEN where manv = 'testnv01';
+
+-- Insert nhan vien into table NHANVIEN except luong column can't be insert
+CONN USER_TAINGUYEN_NHANSU_01/USER_TAINGUYEN_NHANSU_01;
+SET ROLE ROLE_DEP_QL_TG_NS IDENTIFIED  BY ROLE_DEP_QL_TG_NS;
+insert into DUCCAO_ADMIN.NHANVIEN (maNV, hoTen,matKhau, ngaySinh, diaChi, vaiTro, maDonVi) 
+values ('testnv01','testnv01','testnv01',TO_DATE('12/01/1960', 'DD/MM/YYYY'),'174 Tran Quang Khai, Thu Duc Ward, Dist.1,TP HCM','NHANVIEN_QUANLY_TAINGUYEN_NHANSU',1);
+
+-- Quan ly tai vu --
+--------------------
+-- Insert nhan vien quan ly tai vu into table NHANVIEN
+insert into NHANVIEN (maNV, hoTen,matKhau,luong, ngaySinh, diaChi, vaiTro, maDonVi) 
+values ('testnvqltaivu01','USER_QUANLY_TAIVU_01','USER_QUANLY_TAIVU_01',10000000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'174 Tran Quang Khai, Thu Duc Ward, Dist.1,TP HCM','USER_QUANLY_TAIVU_01',4);
+
+-- Can see every table except the column of others's salary and the password of others's user
+-- !! this works only when user connect to database properly without usign conn
+--CONN USER_QUANLY_TAIVU_01/USER_QUANLY_TAIVU_01;
+ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE; 
+SET ROLE ROLE_DEP_QL_TAIVU IDENTIFIED  BY ROLE_DEP_QL_TAIVU;
+SELECT * FROM DUCCAO_ADMIN.BENHNHAN;
+SELECT * FROM DUCCAO_ADMIN.CHAMCONG;
+SELECT * FROM DUCCAO_ADMIN.CTDONTHUOC;
+SELECT * FROM DUCCAO_ADMIN.CTHOADON;
+SELECT * FROM DUCCAO_ADMIN.DICHVU;
+SELECT * FROM DUCCAO_ADMIN.DONTHUOC;
+SELECT * FROM DUCCAO_ADMIN.DONVI;
+SELECT * FROM DUCCAO_ADMIN.HOADON;
+SELECT * FROM DUCCAO_ADMIN.HOSOBENHNHAN;
+SELECT * FROM DUCCAO_ADMIN.HOSODICHVU;
+SELECT * FROM DUCCAO_ADMIN.THUOC;
+
+--view to show only password and salary of current logged in user
+show user;
+SELECT * FROM DUCCAO_ADMIN.VW_NHANVIEN_DEP_QL_TAIVU;
+
+--Cap nhat cac truong sau
+select * from DUCCAO_ADMIN.DICHVU;
+update DUCCAO_ADMIN.DICHVU set DONGIA = 151000 where madv = 1;
+
+select * from DUCCAO_ADMIN.HOADON;
+update DUCCAO_ADMIN.HOADON set TONGTIEN = 151000 where sohd = 5;
+
+select * from DUCCAO_ADMIN.THUOC;
+update DUCCAO_ADMIN.THUOC set DONGIA = 25000 where mathuoc = 1;
+
+
+-- Quan ly chuyen mon --
+------------------------
+select * from nhanvien;
+-- insert du lieu mau de test
+insert into NHANVIEN (maNV, hoTen,matKhau,luong, ngaySinh, diaChi, vaiTro, maDonVi) 
+values ('testnvqlcm01','USER_QUANLY_CHUYENMON_01','USER_QUANLY_CHUYENMON_01',28000000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'174 Tran Quang Khai, Thu Duc Ward, Dist.1,TP HCM','NHANVIEN_QUANLY_TAINGUYEN_NHANSU',1);
+
+--Khong xem duoc luong va mat khau dang nhap cua nhan vien khac trong bang nhan vien
+ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
+SET ROLE ROLE_DEP_QL_CHUYENMON IDENTIFIED  BY ROLE_DEP_QL_CHUYENMON;
+show user;
+select * from DUCCAO_ADMIN.VW_NHANVIEN_DEP_QL_CHUYENMON;
+
+--Khong duoc them xoa sua nhung thong tin khac(Bang khac)
+--test
+UPDATE DUCCAO_ADMIN.NHANVIEN SET luong = 0;
 
 
 
