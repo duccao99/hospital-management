@@ -250,4 +250,9 @@ module.exports = {
 
     return ret[0];
   },
+  grantRoleToUserWithGrantOption(rolename, username) {
+    const sql = `GRANT ${rolename} TO ${username} WITH ADMIN OPTION`;
+    console.log(sql);
+    return db.load(sql);
+  },
 };
