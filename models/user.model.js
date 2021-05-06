@@ -67,6 +67,16 @@ const userModel = {
     console.log(status);
     return status;
   },
+
+  decryptUserPassword(password) {
+    const sql = `
+    BEGIN
+    func_decrypt_matkhau_nhanvien(${password});
+    END;
+    `;
+    const ret = db.load(sql);
+    return ret;
+  },
 };
 
 module.exports = userModel;

@@ -27,7 +27,7 @@ router.get("/sign-in", function (req, res) {
 
 router.post("/sign-in", async function (req, res) {
   const data = req.body;
-
+  console.log("data user login: ", data);
   let listUsers = await adminModel.getListUsers(data.username, data.password);
 
   listUsers = listUsers.map((u) => {
@@ -40,6 +40,10 @@ router.post("/sign-in", async function (req, res) {
 
   for (let u of listUsers) {
     if (u.username === data.username) {
+      console.log(u.username, data.username);
+      const password = u.password;
+      const decrypted_pass = await userModel.decryptUserPassword(password);
+      console.log(decrypted_pass);
       if (u.password !== data.password) {
         return res.status(401).json({ error_message: "Unauthorize!" });
       } else {

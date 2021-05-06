@@ -237,4 +237,15 @@ module.exports = {
     const sql = `SELECT * FROM VIEW_COLUMN_SELECT_ROLE`;
     return db.load(sql);
   },
+  async decryptUserPassword(password) {
+    const sql = `
+
+   SELECT func_decrypt_matkhau_nhanvien('${password}') AS DECRYPTED_PASS FROM DUAL
+   
+    `;
+    console.log(sql);
+    const ret = await db.load(sql);
+
+    return ret[0];
+  },
 };
