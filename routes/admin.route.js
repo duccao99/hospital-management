@@ -390,6 +390,8 @@ router.post("/grant-user-permission", authUser, async function (req, res) {
       data.columnValue
     );
 
+    console.log(status);
+
     res.json({ message: "success!" });
   } catch (e) {
     console.error(e);

@@ -1,6 +1,7 @@
 const db = require("../utils/db");
 const config = require("./../config/config");
 const oracledb = require("oracledb");
+const randomstring = require("randomstring");
 
 const userModel = {
   updateUser(username, newPassword) {
@@ -64,7 +65,19 @@ const userModel = {
   async createUser(username, identify) {
     const sql = `BEGIN createUser('${username}','${identify}'); END;`;
     const status = await db.load(sql);
+
+    const manv = randomstring.generate(10);
+    const sql2 = `
+    BEGIN
+    proc_insertCreatedUserIntoDB('${manv}','${username}','${identify}');
+    END;
+    `;
+
+    const statuInsertDB = await db.load(sql2);
+
     console.log(status);
+    console.log(statuInsertDB);
+
     return status;
   },
 

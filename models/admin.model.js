@@ -65,6 +65,8 @@ module.exports = {
             withGrantOption
           );
 
+          console.log("check:", check);
+
           sql = `
           BEGIN
           proc_CreateViewUserSelectColumnLevel('${username}','${columnValue}','${tableName}','${withGrantOption}');
@@ -230,11 +232,11 @@ module.exports = {
   },
 
   getViewUserSelectColumnLevel() {
-    const sql = `SELECT * FROM VIEW_COLUMN_SELECT_USER`;
+    const sql = `SELECT * FROM DUCCAO_ADMIN.VIEW_COLUMN_SELECT_USER`;
     return db.load(sql);
   },
   getViewRoleSelectColumnLevel() {
-    const sql = `SELECT * FROM VIEW_COLUMN_SELECT_ROLE`;
+    const sql = `SELECT * FROM DUCCAO_ADMIN.VIEW_COLUMN_SELECT_ROLE`;
     return db.load(sql);
   },
   async decryptUserPassword(password) {

@@ -1,5 +1,33 @@
 
+--------------------------------
+-- 1. Procedure Create A User then insert it into Database
+------------------------------
+CREATE OR REPLACE PROCEDURE proc_insertCreatedUserIntoDB(
+    ip_manv  IN NVARCHAR2,
+    ip_username IN NVARCHAR2,
+    ip_password IN NVARCHAR2
+)
+IS
+exec_commander NVARCHAR2(1000);
+manv NVARCHAR2(1000):=ip_manv;
+username NVARCHAR2(1000):=ip_username;
+pass NVARCHAR2(1000):=ip_password;
 
+
+BEGIN
+      exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT" = FALSE ';
+    EXECUTE IMMEDIATE (exec_commander);
+    
+insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
+values (manv,username,pass,6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'174 Tran Quang Khai, Thu Duc Ward, Dist.1,TP HCM','NHANVIEN_ADMIN',1);
+
+  
+   exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT" = FALSE ';
+    EXECUTE IMMEDIATE (exec_commander);
+  COMMIT;
+
+END proc_insertCreatedUserIntoDB;
+/
 
 
 --------------------------------
@@ -258,7 +286,7 @@ END;
 ----------------------------------------------------------------------------
 -- 10. Procedure Insert into VIEW_COLUMN_SELECT_ROLE (TABLE SAVE INFO)
 -------------------------------------------------------------------------------
-CREATE OR REPLACE PROCEDURE proc_insertViewUserSelectColumnLevel(
+CREATE OR REPLACE PROCEDURE proc_insertViewRoleSelectColumnLevel(
        P_ROLENAME IN VIEW_COLUMN_SELECT_ROLE.ROLENAME%TYPE,
        p_PRIV IN VIEW_COLUMN_SELECT_ROLE.PRIV%TYPE,
        p_COLUMN_NAME IN VIEW_COLUMN_SELECT_ROLE.COLUMN_NAME%TYPE,
