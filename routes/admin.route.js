@@ -27,7 +27,7 @@ router.get("/sign-in", function (req, res) {
 
 router.post("/sign-in", async function (req, res) {
   const data = req.body;
-
+  console.log("data user login: ", data);
   let listUsers = await adminModel.getListUsers(data.username, data.password);
 
   listUsers = listUsers.map((u) => {
@@ -40,24 +40,105 @@ router.post("/sign-in", async function (req, res) {
 
   for (let u of listUsers) {
     if (u.username === data.username) {
-      if (u.password !== data.password) {
+      console.log(u.username, data.username);
+      const password = u.password;
+      const check_password = await userModel.decryptUserPassword(password);
+      console.log(check_password);
+      if (check_password.DECRYPTED_PASS !== data.password) {
         return res.status(401).json({ error_message: "Unauthorize!" });
       } else {
         console.log(u);
-        if (u.role === "NHANVIEN_ADMIN") {
-          req.session.authUser = {
-            username: data.username,
-            password: data.password,
-            role: u.role,
-          };
-          return res.json({ href: "/dashboard" });
-        } else {
-          req.session.authUser = {
-            username: data.username,
-            password: data.password,
-            role: u.role,
-          };
-          return res.json({ href: "/home" });
+
+        switch (u.role) {
+          case "NHANVIEN_ADMIN":
+            req.session.authUser = {
+              username: data.username,
+              password: data.password,
+              role: u.role,
+            };
+            return res.json({ href: "/dashboard" });
+          case "NHANVIEN_QUANLY_TAINGUYEN_NHANSU":
+            req.session.authUser = {
+              username: data.username,
+              password: data.password,
+              role: u.role,
+            };
+            return res.json({
+              href: "/home/user/role/human-resource-management",
+            });
+          case "NHANVIEN_TIEPTAN":
+            req.session.authUser = {
+              username: data.username,
+              password: data.password,
+              role: u.role,
+            };
+            return res.json({ href: "/home/user/role/reception" });
+          case "NHANVIEN_QUANLY_CHUYENMON":
+            req.session.authUser = {
+              username: data.username,
+              password: data.password,
+              role: u.role,
+            };
+            return res.json({
+              href: "/home/user/role/professional-management",
+            });
+
+          case "NHANVIEN_TAIVU":
+            req.session.authUser = {
+              username: data.username,
+              password: data.password,
+              role: u.role,
+            };
+            return res.json({
+              href: "/home/user/role/accounting-room",
+            });
+
+          case "NHANVIEN_KETOAN":
+            req.session.authUser = {
+              username: data.username,
+              password: data.password,
+              role: u.role,
+            };
+            return res.json({
+              href: "/home/user/role/accounting-department",
+            });
+
+          case "NHANVIEN_QUANLY_TAIVU":
+            req.session.authUser = {
+              username: data.username,
+              password: data.password,
+              role: u.role,
+            };
+            return res.json({
+              href: "/home/user/role/accounting-management",
+            });
+
+          case "NHANVIEN_LETAN":
+            req.session.authUser = {
+              username: data.username,
+              password: data.password,
+              role: u.role,
+            };
+            return res.json({
+              href: "/home/user/role/reception",
+            });
+
+          case "NHANVIEN_BACSI":
+            req.session.authUser = {
+              username: data.username,
+              password: data.password,
+              role: u.role,
+            };
+            return res.json({
+              href: "/home/user/role/doctor",
+            });
+          default:
+            req.session.authUser = {
+              username: data.username,
+              password: data.password,
+              role: u.role,
+            };
+            return res.json({ href: "/home" });
         }
       }
     }

@@ -418,8 +418,8 @@ executer VARCHAR2(2048);
 
 len_tbl_nhanvien INT;
 
-CURSOR c_ma_nhanvien IS SELECT MANV FROM DUCCAO_ADMIN.NHANVIEN;
-CURSOR c_matkhau IS SELECT MATKHAU FROM DUCCAO_ADMIN.NHANVIEN;
+CURSOR c_ma_nhanvien IS SELECT MANV FROM DUCCAO_ADMIN.NHANVIEN  ORDER BY MANV;
+CURSOR c_matkhau IS SELECT MATKHAU FROM DUCCAO_ADMIN.NHANVIEN ORDER BY MANV;
 
 TYPE arr_ma_nhanvien IS VARRAY(100) OF DUCCAO_ADMIN.NHANVIEN.MANV%TYPE;
 TYPE arr_matkhau IS VARRAY(100) OF DUCCAO_ADMIN.NHANVIEN.MATKHAU%TYPE;
@@ -431,7 +431,7 @@ counter INT :=0;
 ii INT :=0;
 
 input_data VARCHAR2(2048);
-key_string VARCHAR2(2048):='KEY-TO-ENCRYPT-AND-DECRYPT-MATKHAU-NHANVIEN';
+key_string VARCHAR2(2048):='SECRETKEY_ORACLE_ERROR';
 
 BEGIN
       dbms_output.put_line('>----Begin encrypt matkhau - nhanvien ----');
@@ -459,6 +459,8 @@ BEGIN
     FOR II IN 1..len_tbl_nhanvien LOOP
     
     input_data:=matkhaus(ii);
+    dbms_output.put_line(input_data);
+    dbms_output.put_line(ma_nhanviens(ii)); 
     encrypted_raw:=func_encrypt_varchar2(input_data,key_string);
 
     
@@ -483,7 +485,7 @@ END proc_encrypt_matkhau_nhanvien;
 
 
 ----------------------------------------------------------------------------------
--- 15. Procedure Decrypt matKhau on nhanvien
+-- 15. FUNCTION Decrypt matKhau on nhanvien
 -- Input:  matkhau encrypted Type raw
 -- Output: Encrypt all matKhau Field on table nhanvien
 --------------------------------------------------------------------------------
@@ -494,7 +496,7 @@ RETURN VARCHAR2
 IS
 encrypted_raw RAW(2048):=matkhau_encrypted_raw;
 executer VARCHAR2(2048);
-key_string VARCHAR2(2048):='KEY-TO-ENCRYPT-AND-DECRYPT-MATKHAU-NHANVIEN';
+key_string VARCHAR2(2048):='SECRETKEY_ORACLE_ERROR';
 
 ret VARCHAR2(2048);
 BEGIN
@@ -505,6 +507,9 @@ BEGIN
     RETURN ret;
 END func_decrypt_matkhau_nhanvien;
 /
+
+
+
 
 
 
