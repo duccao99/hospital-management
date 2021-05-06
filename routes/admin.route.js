@@ -550,7 +550,7 @@ router.get(
   authUser,
   async function (req, res) {
     const roleSeletColumnPrivs = await adminModel.getViewRoleSelectColumnLevel();
-    res.render("vwAdmin/UserSelectColumnPriv", {
+    res.render("vwAdmin/RoleSelectColumnPriv", {
       layout: "admin",
       authUser: req.session.authUser,
       roleSeletColumnPrivs,
