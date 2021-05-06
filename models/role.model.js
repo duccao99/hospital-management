@@ -58,7 +58,7 @@ const roleModel = {
     viewName = viewName.toUpperCase();
     const sql = `
     BEGIN 
-    proc_insertViewUserSelectColumnLevel('${rolename}','SELECT','${column}','${tbl}','${grantable}','${viewName}');
+    proc_insertViewRoleSelectColumnLevel('${rolename}','SELECT','${column}','${tbl}','${grantable}','${viewName}');
     END;
     `;
     console.log(sql);

@@ -6,7 +6,7 @@
 
                 <thead class="thead-light">
                     <tr>
-                        <th class="border-0">USER NAME</th>
+                        <th class="border-0">ROLENAME</th>
                         <th class="border-0">PRIVILEGE</th>
                         <th class="border-0">COLUMN </th>
                         <th class="border-0">TABLE </th>
@@ -17,11 +17,11 @@
                 <tbody>
                     <!-- Item -->
 
-                    {{#each userSelectColumnPrivs }}
+                    {{#each roleSeletColumnPrivs }}
                     <tr>
 
                         <td class="border-0">
-                            {{ this.USERNAME}}
+                            {{ this.ROLENAME}}
                         </td>
                         <td class="border-0">
                             {{ this.PRIV}}

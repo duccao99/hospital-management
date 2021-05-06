@@ -67,12 +67,41 @@ END;
 declare 
 ret varchar2(200);
 begin
-ret:= func_decrypt_matkhau_nhanvien('AD092236E69A5BD3572C79FFF90DA52B');
+ret:= func_decrypt_matkhau_nhanvien('4365B7A93625D45A89BDFD4CAFCD14D2');
 dbms_output.put_line('>ret = '||ret);
 end;
 /
 
 
+---------------------------------------------
+--- 6.  TEST proc_insertViewUserSelectColumnLevel
+------------------------------------------------
+execute proc_CreateViewUserSelectColumnLevel('U1','MADONVI','DONVI','false');
+execute proc_insertViewUserSelectColumnLevel('U1','SELECT','MADONVI','DONVI','false','VW_USER_SELECT_COLUMN_LEVEL_U1_MADONVI_DONVI');
+---------------------------------------------
+--- 7.  TEST user grant select column level with grant option 
+------------------------------------------------
+conn u1/u1;
+select * from duccao_admin.VW_USER_SELECT_COLUMN_LEVEL_U1_TENDONVI_DONVI;
+grant select on duccao_admin.VW_USER_SELECT_COLUMN_LEVEL_U1_TENDONVI_DONVI to u2;
+
+
+conn u2/u2;
+select * from duccao_admin.VW_USER_SELECT_COLUMN_LEVEL_U1_TENDONVI_DONVI;
+
+---------------------------------------------
+--- 8.  TEST user grant UPDATE column level with grant option 
+------------------------------------------------
+conn u1/u1;
+grant update(manv) on DUCCAO_ADMIN.HOSOBENHNHAN to u2;
+
+conn u1/u1;
+UPDATE DUCCAO_ADMIN.HOSOBENHNHAN SET MANV ='BS02' WHERE MANV='BS01';
+
+SELECT * FROM DUCCAO_ADMIN.HOSOBENHNHAN;
+SELECT * FROM DBA_USER_PRIVS;
+
+select * from DUCCAO_ADMIN.nhanvien;
 
 /*****************************
 --- B. Users In System Test
