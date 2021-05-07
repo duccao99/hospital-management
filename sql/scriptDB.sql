@@ -349,6 +349,7 @@ values (7,'ADMIN');
 --insert NHANVIEN
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
 values ('NVQL01','user_nvquanli_01','user_nvquanli_01',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'174 Tran Quang Khai, Thu Duc Ward, Dist.1,TP HCM','NHANVIEN_QUANLY_TAINGUYEN_NHANSU',1);
+
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
 values ('NVQL02','user_nvquanli_02','user_nvquanli_02',6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'49 Dong Khoi Street,  Ben Nghe Ward, District 1, Tp HCM','NHANVIEN_QUANLY_TAIVU',1);
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi) 

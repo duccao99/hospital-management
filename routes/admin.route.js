@@ -527,9 +527,22 @@ router.post("/grant-role-to-user", authUser, async function (req, res) {
   const data = {
     rolename: req.body.rolename,
     username: req.body.username,
+    withGrantOption: req.body.withGrantOption,
   };
-  const status = await adminModel.grantRoleToUser(data.rolename, data.username);
-  res.json({ message: "Granted!" });
+  console.log(data);
+  if (data.withGrantOption !== undefined && data.withGrantOption === "true") {
+    const status = await adminModel.grantRoleToUserWithGrantOption(
+      data.rolename,
+      data.username
+    );
+    return res.json({ message: "Granted!" });
+  } else {
+    const status = await adminModel.grantRoleToUser(
+      data.rolename,
+      data.username
+    );
+    return res.json({ message: "Granted!" });
+  }
 });
 
 router.get(
@@ -550,7 +563,7 @@ router.get(
   authUser,
   async function (req, res) {
     const roleSeletColumnPrivs = await adminModel.getViewRoleSelectColumnLevel();
-    res.render("vwAdmin/UserSelectColumnPriv", {
+    res.render("vwAdmin/RoleSelectColumnPriv", {
       layout: "admin",
       authUser: req.session.authUser,
       roleSeletColumnPrivs,
