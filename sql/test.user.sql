@@ -67,7 +67,7 @@ END;
 declare 
 ret varchar2(200);
 begin
-ret:= func_decrypt_matkhau_nhanvien('4365B7A93625D45A89BDFD4CAFCD14D2');
+ret:= func_decrypt_matkhau_nhanvien('bfc4f3fb2297026b');
 dbms_output.put_line('>ret = '||ret);
 end;
 /
@@ -90,7 +90,7 @@ conn u2/u2;
 select * from duccao_admin.VW_USER_SELECT_COLUMN_LEVEL_U1_TENDONVI_DONVI;
 
 ---------------------------------------------
---- 8.  TEST user grant UPDATE column level with grant option 
+--- 8.  TEST user grant UPDATE column level with grant option  - not working
 ------------------------------------------------
 conn u1/u1;
 grant update(manv) on DUCCAO_ADMIN.HOSOBENHNHAN to u2;
@@ -98,7 +98,16 @@ grant update(manv) on DUCCAO_ADMIN.HOSOBENHNHAN to u2;
 conn u1/u1;
 UPDATE DUCCAO_ADMIN.HOSOBENHNHAN SET MANV ='BS02' WHERE MANV='BS01';
 
-SELECT * FROM DUCCAO_ADMIN.HOSOBENHNHAN;
+
+---------------------------------------------
+--- 9.  TEST user delete privilege - granted is successfully but not working 
+------------------------------------------------
+conn u1/u1;
+delete from DUCCAO_ADMIN.HOADON where sohd=1;
+
+
+
+SELECT * FROM DUCCAO_ADMIN.HOADON;
 SELECT * FROM DBA_USER_PRIVS;
 
 select * from DUCCAO_ADMIN.nhanvien;

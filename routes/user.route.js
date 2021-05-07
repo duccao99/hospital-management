@@ -8,10 +8,13 @@ const { oracle } = require("../config/config");
 const { route } = require("./admin.route");
 
 //create user
-router.get("/create-user", authUser, function (req, res) {
+router.get("/create-user", authUser, async function (req, res) {
+  const allVaiTros = await userModel.getAllVaiTroInSystem();
+
   res.render("vwUser/create", {
     layout: "admin",
     authUser: req.session.authUser,
+    allVaiTros,
   });
 });
 
@@ -19,9 +22,14 @@ router.post("/create-user", async function (req, res) {
   const data = {
     username: req.body.username,
     identify: req.body.identify,
+    type: req.body.type,
   };
-  console.log(data);
-  const status = await userModel.createUser(data.username, data.identify);
+
+  const status = await userModel.createUser(
+    data.username,
+    data.identify,
+    data.type
+  );
 
   res.status(200).json({ message: "Create user success!" });
 });
