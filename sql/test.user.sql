@@ -67,7 +67,7 @@ END;
 declare 
 ret varchar2(200);
 begin
-ret:= func_decrypt_matkhau_nhanvien('4365B7A93625D45A89BDFD4CAFCD14D2');
+ret:= func_decrypt_matkhau_nhanvien('bfc4f3fb2297026b');
 dbms_output.put_line('>ret = '||ret);
 end;
 /

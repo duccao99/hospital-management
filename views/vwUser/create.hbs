@@ -13,7 +13,17 @@
             <input type="text" class="form-control" id="identify">
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="form-group">
+            <label for="txtVaiTro">Type of user</label>
+            <select class="form-control" name="txtVaiTro" id="txtVaiTro">
+                {{#each allVaiTros }}
+                <option value="{{this.VAITRO}}">{{this.VAITRO}}</option>
+
+                {{/each}}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary my-3">Submit</button>
     </form>
 
 
@@ -27,13 +37,14 @@
         const fmCreateUser = $("#fmCreateUser");
         const username = $("#username");
         const identify = $("#identify");
-
+        const txtVaiTro = $("#txtVaiTro");
         fmCreateUser.on("submit", function (e) {
             e.preventDefault();
 
             const data = {
                 username: username.val(),
-                identify: identify.val()
+                identify: identify.val(),
+                type: txtVaiTro.val()
             }
 
 

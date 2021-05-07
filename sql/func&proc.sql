@@ -1,11 +1,12 @@
 
---------------------------------
+-----------------------------------------------------------------
 -- 1. Procedure Create A User then insert it into Database
-------------------------------
+---------------------------------------------------------------
 CREATE OR REPLACE PROCEDURE proc_insertCreatedUserIntoDB(
     ip_manv  IN NVARCHAR2,
     ip_username IN NVARCHAR2,
-    ip_password IN NVARCHAR2
+    ip_password IN NVARCHAR2,
+    ip_type IN NVARCHAR2
 )
 IS
 exec_commander NVARCHAR2(1000);
@@ -14,12 +15,13 @@ username NVARCHAR2(1000):=ip_username;
 pass NVARCHAR2(1000):=ip_password;
 
 
+
 BEGIN
-      exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT" = FALSE ';
+      exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE ';
     EXECUTE IMMEDIATE (exec_commander);
     
 insert into NHANVIEN (maNV, hoTen,matKhau, luong, ngaySinh, diaChi, vaiTro, maDonVi) 
-values (manv,username,pass,6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'174 Tran Quang Khai, Thu Duc Ward, Dist.1,TP HCM','NHANVIEN_ADMIN',1);
+values (manv,username,pass,6912000,TO_DATE('12/01/1960', 'DD/MM/YYYY'),'174 Tran Quang Khai, Thu Duc Ward, Dist.1,TP HCM',ip_type,1);
 
   
    exec_commander:='ALTER SESSION SET "_ORACLE_SCRIPT" = FALSE ';
@@ -42,6 +44,11 @@ IS
     li_count INTEGER :=0;
     lv_stmt VARCHAR(1000);
     BEGIN
+    
+        lv_stmt:='ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE ';
+    EXECUTE IMMEDIATE (lv_stmt);
+    
+    
     SELECT COUNT (1)
     INTO li_count
     FROM all_users
@@ -54,8 +61,7 @@ IS
         EXECUTE IMMEDIATE (lv_stmt);      
     END IF;
     
-    lv_stmt:='ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE ';
-    EXECUTE IMMEDIATE (lv_stmt);
+
     
    -- lv_stmt:='CREATE USER ' || user_name|| ' IDENTIFIED BY ' || pwd|| ' DEFAULT TABLESPACE SYSTEM ';
     lv_stmt:='CREATE USER ' || user_name|| ' IDENTIFIED BY ' || pwd;
@@ -535,6 +541,9 @@ BEGIN
     RETURN ret;
 END func_decrypt_matkhau_nhanvien;
 /
+
+
+
 
 
 

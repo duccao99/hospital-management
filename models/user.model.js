@@ -62,14 +62,24 @@ const userModel = {
 
     return db.load(sql);
   },
-  async createUser(username, identify) {
+  async createUser(username, identify, type) {
     const sql = `BEGIN createUser('${username}','${identify}'); END;`;
     const status = await db.load(sql);
 
+    // encrypt pass
+    const encrypt_sql = `select func_encrypt_varchar2('${identify}','SECRETKEY_ORACLE_ERROR')
+     as encrypted_pass from dual
+    `;
+    const encrypted_pass = await db.load(encrypt_sql);
+    console.log(encrypted_pass);
+    console.log(encrypted_pass[0].ENCRYPTED_PASS.toString("hex"));
+    const insert_pass = encrypted_pass[0].ENCRYPTED_PASS.toString("hex");
+
+    // insert into nhanvien
     const manv = randomstring.generate(10);
     const sql2 = `
     BEGIN
-    proc_insertCreatedUserIntoDB('${manv}','${username}','${identify}');
+    proc_insertCreatedUserIntoDB('${manv}','${username}','${insert_pass}','${type}');
     END;
     `;
 
@@ -89,6 +99,20 @@ const userModel = {
     `;
     const ret = db.load(sql);
     return ret;
+  },
+  getAllVaiTroInSystem() {
+    const sql = `SELECT DISTINCT NV.VAITRO  FROM DUCCAO_ADMIN.NHANVIEN NV `;
+    return db.load(sql);
+  },
+  encrypAllUserPassword() {
+    const sql = `
+    begin
+    proc_encrypt_matkhau_nhanvien;
+   end;
+   /
+   
+    `;
+    return db.load(sql);
   },
 };
 
