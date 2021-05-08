@@ -112,6 +112,8 @@ SELECT * FROM DBA_USER_PRIVS;
 
 select * from DUCCAO_ADMIN.nhanvien;
 
+
+
 /*****************************
 --- B. Users In System Test
 /*****************************/
@@ -302,6 +304,18 @@ select * from DUCCAO_ADMIN.VW_NHANVIEN_DEP_QL_CHUYENMON;
 --Khong duoc them xoa sua nhung thong tin khac(Bang khac)
 --test
 UPDATE DUCCAO_ADMIN.NHANVIEN SET luong = 0;
+
+
+
+
+-----------------------------------------------------------------
+-- 4. TEST ACCOUNTING DEPARMENT - procedure calculate salary
+--------------------------------------------------------------
+EXEC PROC_CAL_SALARY('BS02','12-JAN-60','1112321322');
+
+CONN USER_KETOAN_01/USER_KETOAN_01;
+SET ROLE  ROLE_DEP_KETOAN IDENTIFIED BY ROLE_DEP_KETOAN;
+EXEC   DUCCAO_ADMIN.PROC_CAL_SALARY('BS02','12-Jan-60','7912000');
 
 
 

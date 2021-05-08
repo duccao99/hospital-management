@@ -116,9 +116,11 @@ end;
 -- Table
 --
 CREATE TABLE CHAMCONG (
-     maNV  VARCHAR2(200),
+    maNV  VARCHAR2(200),
     thang date,
     soNgayCong int,
+    phuCap VARCHAR2(2000),
+    luong  VARCHAR2(2000),
     PRIMARY KEY(maNV,thang)
 );
 
@@ -387,14 +389,18 @@ values ('NVADMIN','DUCCAO_ADMIN','DUCCAO_ADMIN',6912000,TO_DATE('12/01/1960', 'D
 
 
 --insert cham cong
-insert into CHAMCONG (maNV, thang, soNgayCong)
-values ('BS01',TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
-insert into CHAMCONG (maNV, thang, soNgayCong)
-values ('BS02',TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
-insert into CHAMCONG (maNV, thang, soNgayCong)
-values ('NVTIEPTAN01',TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
-insert into CHAMCONG (maNV, thang, soNgayCong)
-values ('NVTIEPTAN02',TO_DATE('12/01/1960', 'DD/MM/YYYY'),5);
+insert into CHAMCONG (maNV, thang, soNgayCong,phuCap,luong)
+values ('BS01',TO_DATE('12/01/1960', 'DD/MM/YYYY'),25,'1000000','');
+insert into CHAMCONG (maNV, thang, soNgayCong,phuCap,luong)
+values ('BS01',TO_DATE('12/01/2019', 'DD/MM/YYYY'),30,'1000000','');
+insert into CHAMCONG (maNV, thang, soNgayCong,phuCap,luong)
+values ('BS01',TO_DATE('12/01/2020', 'DD/MM/YYYY'),30,'1000000','');
+insert into CHAMCONG (maNV, thang, soNgayCong,phuCap,luong)
+values ('BS02',TO_DATE('12/01/1960', 'DD/MM/YYYY'),30,'1000000','');
+insert into CHAMCONG (maNV, thang, soNgayCong,phuCap,luong)
+values ('NVTIEPTAN01',TO_DATE('12/01/1960', 'DD/MM/YYYY'),30,'1000000','');
+insert into CHAMCONG (maNV, thang, soNgayCong,phuCap,luong)
+values ('NVTIEPTAN02',TO_DATE('12/01/1960', 'DD/MM/YYYY'),25,'1000000','');
 
 --insert THUOC
 insert into THUOC (maThuoc,tenThuoc, donViThuoc, donGia, luuY)
@@ -879,5 +885,22 @@ END;
 
 
 GRANT SELECT ON DUCCAO_ADMIN.VW_DOCTOR_SEE_THEIR_INFO TO ROLE_DOCTOR;
+
+
+---------------------------------------------------
+--  ketoan:  View info_salary using for ketoan calculate salary
+---- -----------------------------------------------
+
+CREATE OR REPLACE VIEW VIEW_CAL_SALARY AS
+SELECT CC.MANV, NV.HOTEN,CC.THANG, CC.SONGAYCONG, CC.PHUCAP, CC.LUONG,  NV.LUONG AS LUONG_COBAN
+FROM DUCCAO_ADMIN.CHAMCONG CC 
+INNER JOIN DUCCAO_ADMIN.NHANVIEN NV
+ON NV.MANV  =CC.MANV;
+
+
+GRANT SELECT, UPDATE, INSERT ON VIEW_CAL_SALARY TO ROLE_DEP_KETOAN;
+
+-- CALCULATE SALARY
+GRANT EXECUTE ON DUCCAO_ADMIN.PROC_CAL_SALARY TO ROLE_DEP_KETOAN;
 
 

@@ -28,6 +28,38 @@ async function run(sql) {
     //
 
     const result = await connection.execute(sql);
+
+    return result.rows;
+  } catch (err) {
+    console.log("error in oracledb: ", err);
+    throw new Error(err);
+  } finally {
+    if (connection) {
+      try {
+        await connection.close();
+      } catch (err) {
+        console.log("connection to oracle error: ", err);
+        throw new Error(err);
+      }
+    }
+  }
+}
+
+async function userRun(sql, username, password) {
+  let connection;
+
+  try {
+    connection = await oracledb.getConnection({
+      host: "localhost",
+      port: 1521,
+      user: username,
+      password: password,
+      database: "HospitalManagement",
+      privilege: require("oracledb").DEFAULT,
+    });
+
+    const result = await connection.execute(sql);
+
     return result.rows;
   } catch (err) {
     console.log("error in oracledb: ", err);
@@ -84,7 +116,7 @@ async function runProcedure(procName, para1, para2) {
       // },
       //   para2: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 40 },
     });
-    console.log(result);
+
     return result.rows;
   } catch (err) {
     console.log("error in oracledb: ", err);
@@ -105,6 +137,11 @@ module.exports = {
   load: (sql) => {
     return run(sql);
   },
+
+  userLoad(sql, username, password) {
+    return userRun(sql, username, password);
+  },
+
   loadProc: (procName, para1, para2) => {
     return runProcedure(procName, para1, para2);
   },

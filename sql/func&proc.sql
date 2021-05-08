@@ -544,9 +544,50 @@ END func_decrypt_matkhau_nhanvien;
 
 
 
+----------------------------------------------------------------------------------
+-- 16. Procedure: Calculation salary for nhanvien
+-- Input:  
+-- Output: table nhanvien updated 
+--------------------------------------------------------------------------------
+CREATE OR REPLACE PROCEDURE PROC_CAL_SALARY (
+IP_MANV IN VARCHAR2,
+IP_THANG IN VARCHAR2,
+IP_LUONG IN VARCHAR2
+)
+IS
+EXECUTER NVARCHAR2(2000);
+PARA_MANV VARCHAR2(2000):=IP_MANV;
+PARA_THANG VARCHAR2(2000):=IP_THANG;
+PARA_LUONG VARCHAR2(2000):=IP_LUONG;
+
+BEGIN
+
+EXECUTER:='ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE  ';
+EXECUTE IMMEDIATE (EXECUTER);
 
 
+UPDATE DUCCAO_ADMIN.VIEW_CAL_SALARY SET LUONG =PARA_LUONG 
+WHERE DUCCAO_ADMIN.VIEW_CAL_SALARY.MANV=PARA_MANV 
+AND THANG = PARA_THANG;
 
 
+EXECUTER:='ALTER SESSION SET "_ORACLE_SCRIPT" = FALSE   ';
+EXECUTE IMMEDIATE (EXECUTER);
 
+END PROC_CAL_SALARY;
+/
+
+
+----------------------------------------------------------------------------------
+-- 17. Procedure: Set role in procedure
+-- Input:  
+-- Output: role setted
+--------------------------------------------------------------------------------
+CREATE OR REPLACE  PROCEDURE PROC_SET_DEP_KETOAN_ROLE
+AUTHID CURRENT_USER
+AS
+BEGIN
+    DBMS_SESSION.SET_ROLE('ROLE_DEP_KETOAN IDENTIFIED BY ROLE_DEP_KETOAN');
+END;
+/
 

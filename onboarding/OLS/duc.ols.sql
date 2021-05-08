@@ -8,6 +8,22 @@ CREATE TABLE announcements (MESSAGE VARCHAR2(4000));
 CONN LBACSYS/LBACSYS;
 EXECUTE SA_SYSDBA.CREATE_POLICY('ACCESS_NHANVIEN','OLS_NHANVIEN');
 
+select * from dba_users where username='LBACSYS';
+SELECT VALUE FROM V$OPTION WHERE PARAMETER = 'Oracle Label Security';
+select name, status, description from dba_ols_status;
+
+EXEC LBACSYS.CONFIGURE_OLS;
+
+
+CONN LBACSYS/LBACSYS;
+BEGIN
+ SA_SYSDBA.CREATE_POLICY (
+  policy_name      => 'emp_ols_pol',
+  column_name      => 'ols_col',
+  default_options  => 'read_control, update_control');
+END;
+/
+
 CONN LBACSYS/LBACSYS;
 BEGIN
 sa_sysdba.create_policy
@@ -20,10 +36,14 @@ EXEC LBACSYS.CONFIGURE_OLS;
  -- This procedure enables it.
 EXEC LBACSYS.OLS_ENFORCEMENT.ENABLE_OLS;
 
+SELECT * FROM DBA_OLS_STATUS WHERE NAME = 'OLS_CONFIGURE_STATUS';
+
+
+grant all privileges to LBACSYS;
+grant LBAC_DBA to LBACSYS;
+
 shutdown immediate;
 startup;
-
-SELECT * FROM DBA_OLS_STATUS WHERE NAME = 'OLS_CONFIGURE_STATUS';
 
 
 
