@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { authUser } = require("../middlewares/user.mdw");
 const ketoanModel = require("../models/ketoan.model");
+const receptionModel = require("../models/reception.model");
 const ccModel = require("./../models/chamcong.model");
 
 router.get("/", function (req, res) {
@@ -23,11 +24,19 @@ router.get("/home/user/role/human-resource-management", function (req, res) {
   });
 });
 
-router.get("/home/user/role/reception", function (req, res) {
-  console.log("Home ????");
+router.get("/home/user/role/reception", authUser, async function (req, res) {
+  const curr_user_info = req.session.authUser;
+
+  //user_tieptan_01
+  const reception_data = await receptionModel.get_view_reception(
+    curr_user_info
+  );
 
   res.render("vwHome/Reception", {
-    layout: false,
+    layout: "home.hbs",
+    home_title: "Reception Department",
+    curr_user_info: curr_user_info,
+    reception_data: reception_data,
   });
 });
 
@@ -72,6 +81,7 @@ router.get("/home/user/role/accounting-management", function (req, res) {
     layout: false,
   });
 });
+
 router.get("/home/user/role/doctor", function (req, res) {
   console.log("Home ????");
 

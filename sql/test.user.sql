@@ -322,9 +322,28 @@ SET ROLE  ROLE_DEP_KETOAN IDENTIFIED BY ROLE_DEP_KETOAN;
 EXEC   DUCCAO_ADMIN.PROC_CAL_SALARY('BS02','12-Jan-60','7912000');
 
 -----------------------------------------------------------------
--- 5. TEST ACCOUNTING DEPARMENT - procedure reset salary
+--  procedure reset salary
 --------------------------------------------------------------
 exec PROC_SET_SALARY_TO_0('','','');
 
+
+-----------------------------------------------------------------
+-- 5. TEST RECEPTION ROLE 
+--------------------------------------------------------------
+
+-- WATCH HSBN RECORDS
+CONN USER_TEPTAN_01/USER_TEPTAN_01;
+SET  ROLE ROLE_DEP_LETAN IDENTIFIED BY ROLE_DEP_LETAN;
+SELECT * FROM DUCCAO_ADMIN.HOSOBENHNHAN;
+
+-- WATCH BN RECORDS
+CONN USER_TEPTAN_01/USER_TEPTAN_01;
+SET  ROLE ROLE_DEP_LETAN IDENTIFIED BY ROLE_DEP_LETAN;
+SELECT * FROM DUCCAO_ADMIN.BENHNHAN;
+
+-- VIEW  
+CONN USER_TIEPTAN_01/USER_TIEPTAN_01;
+SET  ROLE ROLE_DEP_LETAN IDENTIFIED BY ROLE_DEP_LETAN;
+SELECT * FROM DUCCAO_ADMIN.VIEW_RECEPTION;
 
 
