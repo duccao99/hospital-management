@@ -34,12 +34,13 @@
 <script>
     const btn_cal_salary = $("#btn_cal_salary");
     btn_cal_salary.on("click", function (e) {
-        e.preventDefault();
+
         $.ajax({
             url: "/user/cal-salary",
-            method: "get",
+            method: "post",
             success: ret => {
                 console.log(ret);
+                location.href = ret.href;
 
             },
             error: er => {

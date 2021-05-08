@@ -202,7 +202,7 @@ router.patch("/revoke-user-permission", authUser, async function (req, res) {
   }
 });
 
-router.get("/user/cal-salary", async function (req, res) {
+router.post("/user/cal-salary", async function (req, res) {
   // always declare current user info
   const accounting_department_info = req.session.authUser;
   const salary_infos = await ketoanModel.calSalaryInfo(
@@ -221,16 +221,18 @@ router.get("/user/cal-salary", async function (req, res) {
       .toUpperCase();
 
     // update salary
-    const update_salary_ret = await ketoanModel.updateSalary(
+    const update_salary_ret = await ketoanModel.updateSalaryTry3(
       salary_infos[i].MANV,
       thang,
       salary.toString(),
       accounting_department_info
     );
+
+    console.log(update_salary_ret);
   }
 
   res.json({
-    message: "cal salary success!",
+    href: "/home/user/role/accounting-department",
   });
 });
 
