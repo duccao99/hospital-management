@@ -11,7 +11,6 @@ require("express-async-errors");
 server.engine(
   "hbs",
   expressHandleBars({
-    defaultLayout: "",
     extname: ".hbs",
     layoutsDir: "views/_layouts",
     partialsDir: "views/_partials",

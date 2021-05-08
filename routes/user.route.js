@@ -4,9 +4,9 @@ const router = express.Router();
 const userModel = require("../models/user.model");
 const oracleModel = require("./../models/oracle.model.js");
 const { authUser } = require("./../middlewares/user.mdw");
-const { oracle } = require("../config/config");
-const { route } = require("./admin.route");
-
+const ccModel = require("./../models/chamcong.model.js");
+const ketoanModel = require("./../models/ketoan.model");
+const moment = require("moment");
 //create user
 router.get("/create-user", authUser, async function (req, res) {
   const allVaiTros = await userModel.getAllVaiTroInSystem();
@@ -200,6 +200,40 @@ router.patch("/revoke-user-permission", authUser, async function (req, res) {
     console.error(e);
     return res.status(500).json({ message: e });
   }
+});
+
+router.post("/user/cal-salary", async function (req, res) {
+  // always declare current user info
+  const accounting_department_info = req.session.authUser;
+  const salary_infos = await ketoanModel.calSalaryInfo(
+    accounting_department_info
+  );
+
+  for (let i = 0; i < salary_infos.length; ++i) {
+    // calculation
+    const salary =
+      ((Number(salary_infos[i].PHUCAP) + Number(salary_infos[i].LUONG_COBAN)) *
+        Number(salary_infos[i].SONGAYCONG)) /
+      30;
+
+    const thang = moment(salary_infos[i].THANG)
+      .format("DD-MMM-YY")
+      .toUpperCase();
+
+    // update salary
+    const update_salary_ret = await ketoanModel.updateSalaryTry3(
+      salary_infos[i].MANV,
+      thang,
+      salary.toString(),
+      accounting_department_info
+    );
+
+    console.log(update_salary_ret);
+  }
+
+  res.json({
+    href: "/home/user/role/accounting-department",
+  });
 });
 
 module.exports = router;

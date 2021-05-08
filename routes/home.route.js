@@ -1,4 +1,7 @@
 const router = require("express").Router();
+const { authUser } = require("../middlewares/user.mdw");
+const ketoanModel = require("../models/ketoan.model");
+const ccModel = require("./../models/chamcong.model");
 
 router.get("/", function (req, res) {
   res.redirect("/sign-in");
@@ -44,13 +47,23 @@ router.get("/home/user/role/accounting-room", function (req, res) {
   });
 });
 
-router.get("/home/user/role/accounting-department", function (req, res) {
-  console.log("Home ????");
+router.get(
+  "/home/user/role/accounting-department",
+  authUser,
+  async function (req, res) {
+    const accounting_department_info = req.session.authUser;
+    const chamcong_data = await ketoanModel.all(accounting_department_info);
+    const curr_user_info = req.session.authUser;
 
-  res.render("vwHome/AccountingDepartment", {
-    layout: false,
-  });
-});
+    console.log(curr_user_info);
+    res.render("vwHome/AccountingDepartment", {
+      layout: "home.hbs",
+      home_title: "Accounting Deparment",
+      curr_user_info: curr_user_info,
+      chamcong_data,
+    });
+  }
+);
 
 router.get("/home/user/role/accounting-management", function (req, res) {
   console.log("Home ????");

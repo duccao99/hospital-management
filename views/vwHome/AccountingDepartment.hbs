@@ -1,1 +1,56 @@
-accounting department
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Mã NV</th>
+            <th>Tháng</th>
+            <th>Số ngày công</th>
+            <th>Phụ cấp</th>
+            <th>Lương</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {{#each chamcong_data}}
+        <tr>
+            <td scope="row">{{this.MANV}} </td>
+            <td>{{this.THANG}}</td>
+            <td>{{this.SONGAYCONG}}</td>
+            <td>{{this.PHUCAP}}</td>
+            <td>{{this.LUONG}}</td>
+
+        </tr>
+
+        {{/each}}
+
+    </tbody>
+</table>
+<div class="card-footer">
+
+    <button id="btn_cal_salary" class="btn btn-primary w-100">Tính lương</button>
+</div>
+
+
+{{#section 'js'}}
+<script>
+    const btn_cal_salary = $("#btn_cal_salary");
+    btn_cal_salary.on("click", function (e) {
+
+        $.ajax({
+            url: "/user/cal-salary",
+            method: "post",
+            success: ret => {
+                console.log(ret);
+                location.href = ret.href;
+
+            },
+            error: er => {
+                console.log(er);
+            }
+
+        })
+
+    })
+
+
+</script>
+{{/section}}
