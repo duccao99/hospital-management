@@ -86,6 +86,7 @@ const ketoanModel = {
         database: "HospitalManagement",
         privilege: require("oracledb").DEFAULT,
       });
+      oracledb.autoCommit = true;
       // set role always!
 
       const sql_set_role = `SET ROLE  ROLE_DEP_KETOAN IDENTIFIED BY ROLE_DEP_KETOAN `;
@@ -229,6 +230,46 @@ const ketoanModel = {
         }
       }
     }
+  },
+
+  async resetSalary(account) {
+    const connection = await oracledb.getConnection({
+      host: "localhost",
+      port: 1521,
+      user: `${account.username}`,
+      password: `${account.password}`,
+      database: "HospitalManagement",
+      privilege: require("oracledb").DEFAULT,
+    });
+
+    oracledb.autoCommit = true;
+
+    const set_role_query =
+      "SET ROLE ROLE_DEP_KETOAN IDENTIFIED BY ROLE_DEP_KETOAN ";
+
+    console.log(set_role_query);
+    await connection.execute(set_role_query);
+
+    const sql = `
+    BEGIN
+    DUCCAO_ADMIN.PROC_SET_SALARY_TO_0(:para1,:para2,:para3);
+    END;
+    `;
+
+    const ret = await connection.execute(sql, {
+      para1: {
+        val: "",
+      },
+      para2: {
+        val: "",
+      },
+      para3: {
+        val: "",
+      },
+    });
+    console.log(ret);
+
+    return ret;
   },
 };
 

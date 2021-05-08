@@ -321,5 +321,10 @@ CONN USER_KETOAN_01/USER_KETOAN_01;
 SET ROLE  ROLE_DEP_KETOAN IDENTIFIED BY ROLE_DEP_KETOAN;
 EXEC   DUCCAO_ADMIN.PROC_CAL_SALARY('BS02','12-Jan-60','7912000');
 
+-----------------------------------------------------------------
+-- 5. TEST ACCOUNTING DEPARMENT - procedure reset salary
+--------------------------------------------------------------
+exec PROC_SET_SALARY_TO_0('','','');
+
 
 
