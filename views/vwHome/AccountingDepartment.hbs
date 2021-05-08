@@ -27,6 +27,8 @@
 <div class="card-footer">
 
     <button id="btn_cal_salary" class="btn btn-primary w-100">Tính lương</button>
+    <button id="btn_reset_salary" class="btn btn-danger w-100">Reset</button>
+
 </div>
 
 
@@ -51,6 +53,21 @@
 
     })
 
+
+
+    const btn_reset_salary = $("#btn_reset_salary");
+    btn_reset_salary.on("click", function (e) {
+        $.ajax({
+            url: "/user/ketoan/reset-salary",
+            method: "post",
+            success: ret => {
+                location.href = ret.href;
+            },
+            error: er => {
+                console.log(er);
+            }
+        })
+    })
 
 </script>
 {{/section}}

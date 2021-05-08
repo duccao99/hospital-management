@@ -588,3 +588,34 @@ BEGIN
 END;
 /
 
+
+
+
+----------------------------------------------------------------------------------
+-- 18. Procedure: Reset all salary to 0
+-- Input:  
+-- Output: table nhanvien updated 
+--------------------------------------------------------------------------------
+CREATE OR REPLACE PROCEDURE PROC_SET_SALARY_TO_0 (
+IP_MANV IN VARCHAR2,
+IP_THANG IN VARCHAR2,
+IP_LUONG IN VARCHAR2
+)
+IS
+EXECUTER NVARCHAR2(2000);
+PARA_MANV VARCHAR2(2000):=IP_MANV;
+PARA_THANG VARCHAR2(2000):=IP_THANG;
+PARA_LUONG VARCHAR2(2000):=IP_LUONG;
+
+BEGIN
+
+
+
+UPDATE DUCCAO_ADMIN.VIEW_CAL_SALARY SET LUONG ='0'; 
+
+COMMIT;
+
+
+END PROC_SET_SALARY_TO_0;
+/
+

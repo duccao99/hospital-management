@@ -220,13 +220,20 @@ router.post("/user/cal-salary", async function (req, res) {
       .format("DD-MMM-YY")
       .toUpperCase();
 
-    // update salary
-    const update_salary_ret = await ketoanModel.updateSalaryTry3(
+    const update_salary_ret = await ketoanModel.updateSalary(
       salary_infos[i].MANV,
       thang,
       salary.toString(),
       accounting_department_info
     );
+
+    // update salary
+    // const update_salary_ret = await ketoanModel.updateSalaryTry3(
+    //   salary_infos[i].MANV,
+    //   thang,
+    //   salary.toString(),
+    //   accounting_department_info
+    // );
 
     console.log(update_salary_ret);
   }
@@ -234,6 +241,18 @@ router.post("/user/cal-salary", async function (req, res) {
   res.json({
     href: "/home/user/role/accounting-department",
   });
+});
+
+router.post("/user/ketoan/reset-salary", async function (req, res) {
+  const accounting_department_info = req.session.authUser;
+
+  const reset_salary_status = await ketoanModel.resetSalary(
+    accounting_department_info
+  );
+
+  console.log(reset_salary_status);
+
+  return res.json({ href: "/home/user/role/accounting-department" });
 });
 
 module.exports = router;
