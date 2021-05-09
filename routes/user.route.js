@@ -267,7 +267,7 @@ router.post("/user/reception/add-patient-records", async function (req, res) {
     const len_benhnhan = await benhnhanModel.len();
     const len_HSBN = await hosobenhnhanModel.len();
 
-    const find_mabn = len_benhnhan + 1;
+    const find_mabn = len_benhnhan + 5;
 
     const fullDoctorData = await oracleModel.getAllDoctorNameAndID();
 
@@ -286,11 +286,11 @@ router.post("/user/reception/add-patient-records", async function (req, res) {
     const patientFullInfo = {
       MABN: find_mabn,
       HOTEN: req.body.HOTEN,
-      NGAYSINH: moment(req.body.NGAYSINH).format("DD/MM/YYYY"),
+      NGAYSINH: moment(req.body.NGAYSINH, "dd.mm.yyyy").format("DD/MM/YYYY"),
       DIACHI: req.body.DIACHI,
       SDT: req.body.SDT,
       //
-      MAKB: len_HSBN + 1,
+      MAKB: len_HSBN + 5,
       NGAYKB: moment(Date.now()).format("DD/MM/YYYY"),
       MANV: find_MANV,
       TENBACSI: req.body.TENBACSI,
@@ -301,13 +301,22 @@ router.post("/user/reception/add-patient-records", async function (req, res) {
 
     console.log("Patient full info: ", patientFullInfo);
 
-    const ret = await receptionModel.addNewPatient(curr_user, patientFullInfo);
+    const ret = await receptionModel.addNewPatientTry2(
+      curr_user,
+      patientFullInfo
+    );
 
     console.log(ret);
+    if (ret === 1) {
+      return res.json({
+        href: "/home/user/role/reception",
+        message: "Added new patient records!",
+      });
+    }
 
-    return res.json({
+    return res.status(500).json({
       href: "/home/user/role/reception",
-      message: "Added new patient records!",
+      message: "error!",
     });
   } catch (er) {
     console.log(er);
