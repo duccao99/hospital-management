@@ -1,37 +1,241 @@
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>Examination ID</th>
-            <th>Date</th>
-            <th>Patient ID</th>
-            <th>Patient Name</th>
-            <th>First Symptoms</th>
-            <th>Doctor</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each reception_data}}
-        <tr>
-            <td scope="row">{{this.MAKB}} </td>
-            <td>{{this.NGAYKB}}</td>
-            <td>{{this.MABN}}</td>
-            <td>{{this.HOTEN}}</td>
-            <td>{{this.TINHTRANGBANDAU}}</td>
-            <td>{{this.BACSI_PHUTRACH}}</td>
-        </tr>
+<div class="card">
+    <div class="card-header">
+        <h4>
+            <strong>
+                Patient records
+            </strong>
+        </h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover" id="tbl_reception_patient_records">
+            <thead>
+                <tr>
+                    <th>Examination ID</th>
+                    <th>Date</th>
+                    <th>Patient ID</th>
+                    <th>Patient Name</th>
+                    <th>First Symptoms</th>
+                    <th>Doctor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each reception_data}}
+                <tr>
+                    <td scope="row">{{this.MAKB}} </td>
+                    <td>{{this.NGAYKB}}</td>
+                    <td>{{this.MABN}}</td>
+                    <td>{{this.HOTEN}}</td>
+                    <td>{{this.TINHTRANGBANDAU}}</td>
+                    <td>{{this.BACSI_PHUTRACH}}</td>
+                </tr>
 
-        {{/each}}
+                {{/each}}
 
-    </tbody>
-</table>
-<div class="card-footer">
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-muted">
+    </div>
+</div>
 
-    <button id="btn_cal_salary" class="btn btn-primary w-100">Tính lương</button>
-    <button id="btn_reset_salary" class="btn btn-danger w-100 my-3">Reset</button>
+<div class="card my-5">
+    <div class="card-header">
+        <h4>
+            <strong>
+                Patient information
+            </strong>
+        </h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover" id="tbl_patient_info">
+            <thead>
+                <tr>
+                    <th>Patient ID</th>
+                    <th>Patient Name</th>
+                    <th>Date of birth</th>
+                    <th>Address</th>
+                    <th>Phone number</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each patient_info_data}}
+                <tr>
+                    <td scope="row">{{this.MABN}}</td>
+                    <td>{{this.HOTEN}}</td>
+                    <td>{{this.NGAYSINH}} </td>
+                    <td>{{this.DIACHI}}</td>
+                    <td>{{this.SDT}}</td>
+                </tr>
+                {{/each}}
+
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-muted">
+
+    </div>
+</div>
+
+<div class="card my-5">
+    <div class="card-header">
+        <h4>
+            <strong>
+                Doctor information
+            </strong>
+        </h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover" id="tbl_doctor_info">
+            <thead>
+                <tr>
+                    <th>Doctor ID</th>
+                    <th>Doctor Name</th>
+                    <th>Doctor role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each doctor_data}}
+                <tr>
+                    <td scope="row">{{this.MANV}}</td>
+                    <td>{{this.HOTEN}}</td>
+                    <td>{{this.VAITRO}} </td>
+                </tr>
+                {{/each}}
+
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-muted">
+
+    </div>
+</div>
+
+
+<div class="card my-5">
+    <div class="card-header">
+        Add new patient records
+    </div>
+    <div class="card-body">
+        <form id="fmAddPatient">
+            <div class="form-group">
+                <label for="txtPatientName">Patient name</label>
+                <input type="text" name="txtPatientName" id="txtPatientName" class="form-control" placeholder=""
+                    aria-describedby="helpId">
+                {{!-- <small id="helpId" class="text-muted">Help text</small> --}}
+
+            </div>
+
+
+
+
+            <div class="form-group">
+                <label for="txtDOB">Patient date of birth</label>
+                <input type="text" name="txtDOB" id="txtDOB" class="form-control" placeholder=""
+                    aria-describedby="helpId">
+                {{!-- <small id="helpId" class="text-muted">Help text</small> --}}
+
+            </div>
+
+            <div class="form-group">
+                <label for="txtPatientAddress">Patient addresss</label>
+                <input type="text" name="txtPatientAddress" id="txtPatientAddress" class="form-control" placeholder=""
+                    aria-describedby="helpId">
+                {{!-- <small id="helpId" class="text-muted">Help text</small> --}}
+
+            </div>
+
+            <div class="form-group">
+                <label for="txtPatientPhoneNumber">Patient phone number</label>
+                <input type="text" name="txtPatientPhoneNumber" id="txtPatientPhoneNumber" class="form-control"
+                    placeholder="" aria-describedby="helpId">
+                {{!-- <small id="helpId" class="text-muted">Help text</small> --}}
+
+            </div>
+
+            <div class="form-group">
+                <label for="txtDocName">Doctor Name</label>
+                <input type="text" name="txtDocName" id="txtDocName" class="form-control" placeholder=""
+                    aria-describedby="helpId">
+                {{!-- <small id="helpId" class="text-muted">Help text</small> --}}
+            </div>
+
+
+
+
+            <div class="form-group">
+                <label for="txtSymptom">First symptoms</label>
+                <input type="text" name="txtSymptom" id="txtSymptom" class="form-control" placeholder=""
+                    aria-describedby="helpId">
+            </div>
+
+            <button id="btn_add_patient_records" class="btn btn-primary w-100">Add new patient records</button>
+
+        </form>
+    </div>
 
 </div>
 
 
+
+
+
 {{#section 'js'}}
-<script></script>
+<script>
+
+    const tbl_reception_patient_records = $("#tbl_reception_patient_records");
+    tbl_reception_patient_records.dataTable();
+
+    const tbl_patient_info = $("#tbl_patient_info");
+    tbl_patient_info.dataTable();
+
+    const tbl_doctor_info = $("#tbl_doctor_info");
+    tbl_doctor_info.dataTable();
+
+    const fmAddPatient = $("#fmAddPatient");
+    const txtPatientName = $("#txtPatientName");
+    const txtDOB = $("#txtDOB");
+    const txtPatientAddress = $("#txtPatientAddress");
+    const txtPatientPhoneNumber = $("#txtPatientPhoneNumber");
+    const txtDocName = $("#txtDocName");
+    const txtSymptom = $("#txtSymptom");
+
+
+    jQuery("#txtDOB").datetimepicker({
+        timepicker: false,
+        format: 'd.m.Y'
+    });
+
+
+
+
+
+
+    fmAddPatient.on("submit", function (e) {
+        const today = new Date();
+
+        const data = {
+            HOTEN: txtPatientName.val(),
+            NGAYSINH: txtDOB.val(),
+            DIACHI: txtPatientAddress.val(),
+            SDT: txtPatientPhoneNumber.val(),
+            //
+            TENBACSI: txtDocName.val(),
+            TINHTRANGBANDAU: txtSymptom.val(),
+
+        }
+
+        $.ajax({
+            url: "/user/reception/add-patient-records",
+            method: "post",
+            data: data,
+            success: ret => {
+                location.href = ret.href;
+            }
+            ,
+            error: er => {
+                console.log(er);
+            }
+        })
+    })
+</script>
 {{/section}}
