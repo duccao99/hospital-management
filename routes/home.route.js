@@ -10,16 +10,12 @@ router.get("/", function (req, res) {
 });
 
 router.get("/home", function (req, res) {
-  console.log("Home ????");
-
   res.render("vwHome/HomePage", {
     layout: false,
   });
 });
 
 router.get("/home/user/role/human-resource-management", function (req, res) {
-  console.log("Home ????");
-
   res.render("vwHome/HumanResourceManagement", {
     layout: false,
   });
@@ -47,26 +43,25 @@ router.get("/home/user/role/reception", authUser, async function (req, res) {
     };
   });
 
+  const doctor_data = await receptionModel.getDoctorData(curr_user_info);
+
   res.render("vwHome/Reception", {
     layout: "home.hbs",
     home_title: "Reception Department",
     curr_user_info: curr_user_info,
     reception_data: reception_data,
     patient_info_data,
+    doctor_data,
   });
 });
 
 router.get("/home/user/role/professional-management", function (req, res) {
-  console.log("Home ????");
-
   res.render("vwHome/ProfessionalManagement", {
     layout: false,
   });
 });
 
 router.get("/home/user/role/accounting-room", function (req, res) {
-  console.log("Home ????");
-
   res.render("vwHome/AccountingRoom", {
     layout: false,
   });
@@ -91,16 +86,12 @@ router.get(
 );
 
 router.get("/home/user/role/accounting-management", function (req, res) {
-  console.log("Home ????");
-
   res.render("vwHome/AccountingManagement", {
     layout: false,
   });
 });
 
 router.get("/home/user/role/doctor", function (req, res) {
-  console.log("Home ????");
-
   res.render("vwHome/Doctor", {
     layout: false,
   });
