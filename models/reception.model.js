@@ -22,5 +22,26 @@ const receptionModel = {
 
     return ret.rows;
   },
+
+  async getPatientData(curr_user) {
+    const conn = await oracledb.getConnection({
+      host: "localhost",
+      port: 1521,
+      user: `${curr_user.username.toUpperCase()}`,
+      password: `${curr_user.password.toUpperCase()}`,
+      database: "HospitalManagement",
+      privilege: oracledb.DEFAULT,
+    });
+
+    const role_query = "SET ROLE ROLE_DEP_LETAN IDENTIFIED BY ROLE_DEP_LETAN ";
+
+    await conn.execute(role_query);
+
+    const sql = "SELECT * FROM DUCCAO_ADMIN.BENHNHAN ";
+    console.log(sql);
+    const ret = await conn.execute(sql);
+
+    return ret.rows;
+  },
 };
 module.exports = receptionModel;
