@@ -75,7 +75,7 @@ router.get(
     const chamcong_data = await ketoanModel.all(accounting_department_info);
     const curr_user_info = req.session.authUser;
 
-    console.log(curr_user_info);
+    console.log("Current user role accounting info: ", curr_user_info);
     res.render("vwHome/AccountingDepartment", {
       layout: "home.hbs",
       home_title: "Accounting Deparment",

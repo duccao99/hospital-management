@@ -1,11 +1,5 @@
 const db = require("../utils/db");
 const config = require("../config/config");
-const allUser = require("../config/config.js").oracle.system.all_users;
-const roleAffectDataObject = require("./../config/config.js").oracle.system
-  .roleAffectDataObject;
-const userAndTheirRole = require("./../config/config.js").oracle.system
-  .userAndTheirRole;
-const allRoles = config.oracle.system.all_roles;
 
 module.exports = {
   getAllChamCongColumns() {
@@ -51,6 +45,11 @@ module.exports = {
   },
   getAllTHUOCColumns() {
     const sql = `SELECT  column_name FROM USER_TAB_COLUMNS WHERE table_name = 'THUOC'`;
+    return db.load(sql);
+  },
+  getAllDoctorNameAndID() {
+    const sql =
+      "SELECT NV.MANV,NV.HOTEN,NV.VAITRO   FROM DUCCAO_ADMIN.NHANVIEN NV WHERE NV.VAITRO='NHANVIEN_BACSI' ";
     return db.load(sql);
   },
 };

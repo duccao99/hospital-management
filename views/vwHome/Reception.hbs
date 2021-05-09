@@ -125,17 +125,49 @@
 
             </div>
 
+
+
+
+            <div class="form-group">
+                <label for="txtDOB">Patient date of birth</label>
+                <input type="text" name="txtDOB" id="txtDOB" class="form-control" placeholder=""
+                    aria-describedby="helpId">
+                {{!-- <small id="helpId" class="text-muted">Help text</small> --}}
+
+            </div>
+
+            <div class="form-group">
+                <label for="txtPatientAddress">Patient addresss</label>
+                <input type="text" name="txtPatientAddress" id="txtPatientAddress" class="form-control" placeholder=""
+                    aria-describedby="helpId">
+                {{!-- <small id="helpId" class="text-muted">Help text</small> --}}
+
+            </div>
+
+            <div class="form-group">
+                <label for="txtPatientPhoneNumber">Patient phone number</label>
+                <input type="text" name="txtPatientPhoneNumber" id="txtPatientPhoneNumber" class="form-control"
+                    placeholder="" aria-describedby="helpId">
+                {{!-- <small id="helpId" class="text-muted">Help text</small> --}}
+
+            </div>
+
+            <div class="form-group">
+                <label for="txtDocName">Doctor Name</label>
+                <input type="text" name="txtDocName" id="txtDocName" class="form-control" placeholder=""
+                    aria-describedby="helpId">
+                {{!-- <small id="helpId" class="text-muted">Help text</small> --}}
+            </div>
+
+
+
+
             <div class="form-group">
                 <label for="txtSymptom">First symptoms</label>
                 <input type="text" name="txtSymptom" id="txtSymptom" class="form-control" placeholder=""
                     aria-describedby="helpId">
             </div>
 
-            <div class="form-group">
-                <label for="txtDoctor">Doctor</label>
-                <input type="text" name="txtDoctor" id="txtDoctor" class="form-control" placeholder=""
-                    aria-describedby="helpId">
-            </div>
             <button id="btn_add_patient_records" class="btn btn-primary w-100">Add new patient records</button>
 
         </form>
@@ -161,14 +193,34 @@
 
     const fmAddPatient = $("#fmAddPatient");
     const txtPatientName = $("#txtPatientName");
+    const txtDOB = $("#txtDOB");
+    const txtPatientAddress = $("#txtPatientAddress");
+    const txtPatientPhoneNumber = $("#txtPatientPhoneNumber");
+    const txtDocName = $("#txtDocName");
     const txtSymptom = $("#txtSymptom");
-    const txtDoctor = $("#txtDoctor");
+
+
+    jQuery("#txtDOB").datetimepicker({
+        timepicker: false,
+        format: 'd.m.Y'
+    });
+
+
+
 
 
 
     fmAddPatient.on("submit", function (e) {
+        const today = new Date();
 
         const data = {
+            HOTEN: txtPatientName.val(),
+            NGAYSINH: txtDOB.val(),
+            DIACHI: txtPatientAddress.val(),
+            SDT: txtPatientPhoneNumber.val(),
+            //
+            TENBACSI: txtDocName.val(),
+            TINHTRANGBANDAU: txtSymptom.val(),
 
         }
 
