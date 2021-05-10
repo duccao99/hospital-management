@@ -659,6 +659,24 @@ END PROC_RECEPTION_ADD_NEW_PATIENT;
 /
 
 
+----------------------------------------------------------------------------------
+-- 20. Procedure: Delete patient records
+-- Input:  makb
+-- Output: deleted patient records
+--------------------------------------------------------------------------------
+CREATE OR REPLACE PROCEDURE PROC_DEL_PATIENT_RECORDS(
+    IP_MAKB IN DUCCAO_ADMIN.HOSOBENHNHAN.MAKB%TYPE,
+    IP_MABN IN DUCCAO_ADMIN.BENHNHAN.MABN%TYPE
+
+)
+IS
+BEGIN
+    DELETE FROM DUCCAO_ADMIN.HOSOBENHNHAN WHERE MAKB = IP_MAKB;
+    DELETE FROM DUCCAO_ADMIN.BENHNHAN WHERE MABN =IP_MABN ;
+END PROC_DEL_PATIENT_RECORDS;
+/
+
+
 
 
 

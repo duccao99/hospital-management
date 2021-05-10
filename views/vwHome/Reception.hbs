@@ -16,6 +16,7 @@
                     <th>Patient Name</th>
                     <th>First Symptoms</th>
                     <th>Doctor</th>
+                    <th>Edit/Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,6 +28,19 @@
                     <td>{{this.HOTEN}}</td>
                     <td>{{this.TINHTRANGBANDAU}}</td>
                     <td>{{this.BACSI_PHUTRACH}}</td>
+                    <td>
+
+
+                        <input type="text" class="d-none ip_get_mabns" name="MABN" value="{{this.MABN}}">
+
+
+
+                        <button name="MAKB" value="{{this.MAKB}}" class="btn_edit_patient btn btn-warning">Edit</button>
+                        <button name="MAKB" value="{{this.MAKB}}" class="btn_del_patient btn btn-danger">Delete</button>
+
+
+                    </td>
+
                 </tr>
 
                 {{/each}}
@@ -237,5 +251,68 @@
             }
         })
     })
+
+    const btn_edit_patient = $(".btn_edit_patient");
+    const btn_del_patient = $(".btn_del_patient");
+    const ip_get_mabns = $(".ip_get_mabns");
+
+    for (let i = 0; i < btn_edit_patient.length; ++i) {
+        btn_edit_patient[i].addEventListener("click", function (e) {
+
+            console.log(btn_edit_patient[i]);
+
+
+
+
+            const data = {
+                MAKB: this.value,
+                MABN: ip_get_mabns[i].value
+            }
+
+            $.ajax({
+                url: `/user/reception/edit`,
+                method: "get",
+                data,
+                success: ret => {
+                    location.href = ret.href;
+                },
+                error: er => {
+                    console.log(er);
+                }
+            })
+        })
+    }
+
+
+    for (let i = 0; i < btn_del_patient.length; ++i) {
+        btn_del_patient[i].addEventListener("click", function (e) {
+            console.log(ip_get_mabns[i]);
+            console.log(ip_get_mabns[i].value);
+
+
+            const data = {
+                MAKB: this.value,
+                MABN: ip_get_mabns[i].value
+
+            }
+
+            $.ajax({
+                url: `/user/reception/del`,
+                method: "delete",
+                data: {
+                    MAKB: this.value,
+                    MABN: ip_get_mabns[i].value
+                },
+                success: ret => {
+                    location.href = ret.href;
+                },
+                error: er => {
+                    console.log(er);
+                }
+
+            })
+        })
+    }
+
 </script>
 {{/section}}
