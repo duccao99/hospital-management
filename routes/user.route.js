@@ -327,4 +327,21 @@ router.post("/user/reception/add-patient-records", async function (req, res) {
   }
 });
 
+router.delete("/user/reception/del", async function (req, res) {
+  const curr_user = req.session.authUser;
+  console.log(req.body);
+  const data = {
+    MAKB: +req.body.MAKB,
+    MABN: +req.body.MABN,
+  };
+
+  const del_status = await receptionModel.delPatientRecords(
+    curr_user,
+    data.MAKB,
+    data.MABN
+  );
+
+  return res.json({ href: "/home/user/role/reception" });
+});
+
 module.exports = router;

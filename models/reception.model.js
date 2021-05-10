@@ -163,5 +163,36 @@ const receptionModel = {
       return -1;
     }
   },
+  async delPatientRecords(curr_user, makb, mabn) {
+    const conn = await oracledb.getConnection({
+      host: "localhost",
+      port: 1521,
+      user: `${curr_user.username.toUpperCase()}`,
+      password: `${curr_user.password.toUpperCase()}`,
+      database: "HospitalManagement",
+      privilege: oracledb.DEFAULT,
+    });
+    oracledb.autoCommit = true;
+
+    const query_role = "SET  ROLE ROLE_DEP_LETAN IDENTIFIED BY ROLE_DEP_LETAN ";
+    await conn.execute(query_role);
+
+    const sql = `
+    BEGIN
+      DUCCAO_ADMIN.PROC_DEL_PATIENT_RECORDS(:makb,:mabn);
+    END;
+  `;
+
+    const ret = await conn.execute(sql, {
+      makb: {
+        val: makb,
+      },
+      mabn: {
+        val: mabn,
+      },
+    });
+
+    console.log(ret);
+  },
 };
 module.exports = receptionModel;
