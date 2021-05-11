@@ -12,6 +12,8 @@ const benhnhanModel = require("./../models/benhnhan.model");
 const hosobenhnhanModel = require("../models/hosobenhnhan.model");
 const oracle = require("./../models/oracle.model.js");
 
+const validator = require("validator").default;
+
 //create user
 router.get("/create-user", authUser, async function (req, res) {
   const allVaiTros = await userModel.getAllVaiTroInSystem();
@@ -283,6 +285,10 @@ router.post("/user/reception/add-patient-records", async function (req, res) {
     console.log(len_benhnhan);
     console.log(len_HSBN);
 
+    if (validator.isMobilePhone(req.body.SDT) === false) {
+      return res.status(500).json({ err_message: "Phone invalid!" });
+    }
+
     const patientFullInfo = {
       MABN: find_mabn,
       HOTEN: req.body.HOTEN,
@@ -342,6 +348,57 @@ router.delete("/user/reception/del", async function (req, res) {
   );
 
   return res.json({ href: "/home/user/role/reception" });
+});
+
+router.get("/user/reception/edit-patient", async function (req, res) {
+  const curr_user_info = req.session.authUser;
+  const data = {
+    MAKB: req.query.makb,
+    MABN: req.query.mabn,
+  };
+
+  const doctor_data = await oracleModel.getAllDoctorNameAndID();
+  console.log(doctor_data);
+  res.render("vwHome/EditPatient", {
+    layout: "home.hbs",
+    curr_user_info: curr_user_info,
+    doctor_data,
+  });
+});
+
+router.patch("/user/reception/edit-patient", async function (req, res) {
+  const curr_user = req.session.authUser;
+  let body_data = {
+    ...req.body,
+  };
+  const doctor_data = await oracleModel.getAllDoctorNameAndID();
+
+  let MANV = "";
+
+  for (let i = 0; i < doctor_data.length; ++i) {
+    if (doctor_data[i].HOTEN === body_data.TENBACSI) {
+      MANV = doctor_data[i].MANV;
+      break;
+    }
+  }
+
+  if (validator.isMobilePhone(body_data.SDT) === false) {
+    return res.status(500).json({ err_message: "Invalid phone!" });
+  }
+
+  body_data.NGAYSINH = moment(body_data.NGAYSINH, "dd.mm.yyyy").format(
+    "DD/MM/YYYY"
+  );
+  body_data.MANV = MANV;
+  body_data.NGAYKB = moment(Date.now()).format("DD/MM/YYYY");
+
+  console.log(body_data);
+  const ret_edit = await receptionModel.editPatient(curr_user, body_data);
+  console.log(ret_edit);
+
+  return res.json({
+    href: "/home/user/role/reception",
+  });
 });
 
 module.exports = router;
