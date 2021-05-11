@@ -41,6 +41,7 @@
     "mysql2": "^2.2.5",
     "node-oracledb": "^1.0.2",
     "oracledb": "^5.1.0",
-    "randomstring": "^1.1.5"
+    "randomstring": "^1.1.5",
+    "validator": "^13.6.0"
   }
 }

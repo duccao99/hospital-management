@@ -619,25 +619,22 @@ SELECT * FROM CHAMCONG;
 
 -- 
 
-
+select * from empno_ctx ('','');
 
 ------------------
 
 
 SELECT *   FROM DUCCAO_ADMIN.NHANVIEN NV;
+SELECT NV.MANV,NV.HOTEN,NV.VAITRO   FROM DUCCAO_ADMIN.NHANVIEN NV WHERE NV.VAITRO='NHANVIEN_BACSI';
 
 select FUNC_ENCRYPT_MATKHAU_NHANVIEN('AAAA') as encrpyted_pass from dual;
  SELECT func_decrypt_matkhau_nhanvien('u1') AS DECRYPTED_PASS FROM DUAL;
  
  
 
+select * from benhnhan;
+select * from hosobenhnhan;
 
-
-
-select * from dba_users where username ='DUCCAO_ADMIN';
-select * from all_policies;
-SELECT * FROM DUCCAO_ADMIN.VIEW_COLUMN_SELECT_USER;
-FROM DUCCAO_ADMIN.NHANVIEN ORDER BY manv;
 
 SELECT MANV
 FROM DUCCAO_ADMIN.NHANVIEN;
@@ -651,9 +648,14 @@ SELECT VALUE FROM V$DIAG_INFO WHERE NAME = 'Default Trace File';
 SELECT * FROM ALL_POLICIES ;
 
 
+CREATE OR REPLACE TRIGGER TRIG_NHANVIEN
+AFTER LOGON ON DATABASE
+BEGIN
+    EMP_ENV_CONTEXT.SET_JOB_POSITION;
+END;
+/
 
 
-
-
+SELECT  SYS_CONTEXT('NHANVIEN_ENV','VAITRO') FROM DUAL;
 
 

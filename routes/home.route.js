@@ -2,23 +2,20 @@ const router = require("express").Router();
 const { authUser } = require("../middlewares/user.mdw");
 const ketoanModel = require("../models/ketoan.model");
 const receptionModel = require("../models/reception.model");
-const ccModel = require("./../models/chamcong.model");
+const moment = require("moment");
+const e = require("express");
 
 router.get("/", function (req, res) {
   res.redirect("/sign-in");
 });
 
 router.get("/home", function (req, res) {
-  console.log("Home ????");
-
   res.render("vwHome/HomePage", {
     layout: false,
   });
 });
 
 router.get("/home/user/role/human-resource-management", function (req, res) {
-  console.log("Home ????");
-
   res.render("vwHome/HumanResourceManagement", {
     layout: false,
   });
@@ -28,29 +25,43 @@ router.get("/home/user/role/reception", authUser, async function (req, res) {
   const curr_user_info = req.session.authUser;
 
   //user_tieptan_01
-  const reception_data = await receptionModel.get_view_reception(
-    curr_user_info
-  );
+  let reception_data = await receptionModel.get_view_reception(curr_user_info);
+
+  reception_data = reception_data.map((e) => {
+    return {
+      ...e,
+      NGAYKB: moment(e.NGAYKB).format("DD-MM-YYYY , hh:mm:ss").toUpperCase(),
+    };
+  });
+
+  let patient_info_data = await receptionModel.getPatientData(curr_user_info);
+
+  patient_info_data = patient_info_data.map((e) => {
+    return {
+      ...e,
+      NGAYSINH: moment(e.NGAYSINH).format("DD-MM-YYYY, HH:MM:SS"),
+    };
+  });
+
+  const doctor_data = await receptionModel.getDoctorData(curr_user_info);
 
   res.render("vwHome/Reception", {
     layout: "home.hbs",
     home_title: "Reception Department",
     curr_user_info: curr_user_info,
     reception_data: reception_data,
+    patient_info_data,
+    doctor_data,
   });
 });
 
 router.get("/home/user/role/professional-management", function (req, res) {
-  console.log("Home ????");
-
   res.render("vwHome/ProfessionalManagement", {
     layout: false,
   });
 });
 
 router.get("/home/user/role/accounting-room", function (req, res) {
-  console.log("Home ????");
-
   res.render("vwHome/AccountingRoom", {
     layout: false,
   });
@@ -64,7 +75,7 @@ router.get(
     const chamcong_data = await ketoanModel.all(accounting_department_info);
     const curr_user_info = req.session.authUser;
 
-    console.log(curr_user_info);
+    console.log("Current user role accounting info: ", curr_user_info);
     res.render("vwHome/AccountingDepartment", {
       layout: "home.hbs",
       home_title: "Accounting Deparment",
@@ -75,16 +86,12 @@ router.get(
 );
 
 router.get("/home/user/role/accounting-management", function (req, res) {
-  console.log("Home ????");
-
   res.render("vwHome/AccountingManagement", {
     layout: false,
   });
 });
 
 router.get("/home/user/role/doctor", function (req, res) {
-  console.log("Home ????");
-
   res.render("vwHome/Doctor", {
     layout: false,
   });
