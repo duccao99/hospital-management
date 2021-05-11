@@ -194,5 +194,36 @@ const receptionModel = {
 
     console.log(ret);
   },
+
+  async editPatient(curr_user, edit_info) {
+    try {
+      const conn = await oracledb.getConnection({
+        host: "localhost",
+        port: 1521,
+        user: `${curr_user.username.toUpperCase()}`,
+        password: `${curr_user.password.toUpperCase()}`,
+        database: "HospitalManagement",
+        privilege: oracledb.DEFAULT,
+      });
+
+      oracledb.autoCommit = true;
+      const query_role =
+        "SET  ROLE ROLE_DEP_LETAN IDENTIFIED BY ROLE_DEP_LETAN ";
+
+      await conn.execute(query_role);
+
+      const sql = `BEGIN
+    DUCCAO_ADMIN.PROC_EDIT_PATIENT_INFO(${edit_info.MABN},'${edit_info.HOTEN}',TO_DATE('${edit_info.NGAYSINH}','DD/MM/YYYY'),'${edit_info.DIACHI}','${edit_info.SDT}',${edit_info.MAKB},TO_DATE('${edit_info.NGAYKB}','DD/MM/YYYY'),'${edit_info.MANV}','${edit_info.TENBACSI}',${edit_info.MABN},'${edit_info.TINHTRANGBANDAU}','');
+    END;`;
+      console.log(sql);
+
+      const ret = await conn.execute(sql);
+
+      console.log(ret);
+      return 1;
+    } catch (er) {
+      return -1;
+    }
+  },
 };
 module.exports = receptionModel;

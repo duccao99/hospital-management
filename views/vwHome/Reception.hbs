@@ -35,7 +35,8 @@
 
 
 
-                        <button name="MAKB" value="{{this.MAKB}}" class="btn_edit_patient btn btn-warning">Edit</button>
+                        <a href="/user/reception/edit-patient?makb={{this.MAKB}}&mabn={{this.MABN}}"
+                            class="btn_edit_patient0 btn btn-warning">Edit</a>
                         <button name="MAKB" value="{{this.MAKB}}" class="btn_del_patient btn btn-danger">Delete</button>
 
 
@@ -270,9 +271,9 @@
             }
 
             $.ajax({
-                url: `/user/reception/edit`,
+                url: `/user/reception/edit-patient`,
                 method: "get",
-                data,
+                data: data,
                 success: ret => {
                     location.href = ret.href;
                 },
