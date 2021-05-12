@@ -4,6 +4,7 @@ const ketoanModel = require("../models/ketoan.model");
 const receptionModel = require("../models/reception.model");
 const moment = require("moment");
 const e = require("express");
+const dichvuModel = require("../models/dichvu.model");
 
 router.get("/", function (req, res) {
   res.redirect("/sign-in");
@@ -61,9 +62,17 @@ router.get("/home/user/role/professional-management", function (req, res) {
   });
 });
 
-router.get("/home/user/role/accounting-room", function (req, res) {
+router.get("/home/user/role/accounting-room", async function (req, res) {
+  const curr_user = req.session.authUser;
+  console.log(curr_user);
+
+  const dichvu_data = await dichvuModel.getDichVuData(curr_user);
+
   res.render("vwHome/AccountingRoom", {
-    layout: false,
+    layout: "home.hbs",
+    home_title: "Accounting Room",
+    curr_user_info: curr_user,
+    dichvu_data,
   });
 });
 

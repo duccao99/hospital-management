@@ -305,8 +305,12 @@ select * from DUCCAO_ADMIN.VW_NHANVIEN_DEP_QL_CHUYENMON;
 --test
 UPDATE DUCCAO_ADMIN.NHANVIEN SET luong = 0;
 
-
-
+-----------------------------------------------------------------
+-- . TEST ACCOUNTING ROOM - 
+--------------------------------------------------------------
+CONN USER_TAIVU_01/USER_TAIVU_01;
+SET ROLE  NHANVIEN_TAIVU IDENTIFIED BY NHANVIEN_TAIVU;
+SELECT * FROM DUCCAO_ADMIN.DICHVU;
 
 -----------------------------------------------------------------
 -- 4. TEST ACCOUNTING DEPARMENT - procedure calculate salary

@@ -909,6 +909,22 @@ GRANT SELECT ON DUCCAO_ADMIN.VW_DOCTOR_SEE_THEIR_INFO TO ROLE_DOCTOR;
 --***********************    MODULE 2    *******************************
 --**********************************************************************
 
+---------------------------------------------------------------------------------
+--  PHONG TAI VU feature: XEM BANG DICH VU
+---- -----------------------------------------------------------------------------
+CREATE ROLE NHANVIEN_TAIVU IDENTIFIED BY NHANVIEN_TAIVU;
+GRANT CREATE SESSION TO NHANVIEN_TAIVU;
+
+
+CREATE USER USER_TAIVU_01 IDENTIFIED BY USER_TAIVU_01;
+GRANT CREATE SESSION TO USER_TAIVU_01;
+
+
+
+GRANT SELECT ON DICHVU TO USER_TAIVU_01;
+GRANT NHANVIEN_TAIVU TO USER_TAIVU_01;
+
+
 
 
 ---------------------------------------------------------------------------------
