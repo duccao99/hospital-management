@@ -1,19 +1,20 @@
+{{!-- SERVICE RECS --}}
 <div class="card">
     <div class="card-header">
         <h4>
             <strong>
-                Patient records
+                Service records
             </strong>
         </h4>
     </div>
     <div class="card-body">
-        <table class="table table-hover" id="tbl_reception_patient_records">
+        <table class="table table-hover" id="tbl_service_records">
             <thead>
                 <tr>
                     <th>Service ID</th>
                     <th>Service name</th>
                     <th>Price</th>
-  
+                    <th>Edit</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,15 +23,15 @@
                     <td scope="row">{{this.MADV}} </td>
                     <td>{{this.TENDV}}</td>
                     <td>{{this.DONGIA}}</td>
-            
-                        <input type="text" class="d-none ip_get_mabns" name="MABN" value="{{this.MABN}}">
+                    <td>
+
+
+                        {{!-- <input type="text" class="d-none ip_get_madv" name="MADV" value="{{this.MADV}}">
 
 
 
-                        <a href="/user/reception/edit-patient?makb={{this.MAKB}}&mabn={{this.MABN}}"
-                            class="btn_edit_patient0 btn btn-warning">Edit</a>
-                        <button name="MAKB" value="{{this.MAKB}}" class="btn_del_patient btn btn-danger">Delete</button>
-
+                        <a href="/user/reception/edit-patient?madv={{this.MAKB}}"
+                            class="btn_edit_service btn btn-warning">Edit</a> --}}
 
                     </td>
 
@@ -44,3 +45,100 @@
     <div class="card-footer text-muted">
     </div>
 </div>
+{{!-- BILL RECS --}}
+<div class="card my-5">
+    <div class="card-header">
+        <h4>
+            <strong>
+                Bill records
+            </strong>
+        </h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover" id="tbl_bill_records">
+            <thead>
+                <tr>
+                    <th>Bill ID</th>
+                    <th>Patient ID</th>
+                    <th>Date</th>
+                    <th>Curator</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each hoadon_data}}
+                <tr>
+                    <td scope="row">{{this.SOHD}}</td>
+                    <td>{{this.MAKB}}</td>
+                    <td>{{this.NGAYGIO}} </td>
+                    <td>{{this.NGUOIPHUTRACH}}</td>
+                    <td>{{this.TONGTIEN}}</td>
+                </tr>
+                {{/each}}
+
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-muted">
+
+    </div>
+</div>
+
+{{!-- BILL DETAIL --}}
+<div class="card my-5">
+    <div class="card-header">
+        <h4>
+            <strong>
+                Bill detail
+            </strong>
+        </h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover" id="tbl_bill_detail_records">
+            <thead>
+                <tr>
+                    <th>Bill number</th>
+                    <th>Date</th>
+                    <th>Curator</th>
+                    <th>Total</th>
+                    <th>Service ID</th>
+                    <th>Service name</th>
+                    <th>Service price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each cthoadon_data}}
+                <tr>
+                    <td scope="row">{{this.SOHD}}</td>
+                    <td >{{this.NGAYGIO}}</td>
+                    <td>{{this.NGUOIPHUTRACH}}</td>
+                    <td>{{this.TONGTIEN}}</td>
+                    <td>{{this.MADV}}</td>
+                    <td>{{this.TENDV}}</td>
+                    <td>{{this.DONGIA}}</td>
+                </tr>
+                {{/each}}
+
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-muted">
+
+    </div>
+</div>
+
+
+{{#section 'js'}}
+<script>
+    const tbl_service_records = $("#tbl_service_records");
+    tbl_service_records.dataTable();
+
+    const tbl_bill_records = $("#tbl_bill_records");
+    tbl_bill_records.dataTable();
+
+    const tbl_bill_detail_records = $("#tbl_bill_detail_records");
+    tbl_bill_detail_records.dataTable();
+
+  
+</script>
+{{/section}}

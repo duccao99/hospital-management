@@ -5,6 +5,8 @@ const receptionModel = require("../models/reception.model");
 const moment = require("moment");
 const e = require("express");
 const dichvuModel = require("../models/dichvu.model");
+const hoadonModel = require("../models/hoadon.model");
+const cthoadonModel = require("../models/cthoadon.model");
 
 router.get("/", function (req, res) {
   res.redirect("/sign-in");
@@ -67,14 +69,20 @@ router.get("/home/user/role/accounting-room", async function (req, res) {
   console.log(curr_user);
 
   const dichvu_data = await dichvuModel.getDichVuData(curr_user);
+  const hoadon_data = await hoadonModel.getHoaDonData(curr_user);
+  const cthoadon_data = await cthoadonModel.getCtHoaDonData(curr_user);
+
 
   res.render("vwHome/AccountingRoom", {
     layout: "home.hbs",
     home_title: "Accounting Room",
     curr_user_info: curr_user,
     dichvu_data,
+    hoadon_data,
+    cthoadon_data,
   });
 });
+
 
 router.get(
   "/home/user/role/accounting-department",
