@@ -631,7 +631,7 @@ select FUNC_ENCRYPT_MATKHAU_NHANVIEN('AAAA') as encrpyted_pass from dual;
  SELECT func_decrypt_matkhau_nhanvien('u1') AS DECRYPTED_PASS FROM DUAL;
  
  
-
+SELECT * FROM DUCCAO_ADMIN.DICHVU;
 select * from benhnhan;
 select * from hosobenhnhan;
 

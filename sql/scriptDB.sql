@@ -909,6 +909,42 @@ GRANT SELECT ON DUCCAO_ADMIN.VW_DOCTOR_SEE_THEIR_INFO TO ROLE_DOCTOR;
 --***********************    MODULE 2    *******************************
 --**********************************************************************
 
+---------------------------------------------------------------------------------
+--  PHONG TAI VU feature: XEM BANG DICH VU, HOA DON, CHI TIET HOA DON
+---- -----------------------------------------------------------------------------
+CREATE ROLE NHANVIEN_TAIVU IDENTIFIED BY NHANVIEN_TAIVU;
+GRANT CREATE SESSION TO NHANVIEN_TAIVU;
+
+CREATE USER USER_TAIVU_01 IDENTIFIED BY USER_TAIVU_01;
+GRANT CREATE SESSION TO USER_TAIVU_01;
+
+--View for CHI TIET HOA DON
+CREATE OR REPLACE VIEW VW_NHANVIEN_TAIVU_CHITTIETHOADON
+AS
+SELECT          hd.sohd, 
+                hd.ngaygio, 
+                hd.nguoiphutrach, 
+                hd.tongtien,
+                dvu.madv,
+                dvu.tendv,
+                dvu.dongia
+                FROM DUCCAO_ADMIN.CTHOADON cthd 
+INNER JOIN DUCCAO_ADMIN.HOADON hd 
+ON cthd.SOHD = hd.SOHD
+INNER JOIN DICHVU dvu
+ON dvu.MADV = cthd.MADV;
+
+GRANT SELECT ON DICHVU TO NHANVIEN_TAIVU;
+GRANT SELECT ON HOADON TO NHANVIEN_TAIVU;
+GRANT SELECT ON CTHOADON TO NHANVIEN_TAIVU;
+GRANT SELECT ON VW_NHANVIEN_TAIVU_CHITTIETHOADON TO NHANVIEN_TAIVU;
+
+GRANT NHANVIEN_TAIVU TO USER_TAIVU_01;
+
+
+
+
+
 
 
 ---------------------------------------------------------------------------------
