@@ -1,8 +1,0 @@
-1. git checkout main
-2. git pull
-3. git checkout -b newbranch
-4. code
-5. git add .
-6. git commit -m "sdf"
-7. git push origin newbranch 
-8. pull request
