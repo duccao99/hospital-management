@@ -1,1 +1,45 @@
-doctor page
+<div class="card">
+    <div class="card-header">
+        <h4>
+            <strong>
+                Patient records
+            </strong>
+        </h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover" id="tbl_reception_patient_records">
+            <thead>
+                <tr>
+                    <th>Examination ID</th>
+                    <th>Date</th>
+                    <th>Doctor name</th>
+
+                    <th>Patient ID</th>
+                    <th>Patient Name</th>
+                    <th>First Symptoms</th>
+                     <th>Doctor conclusion </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {{#each patient_info_data}}
+                <tr>
+                    <td scope="row">{{this.MAKB}} </td>
+                    <td>{{this.NGAYKB}}</td>
+                    <td>{{this.TENBACSI}}</td>
+                    <td>{{this.MABN}}</td>
+                    <td>{{this.HOTEN}}</td>
+                    <td>{{this.TINHTRANGBANDAU}}</td>
+                    <td>{{this.KETLUANCUABACSI}}</td>
+           
+
+                </tr>
+
+                {{/each}}
+
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-muted">
+    </div>
+</div>

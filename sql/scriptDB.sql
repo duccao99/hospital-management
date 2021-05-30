@@ -1178,8 +1178,22 @@ GRANT EXECUTE ON DUCCAO_ADMIN.PROC_EDIT_PATIENT_INFO TO ROLE_DEP_LETAN;
 
 
 
+---------------------------------------------------------------------------------
+--                              Doctor feature
+---- -----------------------------------------------------------------------------
 
+---------------------------------------------------------------------------------
+--  DF_1: See patient infor
+---- -----------------------------------------------------------------------------
+CREATE OR REPLACE VIEW VIEW_DOCTOR_SEE_PATIENT_INFO 
+AS
+SELECT HS.MAKB, HS.NGAYKB, HS.TENBACSI,HS.MABN , HS.TINHTRANGBANDAU, 
+HS.KETLUANCUABACSI, BN.HOTEN
+FROM DUCCAO_ADMIN.HOSOBENHNHAN HS 
+LEFT JOIN DUCCAO_ADMIN.BENHNHAN BN
+ON BN.MABN = HS.MABN;
 
+GRANT SELECT ON DUCCAO_ADMIN.VIEW_DOCTOR_SEE_PATIENT_INFO TO ROLE_DOCTOR;
 
 
 
