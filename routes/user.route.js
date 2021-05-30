@@ -1,35 +1,35 @@
-const express = require("express");
-const adminModel = require("../models/admin.model");
+const express = require('express');
+const adminModel = require('../models/admin.model');
 const router = express.Router();
-const userModel = require("../models/user.model");
-const oracleModel = require("./../models/oracle.model.js");
-const { authUser } = require("./../middlewares/user.mdw");
-const ccModel = require("./../models/chamcong.model.js");
-const ketoanModel = require("./../models/ketoan.model");
-const moment = require("moment");
-const receptionModel = require("../models/reception.model");
-const benhnhanModel = require("./../models/benhnhan.model");
-const hosobenhnhanModel = require("../models/hosobenhnhan.model");
-const oracle = require("./../models/oracle.model.js");
+const userModel = require('../models/user.model');
+const oracleModel = require('./../models/oracle.model.js');
+const { authUser } = require('./../middlewares/user.mdw');
+const ccModel = require('./../models/chamcong.model.js');
+const ketoanModel = require('./../models/ketoan.model');
+const moment = require('moment');
+const receptionModel = require('../models/reception.model');
+const benhnhanModel = require('./../models/benhnhan.model');
+const hosobenhnhanModel = require('../models/hosobenhnhan.model');
+const oracle = require('./../models/oracle.model.js');
 
-const validator = require("validator").default;
+const validator = require('validator').default;
 
 //create user
-router.get("/create-user", authUser, async function (req, res) {
+router.get('/create-user', authUser, async function (req, res) {
   const allVaiTros = await userModel.getAllVaiTroInSystem();
 
-  res.render("vwUser/create", {
-    layout: "admin",
+  res.render('vwUser/create', {
+    layout: 'admin',
     authUser: req.session.authUser,
-    allVaiTros,
+    allVaiTros
   });
 });
 
-router.post("/create-user", async function (req, res) {
+router.post('/create-user', async function (req, res) {
   const data = {
     username: req.body.username,
     identify: req.body.identify,
-    type: req.body.type,
+    type: req.body.type
   };
 
   const status = await userModel.createUser(
@@ -38,14 +38,14 @@ router.post("/create-user", async function (req, res) {
     data.type
   );
 
-  res.status(200).json({ message: "Create user success!" });
+  res.status(200).json({ message: 'Create user success!' });
 });
 
 //update
-router.get("/update-user", authUser, async function (req, res) {
+router.get('/update-user', authUser, async function (req, res) {
   const usernames = await adminModel.getAllUserName();
-  res.render("vwUser/updateUser", {
-    layout: "admin",
+  res.render('vwUser/updateUser', {
+    layout: 'admin',
     authUser: req.session.authUser,
     usernames: usernames.sort((a, b) => {
       if (a.USERNAME < b.USERNAME) {
@@ -55,14 +55,14 @@ router.get("/update-user", authUser, async function (req, res) {
         return 1;
       }
       return 0;
-    }),
+    })
   });
 });
 
-router.patch("/update-user", authUser, async function (req, res) {
+router.patch('/update-user', authUser, async function (req, res) {
   const data = {
     username: req.body.username,
-    newPassword: req.body.newPassword,
+    newPassword: req.body.newPassword
   };
 
   console.log(data);
@@ -72,14 +72,14 @@ router.patch("/update-user", authUser, async function (req, res) {
     data.newPassword
   );
 
-  res.json({ message: "success!" });
+  res.json({ message: 'success!' });
 });
 
 //delete user
-router.get("/delete-user", authUser, async function (req, res) {
+router.get('/delete-user', authUser, async function (req, res) {
   const usernames = await adminModel.getAllUserName();
-  res.render("vwUser/deleteUser", {
-    layout: "admin",
+  res.render('vwUser/deleteUser', {
+    layout: 'admin',
     authUser: req.session.authUser,
     usernames: usernames.sort((a, b) => {
       if (a.USERNAME < b.USERNAME) {
@@ -89,23 +89,23 @@ router.get("/delete-user", authUser, async function (req, res) {
         return 1;
       }
       return 0;
-    }),
+    })
   });
 });
 
-router.delete("/delete-user", authUser, async function (req, res) {
+router.delete('/delete-user', authUser, async function (req, res) {
   const data = {
-    username: req.body.username,
+    username: req.body.username
   };
 
   console.log(data);
   const status = await userModel.deleteUser(data.username);
 
-  res.json({ message: "Deleted User!" });
+  res.json({ message: 'Deleted User!' });
 });
 
 //revoke user permission
-router.get("/revoke-user-permission", authUser, async function (req, res) {
+router.get('/revoke-user-permission', authUser, async function (req, res) {
   const usernames = await adminModel.getAllUserName();
 
   // get all column name of all table
@@ -123,54 +123,54 @@ router.get("/revoke-user-permission", authUser, async function (req, res) {
 
   const arrayColumns = [
     {
-      tableName: "CHAMCONG",
-      columns: chamCongColumns,
+      tableName: 'CHAMCONG',
+      columns: chamCongColumns
     },
     {
-      tableName: "BENHNHAN",
-      columns: benhnhanColumns,
+      tableName: 'BENHNHAN',
+      columns: benhnhanColumns
     },
     {
-      tableName: "HOSOBENHNHAN",
-      columns: hsbnColumns,
+      tableName: 'HOSOBENHNHAN',
+      columns: hsbnColumns
     },
     {
-      tableName: "HOSODICHVU",
-      columns: hsdvColumns,
+      tableName: 'HOSODICHVU',
+      columns: hsdvColumns
     },
 
     {
-      tableName: "HOADON",
-      columns: hoadonColumns,
+      tableName: 'HOADON',
+      columns: hoadonColumns
     },
     {
-      tableName: "NHANVIEN",
-      columns: nhanvienColumns,
+      tableName: 'NHANVIEN',
+      columns: nhanvienColumns
     },
     {
-      tableName: "DONVI",
-      columns: donviColumns,
+      tableName: 'DONVI',
+      columns: donviColumns
     },
     {
-      tableName: "DICHVU",
-      columns: dichvuColumns,
+      tableName: 'DICHVU',
+      columns: dichvuColumns
     },
     {
-      tableName: "CTHOADON",
-      columns: ctHoaDonColumns,
+      tableName: 'CTHOADON',
+      columns: ctHoaDonColumns
     },
     {
-      tableName: "CTDONTHUOC",
-      columns: ctDonThuocColumns,
+      tableName: 'CTDONTHUOC',
+      columns: ctDonThuocColumns
     },
     {
-      tableName: "THUOC",
-      columns: thuocColumns,
-    },
+      tableName: 'THUOC',
+      columns: thuocColumns
+    }
   ];
 
-  res.render("vwUser/revokeUser", {
-    layout: "admin",
+  res.render('vwUser/revokeUser', {
+    layout: 'admin',
     authUser: req.session.authUser,
     arrayColumns,
     usernames: usernames.sort((a, b) => {
@@ -181,17 +181,17 @@ router.get("/revoke-user-permission", authUser, async function (req, res) {
         return 1;
       }
       return 0;
-    }),
+    })
   });
 });
 
-router.patch("/revoke-user-permission", authUser, async function (req, res) {
+router.patch('/revoke-user-permission', authUser, async function (req, res) {
   try {
     const data = {
       username: req.body.username,
       privilege: req.body.privilege,
       tableName: req.body.tableName,
-      columnValue: req.body.columnValue,
+      columnValue: req.body.columnValue
     };
     console.log(data);
 
@@ -202,14 +202,14 @@ router.patch("/revoke-user-permission", authUser, async function (req, res) {
       data.columnValue
     );
 
-    res.json({ message: "success!" });
+    res.json({ message: 'success!' });
   } catch (e) {
     console.error(e);
     return res.status(500).json({ message: e });
   }
 });
 
-router.post("/user/cal-salary", async function (req, res) {
+router.post('/user/cal-salary', async function (req, res) {
   // always declare current user info
   const accounting_department_info = req.session.authUser;
   const salary_infos = await ketoanModel.calSalaryInfo(
@@ -224,7 +224,7 @@ router.post("/user/cal-salary", async function (req, res) {
       30;
 
     const thang = moment(salary_infos[i].THANG)
-      .format("DD-MMM-YY")
+      .format('DD-MMM-YY')
       .toUpperCase();
 
     const update_salary_ret = await ketoanModel.updateSalary(
@@ -246,11 +246,11 @@ router.post("/user/cal-salary", async function (req, res) {
   }
 
   res.json({
-    href: "/home/user/role/accounting-department",
+    href: '/home/user/role/accounting-department'
   });
 });
 
-router.post("/user/ketoan/reset-salary", async function (req, res) {
+router.post('/user/ketoan/reset-salary', async function (req, res) {
   const accounting_department_info = req.session.authUser;
 
   const reset_salary_status = await ketoanModel.resetSalary(
@@ -259,10 +259,10 @@ router.post("/user/ketoan/reset-salary", async function (req, res) {
 
   console.log(reset_salary_status);
 
-  return res.json({ href: "/home/user/role/accounting-department" });
+  return res.json({ href: '/home/user/role/accounting-department' });
 });
 
-router.post("/user/reception/add-patient-records", async function (req, res) {
+router.post('/user/reception/add-patient-records', async function (req, res) {
   try {
     const curr_user = req.session.authUser;
 
@@ -286,26 +286,26 @@ router.post("/user/reception/add-patient-records", async function (req, res) {
     console.log(len_HSBN);
 
     if (validator.isMobilePhone(req.body.SDT) === false) {
-      return res.status(500).json({ err_message: "Phone invalid!" });
+      return res.status(500).json({ err_message: 'Phone invalid!' });
     }
 
     const patientFullInfo = {
       MABN: find_mabn,
       HOTEN: req.body.HOTEN,
-      NGAYSINH: moment(req.body.NGAYSINH, "dd.mm.yyyy").format("DD/MM/YYYY"),
+      NGAYSINH: moment(req.body.NGAYSINH, 'dd.mm.yyyy').format('DD/MM/YYYY'),
       DIACHI: req.body.DIACHI,
       SDT: req.body.SDT,
       //
       MAKB: len_HSBN + 5,
-      NGAYKB: moment(Date.now()).format("DD/MM/YYYY"),
+      NGAYKB: moment(Date.now()).format('DD/MM/YYYY'),
       MANV: find_MANV,
       TENBACSI: req.body.TENBACSI,
       MABN2: find_mabn,
       TINHTRANGBANDAU: req.body.TINHTRANGBANDAU,
-      KETLUANCUABACSI: "",
+      KETLUANCUABACSI: ''
     };
 
-    console.log("Patient full info: ", patientFullInfo);
+    console.log('Patient full info: ', patientFullInfo);
 
     const ret = await receptionModel.addNewPatientTry2(
       curr_user,
@@ -315,30 +315,30 @@ router.post("/user/reception/add-patient-records", async function (req, res) {
     console.log(ret);
     if (ret === 1) {
       return res.json({
-        href: "/home/user/role/reception",
-        message: "Added new patient records!",
+        href: '/home/user/role/reception',
+        message: 'Added new patient records!'
       });
     }
 
     return res.status(500).json({
-      href: "/home/user/role/reception",
-      message: "error!",
+      href: '/home/user/role/reception',
+      message: 'error!'
     });
   } catch (er) {
     console.log(er);
     return res.status(500).json({
-      href: "/home/user/role/reception",
-      message: "error!",
+      href: '/home/user/role/reception',
+      message: 'error!'
     });
   }
 });
 
-router.delete("/user/reception/del", async function (req, res) {
+router.delete('/user/reception/del', async function (req, res) {
   const curr_user = req.session.authUser;
   console.log(req.body);
   const data = {
     MAKB: +req.body.MAKB,
-    MABN: +req.body.MABN,
+    MABN: +req.body.MABN
   };
 
   const del_status = await receptionModel.delPatientRecords(
@@ -347,33 +347,33 @@ router.delete("/user/reception/del", async function (req, res) {
     data.MABN
   );
 
-  return res.json({ href: "/home/user/role/reception" });
+  return res.json({ href: '/home/user/role/reception' });
 });
 
-router.get("/user/reception/edit-patient", async function (req, res) {
+router.get('/user/reception/edit-patient', async function (req, res) {
   const curr_user_info = req.session.authUser;
   const data = {
     MAKB: req.query.makb,
-    MABN: req.query.mabn,
+    MABN: req.query.mabn
   };
 
   const doctor_data = await oracleModel.getAllDoctorNameAndID();
   console.log(doctor_data);
-  res.render("vwHome/EditPatient", {
-    layout: "home.hbs",
+  res.render('vwHome/EditPatient', {
+    layout: 'home.hbs',
     curr_user_info: curr_user_info,
-    doctor_data,
+    doctor_data
   });
 });
 
-router.patch("/user/reception/edit-patient", async function (req, res) {
+router.patch('/user/reception/edit-patient', async function (req, res) {
   const curr_user = req.session.authUser;
   let body_data = {
-    ...req.body,
+    ...req.body
   };
   const doctor_data = await oracleModel.getAllDoctorNameAndID();
 
-  let MANV = "";
+  let MANV = '';
 
   for (let i = 0; i < doctor_data.length; ++i) {
     if (doctor_data[i].HOTEN === body_data.TENBACSI) {
@@ -383,21 +383,21 @@ router.patch("/user/reception/edit-patient", async function (req, res) {
   }
 
   if (validator.isMobilePhone(body_data.SDT) === false) {
-    return res.status(500).json({ err_message: "Invalid phone!" });
+    return res.status(500).json({ err_message: 'Invalid phone!' });
   }
 
-  body_data.NGAYSINH = moment(body_data.NGAYSINH, "dd.mm.yyyy").format(
-    "DD/MM/YYYY"
+  body_data.NGAYSINH = moment(body_data.NGAYSINH, 'dd.mm.yyyy').format(
+    'DD/MM/YYYY'
   );
   body_data.MANV = MANV;
-  body_data.NGAYKB = moment(Date.now()).format("DD/MM/YYYY");
+  body_data.NGAYKB = moment(Date.now()).format('DD/MM/YYYY');
 
   console.log(body_data);
   const ret_edit = await receptionModel.editPatient(curr_user, body_data);
   console.log(ret_edit);
 
   return res.json({
-    href: "/home/user/role/reception",
+    href: '/home/user/role/reception'
   });
 });
 

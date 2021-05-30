@@ -103,6 +103,7 @@
 
 
     fmAddPatient.on("submit", function (e) {
+        e.preventDefault();
         const today = new Date();
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -127,6 +128,7 @@
             method: "patch",
             data: data,
             success: ret => {
+        
                 location.href = ret.href;
             }
             ,
@@ -138,7 +140,7 @@
     })
 
 
-    location.href = '/home/user/role/reception';
+
 
 </script>
 {{/section}}
