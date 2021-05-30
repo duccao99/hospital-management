@@ -656,6 +656,22 @@ END;
 /
 
 
-SELECT  SYS_CONTEXT('NHANVIEN_ENV','VAITRO') FROM DUAL;
+-- Onboard OLS
+--SELECT * FROM DBA_OLS_STATUS;
+
+create pluggable database hospital_pluggable;
+ALTER SESSION SET CONTAINER = hospital_pluggable;
+ALTER USER LBACSYS  IDENTIFIED BY LBACSYS ;
 
 
+CONNECT LBACSYS/LBACSYS;
+EXECUTE SA_SYSDBA.CREATE_POLICY('ACCESS_NHANVIEN','OLS_NHANVIEN');
+
+BEGIN
+    SA_SYSDBA.CREATE_POLICY(
+        policy_name => 'emp_ols_pol1',
+        column_name => 'ols_col',
+        default_options => 'read_control, update_control'
+        );
+END;
+/

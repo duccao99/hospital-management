@@ -18,3 +18,7 @@ DAC - Discretionary Access Control
 RBAC - Role-based Access Control
 <br/>
 VPD - Virtual Private Database
+<br/>
+SQL Injection
+<br/>
+Encrypt & Decrypt
