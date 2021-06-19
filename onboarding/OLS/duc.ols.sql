@@ -49,4 +49,23 @@ startup;
 
 ALTER USER LBACSYS ACCOUNT UNLOCK IDENTIFIED BY LBACSYS;
 
+/*
+    Try again
+*/
+conn sys/1 as sysdba;
+ALTER USER LBACSYS ACCOUNT UNLOCK IDENTIFIED BY 123123;
+
+-- Account OLS DBA - ols_dba/1
+-- pluggable db - xepdb1
+-- still cannot access
+-- give up
+
+
+
+
+
+
+
+
+
 

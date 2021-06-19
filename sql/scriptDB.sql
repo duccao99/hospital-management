@@ -1210,7 +1210,7 @@ GRANT SELECT ON DUCCAO_ADMIN.VIEW_DOCTOR_SEE_PATIENT_INFO TO ROLE_DOCTOR;
 
 
 /*********************
-*       Audit
+*       Audit TRIGGER
 **********************/
 
 /*
@@ -1293,13 +1293,37 @@ BEGIN
         P_NEW_VALUE => TO_CHAR(:NEW.LUONG)        
     );
 END;
+/
+
+
+/*********************
+*       End Audit TRIGGER
+**********************/
 
 
 
 /*********************
-*       End Audit
+*      PURE Audit 
 **********************/
 
+-- audit nhanvien table
+BEGIN
+    DBMS_FGA.ADD_POLICY(
+        object_schema      => 'DUCCAO_ADMIN',
+        object_name        => 'NHANVIEN',
+        policy_name        => 'AUDIT_NHANVIEN', 
+        handler_schema     =>   NULL, 
+        handler_module     =>   NULL,
+        enable             =>   TRUE, 
+        statement_types    =>  'SELECT, INSERT, UPDATE, DELETE'
+    );
+END;
+/
 
+
+
+/*********************
+*      END PURE Audit 
+**********************/
 
 
