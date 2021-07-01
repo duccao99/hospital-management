@@ -6,7 +6,7 @@
 
 **Frontend**: `Javascript`
 
-**Backend**: `NodeJS`,`node-oracledb`, `ElectronJS`, `Handlebars`,
+**Backend**: `NodeJS`,`node-oracledb`, `ElectronJS`, `Handlebars`
 
 **Database**: `Oracle`
 <br/>

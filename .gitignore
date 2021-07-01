@@ -3,3 +3,5 @@ node_modules/
 html&css/
 client/
 .vscode/
+client
+.vscode
