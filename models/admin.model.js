@@ -258,5 +258,22 @@ module.exports = {
   getNhanVienEncrypted() {
     const sql = `select * from DUCCAO_ADMIN.nhanvien`;
     return db.load(sql);
+  },
+  getStandardAuditRecords() {
+    const sql = `SELECT DBUSERNAME,ACTION_NAME,SQL_TEXT,OBJECT_SCHEMA,OBJECT_NAME,EVENT_TIMESTAMP
+    FROM UNIFIED_AUDIT_TRAIL
+    ORDER BY EVENT_TIMESTAMP DESC
+    OFFSET 0 ROWS FETCH NEXT 100 ROWS ONLY`;
+    return db.load(sql);
+  },
+
+  getFineGrainedAuditRecords() {
+    const sql = `SELECT DBUSERNAME,ACTION_NAME,SQL_TEXT,OBJECT_SCHEMA,OBJECT_NAME,EVENT_TIMESTAMP
+    FROM UNIFIED_AUDIT_TRAIL 
+    WHERE OBJECT_NAME= 'DBMS_FGA'
+    ORDER BY EVENT_TIMESTAMP DESC
+    OFFSET 0 ROWS FETCH NEXT 100 ROWS ONLY
+    `;
+    return db.load(sql);
   }
 };

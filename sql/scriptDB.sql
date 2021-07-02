@@ -1302,10 +1302,24 @@ END;
 *       End Audit TRIGGER
 **********************/
 
+/*********************
+*      Standard audit
+**********************/
+
 
 
 /*********************
-*      PURE Audit 
+*     End Standard audit
+**********************/
+ ALTER SYSTEM SET audit_sys_operations=TRUE
+SCOPE=SPFILE;
+AUDIT DELETE ANY TABLE BY ACCESS WHENEVER NOT SUCCESSFUL;
+AUDIT DELETE ANY TABLE BY ACCESS;
+AUDIT SELECT TABLE, INSERT TABLE, DELETE TABLE, EXECUTE PROCEDURE BY ACCESS WHENEVER NOT SUCCESSFUL;
+
+
+/*********************
+*      Fine-grained Auditing  
 **********************/
 
 -- audit nhanvien table
@@ -1317,6 +1331,7 @@ BEGIN
         handler_schema     =>   NULL, 
         handler_module     =>   NULL,
         enable             =>   TRUE, 
+--        audit_condition     => 'ENAME == DUCCAO_ADMIN',
         statement_types    =>  'SELECT, INSERT, UPDATE, DELETE'
     );
 END;

@@ -582,5 +582,28 @@ router.get('/encrypt', authUser, async function (req, res) {
     nhanVienEncrypted
   });
 });
+router.get('/standard-auditing', async function (req, res) {
+  const standardAudit = await adminModel.getStandardAuditRecords();
+  // Lob problem
+  // cannot hook the sql text into backend
+  // console.log(standardAudit[0].SQL_TEXT);
+  res.render('vwAdmin/standard-audit', {
+    layout: 'admin',
+    authUser: req.session.authUser,
+    standardAudit
+  });
+});
+router.get('/fine-grained-auditing', async function (req, res) {
+  const fgaAudit = await adminModel.getFineGrainedAuditRecords();
+
+  // Lob problem
+  // cannot hook the sql text into backend
+  // console.log(standardAudit[0].SQL_TEXT);
+  res.render('vwAdmin/fga-audit', {
+    layout: 'admin',
+    authUser: req.session.authUser,
+    fgaAudit
+  });
+});
 
 module.exports = router;
