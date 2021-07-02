@@ -1306,16 +1306,16 @@ END;
 *      Standard audit
 **********************/
 
-
-
-/*********************
-*     End Standard audit
-**********************/
  ALTER SYSTEM SET audit_sys_operations=TRUE
 SCOPE=SPFILE;
 AUDIT DELETE ANY TABLE BY ACCESS WHENEVER NOT SUCCESSFUL;
 AUDIT DELETE ANY TABLE BY ACCESS;
 AUDIT SELECT TABLE, INSERT TABLE, DELETE TABLE, EXECUTE PROCEDURE BY ACCESS WHENEVER NOT SUCCESSFUL;
+
+
+/*********************
+*     End Standard audit
+**********************/
 
 
 /*********************
@@ -1337,10 +1337,10 @@ BEGIN
 END;
 /
 
-
+ ANALYZE TABLE DUCCAO_ADMIN.NHANVIEN COMPUTE STATISTICS;
 
 /*********************
-*      END PURE Audit 
+*      END Fine-grained Audit 
 **********************/
 
 
