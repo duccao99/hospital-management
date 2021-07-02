@@ -243,7 +243,202 @@ DROP ROLE HR_ROLE;
 DROP USER INEAU;
 DROP USER SMAVRIS;
 
--- 
+---------------------------
+-- End Onboarding OLS Level
+---------------------------
+
+---------------------------
+-- Onboarding OLS Compartment
+---------------------------
+CREATE ROLE HR_ROLE;
+GRANT SELECT ON HR.EMPLOYEES TO HR_ROLE;
+
+GRANT CONNECT, HR_ROLE TO LLEAGULL  IDENTIFIED BY LLEAGULL ;
+GRANT CREATE SESSION TO LLEAGULL;
+GRANT SELECT ON HR.EMPLOYEES TO LLEAGULL;
+
+GRANT CONNECT, HR_ROLE TO SMAVRIS IDENTIFIED BY SMAVRIS;
+GRANT CONNECT, HR_ROLE TO INEAU  IDENTIFIED BY INEAU ;
+GRANT CREATE SESSION TO SMAVRIS,INEAU;
+GRANT SELECT ON HR.EMPLOYEES TO SMAVRIS,INEAU;
+
+-- create policy
+CONN LBACSYS/1;
+BEGIN
+ SA_SYSDBA.CREATE_POLICY (
+  policy_name      => 'HR_OLS_POL',
+  column_name      => 'OLS_COL');
+END;
+/
+EXEC SA_SYSDBA.ENABLE_POLICY ('HR_OLS_POL');
+
+
+
+-- create levels
+CONN LBACSYS/1;
+BEGIN 
+    SA_COMPONENTS.CREATE_LEVEL(
+        policy_name => 'HR_OLS_POL',
+        level_num => 150,
+        short_name => 'HS',
+        long_name => 'HIGHLY_SENSITIVE'
+    );
+    
+     SA_COMPONENTS.CREATE_LEVEL(
+        policy_name => 'HR_OLS_POL',
+        level_num => 125,
+        short_name => 'S',
+        long_name => 'SENSITIVE'
+    );
+END;
+/
+
+
+
+-- create data label
+CONN LBACSYS/1;
+BEGIN
+    SA_LABEL_ADMIN.CREATE_LABEL(
+        policy_name  => 'HR_OLS_POL',
+        label_tag    => 140,
+        label_value  => 'HS',
+        data_label   => TRUE
+    );
+      SA_LABEL_ADMIN.CREATE_LABEL(
+        policy_name  => 'HR_OLS_POL',
+        label_tag    => 120,
+        label_value  => 'S',
+        data_label   => TRUE
+    );
+END; 
+/
+
+
+
+-- Apply the OLS policy to HR Schema
+CONN LBACSYS/1;
+BEGIN
+  SA_POLICY_ADMIN.APPLY_TABLE_POLICY (
+    policy_name    => 'HR_OLS_POL',
+    schema_name    => 'HR', 
+    table_name     => 'EMPLOYEES',
+    table_options  => 'READ_CONTROL');
+END;
+/
+BEGIN
+   SA_POLICY_ADMIN.ENABLE_TABLE_POLICY (
+      policy_name => 'HR_OLS_POL',
+      schema_name => 'HR',
+      table_name  => 'EMPLOYEES');
+END;
+/
+
+-- add  the policy label to table HR.employees
+CONN LBACSYS/1;
+BEGIN
+   SA_USER_ADMIN.SET_USER_PRIVS (
+      policy_name => 'HR_OLS_POL',
+      user_name   => 'HR',
+      privileges  => 'READ');
+END;
+/
+
+conn HR/HR;
+UPDATE HR.EMPLOYEES 
+SET OLS_COL= CHAR_TO_LABEL('HR_OLS_POL','HS')
+WHERE EMP_ID IN (101,102,103,104);
+
+
+conn HR/HR;
+UPDATE HR.EMPLOYEES 
+SET OLS_COL= CHAR_TO_LABEL('HR_OLS_POL','S')
+WHERE EMP_ID NOT IN (101,102,103,104);
+
+-- set level for LLEAGULL
+CONN LBACSYS/1;
+BEGIN 
+    SA_USER_ADMIN.SET_LEVELS(
+        policy_name  => 'HR_OLS_POL',
+        user_name    => 'LLEAGULL', 
+        max_level    => 'HS',
+        min_level    => 'S'
+    );
+END;
+/
+
+
+-- create two compartment  
+CONN LBACSYS/1;
+BEGIN 
+    LBACSYS.sa_components.CREATE_COMPARTMENT (
+        policy_name      => 'HR_OLS_POL',
+        long_name        => 'HR',
+        short_name       => 'HR',
+        comp_num         =>  1000
+    );
+    
+     SA_COMPONENTS.CREATE_COMPARTMENT (
+    policy_name      => 'HR_OLS_POL',
+    long_name        => 'LEGAL',
+    short_name       => 'LEG',
+    comp_num         =>  2000);
+END;
+/
+
+-- create data label for compartment
+CONN LBACSYS/1;
+BEGIN 
+    SA_LABEL_ADMIN.CREATE_LABEL(
+        policy_name => 'HR_OLS_POL',
+        label_tag => 1100,
+        label_value => 'S:HR:',
+        data_label => true
+    );
+    
+     SA_LABEL_ADMIN.CREATE_LABEL(
+        policy_name => 'HR_OLS_POL',
+        label_tag => 1200,
+        label_value => 'HS:HR:',
+        data_label => true
+    );
+     SA_LABEL_ADMIN.CREATE_LABEL(
+        policy_name => 'HR_OLS_POL',
+        label_tag => 1300,
+        label_value => 'HS:LEG:',
+        data_label => true
+    );
+    
+END;
+/
+
+-- assign the labels to the users
+CONN LBACSYS/1;
+BEGIN
+   SA_USER_ADMIN.SET_USER_LABELS (
+      policy_name    => 'HR_OLS_POL',
+      user_name      => 'ineau', 
+      max_read_label => 'S:HR:');
+
+   SA_USER_ADMIN.SET_USER_LABELS (
+      policy_name    => 'HR_OLS_POL',
+      user_name      => 'smavris', 
+      max_read_label => 'HS:HR,LEG:');
+
+   SA_USER_ADMIN.SET_USER_LABELS (
+      policy_name    => 'HR_OLS_POL',
+      user_name      => 'lleagull', 
+      max_read_label => 'HS:LEG:');
+END;
+/
+
+
+conn LLEAGULL/LLEAGULL;
+select * from hr.employees;
+
+
+
+
+
 
 
 

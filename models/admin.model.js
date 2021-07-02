@@ -1,14 +1,14 @@
-const db = require("../utils/db");
-const config = require("../config/config");
-const allUser = require("../config/config.js").oracle.system.all_users;
-const userPriv = require("./../config/config.js").oracle.system.userPriv;
-const userAndTheirRole = require("./../config/config.js").oracle.system
+const db = require('../utils/db');
+const config = require('../config/config');
+const allUser = require('../config/config.js').oracle.system.all_users;
+const userPriv = require('./../config/config.js').oracle.system.userPriv;
+const userAndTheirRole = require('./../config/config.js').oracle.system
   .userAndTheirRole;
 const allRoles = config.oracle.system.all_roles;
 const userColPrivs = config.oracle.system.User_col_privs;
-const rolePriv = require("./../config/config.js").oracle.system.rolePriv;
-const usermodel = require("./user.model");
-const roleModel = require("./role.model");
+const rolePriv = require('./../config/config.js').oracle.system.rolePriv;
+const usermodel = require('./user.model');
+const roleModel = require('./role.model');
 
 module.exports = {
   allUser() {
@@ -52,9 +52,9 @@ module.exports = {
   ) {
     let sql = ``;
 
-    if (privilege === "select") {
-      if (withGrantOption === "false") {
-        if (columnValue === "" || columnValue === undefined) {
+    if (privilege === 'select') {
+      if (withGrantOption === 'false') {
+        if (columnValue === '' || columnValue === undefined) {
           sql = `GRANT ${privilege} ON ${tableName} TO ${username}`;
         } else {
           // 1. INSERT TO VIEW FIRST
@@ -65,7 +65,7 @@ module.exports = {
             withGrantOption
           );
 
-          console.log("check:", check);
+          console.log('check:', check);
 
           sql = `
           BEGIN
@@ -74,7 +74,7 @@ module.exports = {
           `;
         }
       } else {
-        if (columnValue === "" || columnValue === undefined) {
+        if (columnValue === '' || columnValue === undefined) {
           sql = `GRANT ${privilege} ON ${tableName} TO ${username}  WITH GRANT OPTION`;
         } else {
           const check = await usermodel.insertUserSelectColumnPriv(
@@ -92,14 +92,14 @@ module.exports = {
         }
       }
     } else {
-      if (withGrantOption === "false") {
-        if (columnValue === "" || columnValue === undefined) {
+      if (withGrantOption === 'false') {
+        if (columnValue === '' || columnValue === undefined) {
           sql = `GRANT ${privilege} ON ${tableName} TO ${username}`;
         } else {
           sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${username}`;
         }
       } else {
-        if (columnValue === "" || columnValue === undefined) {
+        if (columnValue === '' || columnValue === undefined) {
           sql = `GRANT ${privilege} ON ${tableName} TO ${username}  WITH GRANT OPTION`;
         } else {
           sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${username}  WITH GRANT OPTION`;
@@ -119,9 +119,9 @@ module.exports = {
     columnValue
   ) {
     let sql = ``;
-    if (privilege === "select") {
-      if (withGrantOption === "false") {
-        if (columnValue === "" || columnValue === undefined) {
+    if (privilege === 'select') {
+      if (withGrantOption === 'false') {
+        if (columnValue === '' || columnValue === undefined) {
           sql = `GRANT ${privilege} ON ${tableName} TO ${rolename}`;
         } else {
           // 1. INSERT TO VIEW FIRST
@@ -137,26 +137,26 @@ module.exports = {
               proc_CreateViewRoleSelectColumnLevel('${rolename}','${columnValue}','${tableName}','${withGrantOption}');
               END;
               `;
-          console.log("alo");
+          console.log('alo');
         }
       } else {
         // cannot grant to a role with grant option
-        if (columnValue === "" || columnValue === undefined) {
+        if (columnValue === '' || columnValue === undefined) {
           sql = `GRANT ${privilege} ON ${tableName} TO ${rolename} `;
         } else {
           sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${rolename} `;
         }
       }
     } else {
-      if (withGrantOption === "false") {
-        if (columnValue === "" || columnValue === undefined) {
+      if (withGrantOption === 'false') {
+        if (columnValue === '' || columnValue === undefined) {
           sql = `GRANT ${privilege} ON ${tableName} TO ${rolename}`;
         } else {
           sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${rolename}`;
         }
       } else {
         // cannot grant to a role with grant option
-        if (columnValue === "" || columnValue === undefined) {
+        if (columnValue === '' || columnValue === undefined) {
           sql = `GRANT ${privilege} ON ${tableName} TO ${rolename} `;
         } else {
           sql = `GRANT ${privilege}(${columnValue}) ON ${tableName} TO ${rolename} `;
@@ -193,9 +193,9 @@ module.exports = {
     return db.load(sql);
   },
   reGrantUserPriv(priv, tblName, grantee, grantAble) {
-    let sql = "";
+    let sql = '';
     console.log(grantAble);
-    if (grantAble === "false") {
+    if (grantAble === 'false') {
       sql = `GRANT ${priv} ON ${tblName} TO ${grantee}`;
     } else {
       sql = `GRANT ${priv} ON ${tblName} TO ${grantee} WITH GRANT OPTION`;
@@ -255,4 +255,8 @@ module.exports = {
     console.log(sql);
     return db.load(sql);
   },
+  getNhanVienEncrypted() {
+    const sql = `select * from DUCCAO_ADMIN.nhanvien`;
+    return db.load(sql);
+  }
 };

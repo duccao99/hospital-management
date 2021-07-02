@@ -1,205 +1,384 @@
-<nav id="sidebarMenu" class="sidebar d-md-block bg-primary text-white collapse" data-simplebar>
-    <div class="sidebar-inner px-4 pt-3">
-        <div
-            class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
-            <div class="d-flex align-items-center">
-                <div class="user-avatar lg-avatar mr-4">
-                    <img src="../../assets/img/team/profile-picture-3.jpg"
-                        class="card-img-top rounded-circle border-white" alt="Bonnie Green">
-                </div>
-                <div class="d-block">
-                    <h2 class="h6">Hi, Jane</h2>
-                    <a href="../../pages/examples/sign-in.html" class="btn btn-secondary text-dark btn-xs"><span
-                            class="mr-2"><span class="fas fa-sign-out-alt"></span></span>Sign Out</a>
-                </div>
-            </div>
-            <div class="collapse-close d-md-none">
-                <a href="#sidebarMenu" class="fas fa-times" data-toggle="collapse" data-target="#sidebarMenu"
-                    aria-controls="sidebarMenu" aria-expanded="true" aria-label="Toggle navigation"></a>
-            </div>
+<nav
+  id='sidebarMenu'
+  class='sidebar d-md-block bg-primary text-white collapse'
+  data-simplebar
+>
+  <div class='sidebar-inner px-4 pt-3'>
+    <div
+      class='user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4'
+    >
+      <div class='d-flex align-items-center'>
+        <div class='user-avatar lg-avatar mr-4'>
+          <img
+            src='../../assets/img/team/profile-picture-3.jpg'
+            class='card-img-top rounded-circle border-white'
+            alt='Bonnie Green'
+          />
         </div>
-        <ul class="nav flex-column">
-            <li class="nav-item  active ">
-                <a href="/dashboard" class="nav-link">
-                    <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-
-
-
-
-            <li class="nav-item">
-                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
-                    data-toggle="collapse" data-target="#submenu-app">
-                    <span>
-                        <span class="sidebar-icon"><span class="fas fa-table"></span></span>
-                        View Records
-                    </span>
-                    <span class="link-arrow"><span class="fas fa-chevron-right"></span></span>
-                </span>
-                <div class="multi-level collapse " role="list" id="submenu-app" aria-expanded="false">
-                    <ul class="flex-column nav">
-                        <li class="nav-item "><a class="nav-link" href="/all-users">
-                                <img src="../../assets/img/brand/light.svg" height="20" width="20" alt="Volt Logo">
-                                <span>User in system's
-                                    records </span></a></li>
-
-                        <li class="nav-item "><a class="nav-link" href="/all-roles">
-                                <img src="../../assets/img/brand/light.svg" height="20" width="20" alt="Volt Logo">
-                                <span>Role's records </span></a></li>
-
-                        <li class="nav-item "><a class="nav-link" href="/user-priv">
-                                <img src="../../assets/img/brand/light.svg" height="20" width="20" alt="Volt Logo">
-                                <span>User's privileges </span></a></li>
-
-
-                        <li class="nav-item "><a class="nav-link" href="/role-priv">
-                                <img src="../../assets/img/brand/light.svg" height="20" width="20" alt="Volt Logo">
-                                <span>Role's privileges </span></a></li>
-
-
-
-
-                        <li class="nav-item "><a class="nav-link" href="/user-role">
-                                <img src="../../assets/img/brand/light.svg" height="20" width="20" alt="Volt Logo">
-                                <span>User's role
-                                </span></a></li>
-
-                        <li class="nav-item "><a class="nav-link" href="/user-column-privilege">
-                                <img src="../../assets/img/brand/light.svg" height="20" width="20" alt="Volt Logo">
-                                <span>User-column-privilege
-                                </span></a></li>
-
-                        <li class="nav-item "><a class="nav-link" href="/user-select-column-privilege">
-                                <img src="../../assets/img/brand/light.svg" height="20" width="20" alt="Volt Logo">
-                                <span>User-select-column-privilege
-                                </span></a></li>
-                        <li class="nav-item "><a class="nav-link" href="/role-select-column-privilege">
-                                <img src="../../assets/img/brand/light.svg" height="20" width="20" alt="Volt Logo">
-                                <span>Role-select-column-privilege
-                                </span></a></li>
-
-
-
-                    </ul>
-                </div>
-            </li>
-
-
-            <li class="nav-item">
-                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
-                    data-toggle="collapse" data-target="#grant-privileges">
-                    <span>
-                        <span class="sidebar-icon"><span class="fas fa-cog"></span></span>
-                        Grant privileges
-                    </span>
-                    <span class="link-arrow"><span class="fas fa-chevron-right"></span></span>
-                </span>
-                <div class="multi-level collapse " role="list" id="grant-privileges" aria-expanded="false">
-                    <ul class="flex-column nav">
-
-
-                        <li class="nav-item "><a class="nav-link" href="/grant-user-permission">
-                                <img src="../../assets/img/brand/light.svg" height="20" width="20"
-                                    alt="Volt Logo"><span>
-
-                                    Grant privilege to user
-
-                                </span></a></li>
-                        <li class="nav-item "><a class="nav-link" href="/grant-role-permission"><img
-                                    src="../../assets/img/brand/light.svg" height="20" width="20"
-                                    alt="Volt Logo"><span>Grant privilege to role
-
-                                </span></a></li>
-                        <li class="nav-item "><a class="nav-link" href="/grant-role-to-user"><img
-                                    src="../../assets/img/brand/light.svg" height="20" width="20"
-                                    alt="Volt Logo"><span>Grant role
-                                    to user
-                                </span></a></li>
-                    </ul>
-                </div>
-            </li>
-
-
-
-            <li class="nav-item">
-                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
-                    data-toggle="collapse" data-target="#crud-role">
-                    <span>
-                        <span class="sidebar-icon"><span class="fas fa-cog"></span></span>
-                        User features
-                    </span>
-                    <span class="link-arrow"><span class="fas fa-chevron-right"></span></span>
-                </span>
-                <div class="multi-level collapse " role="list" id="crud-role" aria-expanded="false">
-                    <ul class="flex-column nav">
-
-
-                        <li class="nav-item "><a class="nav-link" href="/create-user">
-                                <img src="../../assets/img/brand/light.svg" height="20" width="20"
-                                    alt="Volt Logo"><span>Create user
-                                </span></a></li>
-
-                        <li class="nav-item "><a class="nav-link" href="/update-user"><img
-                                    src="../../assets/img/brand/light.svg" height="20" width="20"
-                                    alt="Volt Logo"><span>Update user
-                                </span></a></li>
-                        <li class="nav-item "><a class="nav-link" href="/delete-user"><img
-                                    src="../../assets/img/brand/light.svg" height="20" width="20"
-                                    alt="Volt Logo"><span>Delete user
-                                </span></a></li>
-                        <li class="nav-item "><a class="nav-link" href="/revoke-user-permission"><img
-                                    src="../../assets/img/brand/light.svg" height="20" width="20"
-                                    alt="Volt Logo"><span>Revoke user permission
-                                </span></a></li>
-                    </ul>
-                </div>
-            </li>
-
-            {{!-- Role feature --}}
-            <li class="nav-item">
-                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
-                    data-toggle="collapse" data-target="#crud-user">
-                    <span>
-                        <span class="sidebar-icon"><span class="fas fa-cog"></span></span>
-                        Role features
-                    </span>
-                    <span class="link-arrow"><span class="fas fa-chevron-right"></span></span>
-                </span>
-                <div class="multi-level collapse " role="list" id="crud-user" aria-expanded="false">
-                    <ul class="flex-column nav">
-
-
-                        <li class="nav-item "><a class="nav-link" href="/create-role">
-                                <img src="../../assets/img/brand/light.svg" height="20" width="20"
-                                    alt="Volt Logo"><span>
-
-                                    Create role
-                                </span></a></li>
-
-                        <li class="nav-item "><a class="nav-link" href="/update-role"><img
-                                    src="../../assets/img/brand/light.svg" height="20" width="20"
-                                    alt="Volt Logo"><span>Update role
-                                </span></a></li>
-                        <li class="nav-item "><a class="nav-link" href="/delete-role"><img
-                                    src="../../assets/img/brand/light.svg" height="20" width="20"
-                                    alt="Volt Logo"><span>Delete role
-                                </span></a></li>
-
-
-                        <li class="nav-item "><a class="nav-link" href="/revoke-role-permission"><img
-                                    src="../../assets/img/brand/light.svg" height="20" width="20"
-                                    alt="Volt Logo"><span>Revoke role permission
-                                </span></a></li>
-                    </ul>
-                </div>
-            </li>
-
-
-
-            <li role="separator" class="dropdown-divider mt-4 mb-3 border-black"></li>
-
-        </ul>
+        <div class='d-block'>
+          <h2 class='h6'>Hi, Jane</h2>
+          <a
+            href='../../pages/examples/sign-in.html'
+            class='btn btn-secondary text-dark btn-xs'
+          ><span class='mr-2'><span
+                class='fas fa-sign-out-alt'
+              ></span></span>Sign Out</a>
+        </div>
+      </div>
+      <div class='collapse-close d-md-none'>
+        <a
+          href='#sidebarMenu'
+          class='fas fa-times'
+          data-toggle='collapse'
+          data-target='#sidebarMenu'
+          aria-controls='sidebarMenu'
+          aria-expanded='true'
+          aria-label='Toggle navigation'
+        ></a>
+      </div>
     </div>
+    <ul class='nav flex-column'>
+      <li class='nav-item active'>
+        <a href='/dashboard' class='nav-link'>
+          <span class='sidebar-icon'><span
+              class='fas fa-chart-pie'
+            ></span></span>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <li class='nav-item'>
+        <span
+          class='nav-link collapsed d-flex justify-content-between align-items-center'
+          data-toggle='collapse'
+          data-target='#submenu-app'
+        >
+          <span>
+            <span class='sidebar-icon'><span class='fas fa-table'></span></span>
+            View Records
+          </span>
+          <span class='link-arrow'><span
+              class='fas fa-chevron-right'
+            ></span></span>
+        </span>
+        <div
+          class='multi-level collapse'
+          role='list'
+          id='submenu-app'
+          aria-expanded='false'
+        >
+          <ul class='flex-column nav'>
+            <li class='nav-item'><a class='nav-link' href='/all-users'>
+                <img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                />
+                <span>User in system's records </span></a></li>
+
+            <li class='nav-item'><a class='nav-link' href='/all-roles'>
+                <img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                />
+                <span>Role's records </span></a></li>
+
+            <li class='nav-item'><a class='nav-link' href='/user-priv'>
+                <img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                />
+                <span>User's privileges </span></a></li>
+
+            <li class='nav-item'><a class='nav-link' href='/role-priv'>
+                <img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                />
+                <span>Role's privileges </span></a></li>
+
+            <li class='nav-item'><a class='nav-link' href='/user-role'>
+                <img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                />
+                <span>User's role
+                </span></a></li>
+
+            <li class='nav-item'><a
+                class='nav-link'
+                href='/user-column-privilege'
+              >
+                <img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                />
+                <span>User-column-privilege
+                </span></a></li>
+
+            <li class='nav-item'><a
+                class='nav-link'
+                href='/user-select-column-privilege'
+              >
+                <img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                />
+                <span>User-select-column-privilege
+                </span></a></li>
+            <li class='nav-item'><a
+                class='nav-link'
+                href='/role-select-column-privilege'
+              >
+                <img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                />
+                <span>Role-select-column-privilege
+                </span></a></li>
+
+          </ul>
+        </div>
+      </li>
+
+      <li class='nav-item'>
+        <span
+          class='nav-link collapsed d-flex justify-content-between align-items-center'
+          data-toggle='collapse'
+          data-target='#grant-privileges'
+        >
+          <span>
+            <span class='sidebar-icon'><span class='fas fa-cog'></span></span>
+            Grant privileges
+          </span>
+          <span class='link-arrow'><span
+              class='fas fa-chevron-right'
+            ></span></span>
+        </span>
+        <div
+          class='multi-level collapse'
+          role='list'
+          id='grant-privileges'
+          aria-expanded='false'
+        >
+          <ul class='flex-column nav'>
+
+            <li class='nav-item'><a
+                class='nav-link'
+                href='/grant-user-permission'
+              >
+                <img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                /><span>
+
+                  Grant privilege to user
+
+                </span></a></li>
+            <li class='nav-item'><a
+                class='nav-link'
+                href='/grant-role-permission'
+              ><img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                /><span>Grant privilege to role
+
+                </span></a></li>
+            <li class='nav-item'><a
+                class='nav-link'
+                href='/grant-role-to-user'
+              ><img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                /><span>Grant role to user
+                </span></a></li>
+          </ul>
+        </div>
+      </li>
+
+      <li class='nav-item'>
+        <span
+          class='nav-link collapsed d-flex justify-content-between align-items-center'
+          data-toggle='collapse'
+          data-target='#crud-role'
+        >
+          <span>
+            <span class='sidebar-icon'><span class='fas fa-cog'></span></span>
+            User features
+          </span>
+          <span class='link-arrow'><span
+              class='fas fa-chevron-right'
+            ></span></span>
+        </span>
+        <div
+          class='multi-level collapse'
+          role='list'
+          id='crud-role'
+          aria-expanded='false'
+        >
+          <ul class='flex-column nav'>
+
+            <li class='nav-item'><a class='nav-link' href='/create-user'>
+                <img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                /><span>Create user
+                </span></a></li>
+
+            <li class='nav-item'><a class='nav-link' href='/update-user'><img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                /><span>Update user
+                </span></a></li>
+            <li class='nav-item'><a class='nav-link' href='/delete-user'><img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                /><span>Delete user
+                </span></a></li>
+            <li class='nav-item'><a
+                class='nav-link'
+                href='/revoke-user-permission'
+              ><img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                /><span>Revoke user permission
+                </span></a></li>
+          </ul>
+        </div>
+      </li>
+
+      {{! Role feature }}
+      <li class='nav-item'>
+        <span
+          class='nav-link collapsed d-flex justify-content-between align-items-center'
+          data-toggle='collapse'
+          data-target='#crud-user'
+        >
+          <span>
+            <span class='sidebar-icon'><span class='fas fa-cog'></span></span>
+            Role features
+          </span>
+          <span class='link-arrow'><span
+              class='fas fa-chevron-right'
+            ></span></span>
+        </span>
+        <div
+          class='multi-level collapse'
+          role='list'
+          id='crud-user'
+          aria-expanded='false'
+        >
+          <ul class='flex-column nav'>
+
+            <li class='nav-item'><a class='nav-link' href='/create-role'>
+                <img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                /><span>
+
+                  Create role
+                </span></a></li>
+
+            <li class='nav-item'><a class='nav-link' href='/update-role'><img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                /><span>Update role
+                </span></a></li>
+            <li class='nav-item'><a class='nav-link' href='/delete-role'><img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                /><span>Delete role
+                </span></a></li>
+
+            <li class='nav-item'><a
+                class='nav-link'
+                href='/revoke-role-permission'
+              ><img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                /><span>Revoke role permission
+                </span></a></li>
+          </ul>
+        </div>
+      </li>
+
+     {{! Encrypt feature }}
+      <li class='nav-item'>
+        <span
+          class='nav-link collapsed d-flex justify-content-between align-items-center'
+          data-toggle='collapse'
+          data-target='#Encrypt'
+        >
+          <span>
+            <span class='sidebar-icon'><span class='fas fa-cog'></span></span>
+            Encrypt features
+          </span>
+          <span class='link-arrow'><span
+              class='fas fa-chevron-right'
+            ></span></span>
+        </span>
+        <div
+          class='multi-level collapse'
+          role='list'
+          id='Encrypt'
+          aria-expanded='false'
+        >
+          <ul class='flex-column nav'>
+
+            <li class='nav-item'><a class='nav-link' href='/encrypt'>
+                <img
+                  src='../../assets/img/brand/light.svg'
+                  height='20'
+                  width='20'
+                  alt='Volt Logo'
+                /><span>
+
+                Nhan Vien
+                </span></a></li>
+
+          </ul>
+        </div>
+      </li>
+
+      <li role='separator' class='dropdown-divider mt-4 mb-3 border-black'></li>
+
+    </ul>
+  </div>
 </nav>

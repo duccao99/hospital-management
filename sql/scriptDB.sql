@@ -631,7 +631,7 @@ AS
     predicate VARCHAR2(200);
     cur_user VARCHAR2(200);
 BEGIN
--- ''' ERROR  @@ TROI OI!! CAI ''' NAY LA NGUYEN NHAN 
+
     cur_user:= SYS_CONTEXT('USERENV','SESSION_USER');
     IF (INSTR(cur_user,'BACSI')<>0) THEN
       predicate:= 'TENBACSI = ''' ||cur_user||'''';
@@ -1205,7 +1205,9 @@ ON BN.MABN = HS.MABN;
 
 GRANT SELECT ON DUCCAO_ADMIN.VIEW_DOCTOR_SEE_PATIENT_INFO TO ROLE_DOCTOR;
 
-
+---------------------------------------------------------------------------------
+--  DF_2: See patient infor
+---- -----------------------------------------------------------------------------
 
 
 

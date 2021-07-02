@@ -1,40 +1,40 @@
-const express = require("express");
-const adminModel = require("../models/admin.model");
+const express = require('express');
+const adminModel = require('../models/admin.model');
 const router = express.Router();
-const userModel = require("../models/admin.model");
-const oracleModel = require("./../models/oracle.model.js");
-const { authUser } = require("./../middlewares/user.mdw");
-const { oracle } = require("../config/config");
+const userModel = require('../models/admin.model');
+const oracleModel = require('./../models/oracle.model.js');
+const { authUser } = require('./../middlewares/user.mdw');
+const { oracle } = require('../config/config');
 
-router.get("/dashboard", authUser, function (req, res) {
-  res.render("vwAdmin/dashboard", {
-    layout: "admin",
-    authUser: req.session.authUser,
+router.get('/dashboard', authUser, function (req, res) {
+  res.render('vwAdmin/dashboard', {
+    layout: 'admin',
+    authUser: req.session.authUser
   });
 });
 
-router.get("/test", function (req, res) {
-  res.render("vwAdmin/test", {
-    layout: "admin",
+router.get('/test', function (req, res) {
+  res.render('vwAdmin/test', {
+    layout: 'admin'
   });
 });
 
-router.get("/sign-in", function (req, res) {
-  res.render("vwAdmin/SignIn", {
-    layout: false,
+router.get('/sign-in', function (req, res) {
+  res.render('vwAdmin/SignIn', {
+    layout: false
   });
 });
 
-router.post("/sign-in", async function (req, res) {
+router.post('/sign-in', async function (req, res) {
   const data = req.body;
-  console.log("data user login: ", data);
+  console.log('data user login: ', data);
   let listUsers = await adminModel.getListUsers(data.username, data.password);
 
   listUsers = listUsers.map((u) => {
     return {
       username: u.HOTEN.trim(),
       password: u.MATKHAU.trim(),
-      role: u.VAITRO.trim(),
+      role: u.VAITRO.trim()
     };
   });
 
@@ -45,128 +45,128 @@ router.post("/sign-in", async function (req, res) {
       const check_password = await userModel.decryptUserPassword(password);
       console.log(check_password);
       if (check_password.DECRYPTED_PASS !== data.password) {
-        return res.status(401).json({ error_message: "Unauthorize!" });
+        return res.status(401).json({ error_message: 'Unauthorize!' });
       } else {
         console.log(u);
 
         switch (u.role) {
-          case "NHANVIEN_ADMIN":
+          case 'NHANVIEN_ADMIN':
             req.session.authUser = {
               username: data.username,
               password: data.password,
-              role: u.role,
+              role: u.role
             };
-            return res.json({ href: "/dashboard" });
-          case "NHANVIEN_QUANLY_TAINGUYEN_NHANSU":
+            return res.json({ href: '/dashboard' });
+          case 'NHANVIEN_QUANLY_TAINGUYEN_NHANSU':
             req.session.authUser = {
               username: data.username,
               password: data.password,
-              role: u.role,
+              role: u.role
             };
             return res.json({
-              href: "/home/user/role/human-resource-management",
+              href: '/home/user/role/human-resource-management'
             });
-          case "NHANVIEN_TIEPTAN":
+          case 'NHANVIEN_TIEPTAN':
             req.session.authUser = {
               username: data.username,
               password: data.password,
-              role: u.role,
+              role: u.role
             };
-            return res.json({ href: "/home/user/role/reception" });
-          case "NHANVIEN_QUANLY_CHUYENMON":
+            return res.json({ href: '/home/user/role/reception' });
+          case 'NHANVIEN_QUANLY_CHUYENMON':
             req.session.authUser = {
               username: data.username,
               password: data.password,
-              role: u.role,
-            };
-            return res.json({
-              href: "/home/user/role/professional-management",
-            });
-
-          case "NHANVIEN_TAIVU":
-            req.session.authUser = {
-              username: data.username,
-              password: data.password,
-              role: u.role,
+              role: u.role
             };
             return res.json({
-              href: "/home/user/role/accounting-room",
+              href: '/home/user/role/professional-management'
             });
 
-          case "NHANVIEN_KETOAN":
+          case 'NHANVIEN_TAIVU':
             req.session.authUser = {
               username: data.username,
               password: data.password,
-              role: u.role,
+              role: u.role
             };
-
             return res.json({
-              href: "/home/user/role/accounting-department",
+              href: '/home/user/role/accounting-room'
             });
 
-          case "NHANVIEN_QUANLY_TAIVU":
+          case 'NHANVIEN_KETOAN':
             req.session.authUser = {
               username: data.username,
               password: data.password,
-              role: u.role,
+              role: u.role
             };
+
             return res.json({
-              href: "/home/user/role/accounting-management",
+              href: '/home/user/role/accounting-department'
             });
 
-          case "NHANVIEN_LETAN":
+          case 'NHANVIEN_QUANLY_TAIVU':
             req.session.authUser = {
               username: data.username,
               password: data.password,
-              role: u.role,
+              role: u.role
             };
             return res.json({
-              href: "/home/user/role/reception",
+              href: '/home/user/role/accounting-management'
             });
 
-          case "NHANVIEN_BACSI":
+          case 'NHANVIEN_LETAN':
             req.session.authUser = {
               username: data.username,
               password: data.password,
-              role: u.role,
+              role: u.role
             };
             return res.json({
-              href: "/home/user/role/doctor",
+              href: '/home/user/role/reception'
+            });
+
+          case 'NHANVIEN_BACSI':
+            req.session.authUser = {
+              username: data.username,
+              password: data.password,
+              role: u.role
+            };
+            return res.json({
+              href: '/home/user/role/doctor'
             });
           default:
             req.session.authUser = {
               username: data.username,
               password: data.password,
-              role: u.role,
+              role: u.role
             };
-            return res.json({ href: "/home" });
+            return res.json({ href: '/home' });
         }
       }
     }
   }
-  return res.status(401).json({ error_message: "Unauthorize!" });
+  return res.status(401).json({ error_message: 'Unauthorize!' });
 });
 
-router.post("/sign-out", function (req, res) {
+router.post('/sign-out', function (req, res) {
   req.session.authUser = undefined;
-  return res.redirect("/");
+  return res.redirect('/');
 });
 
-router.get("/sign-up", function (req, res) {
+router.get('/sign-up', function (req, res) {
   try {
   } catch (e) {
     return res.status(500).json(e);
   }
 });
 
-router.get("/temp", function (req, res) {
+router.get('/temp', function (req, res) {
   try {
   } catch (e) {
     return res.status(500).json(e);
   }
 });
 
-router.get("/api/users", async function (req, res) {
+router.get('/api/users', async function (req, res) {
   try {
     const users = await userModel.allUser();
     console.log(users);
@@ -177,50 +177,50 @@ router.get("/api/users", async function (req, res) {
   }
 });
 
-router.get("/all-users", authUser, async function (req, res) {
+router.get('/all-users', authUser, async function (req, res) {
   const users = await userModel.allUser();
   const sorted = [...users].sort((a, b) => a.USER_ID - b.USER_ID);
 
-  res.render("vwAdmin/allUser", {
-    layout: "admin",
+  res.render('vwAdmin/allUser', {
+    layout: 'admin',
     users: sorted,
-    authUser: req.session.authUser,
+    authUser: req.session.authUser
   });
 });
 
-router.get("/all-roles", authUser, async function (req, res) {
+router.get('/all-roles', authUser, async function (req, res) {
   const roles = await userModel.allRoles();
 
   const sorted = [...roles].sort((a, b) => a.ROLE_ID - b.ROLE_ID);
 
-  res.render("vwAdmin/allRoles", {
-    layout: "admin",
+  res.render('vwAdmin/allRoles', {
+    layout: 'admin',
     roles: sorted,
-    authUser: req.session.authUser,
+    authUser: req.session.authUser
   });
 });
 
-router.get("/user-priv", authUser, async function (req, res) {
+router.get('/user-priv', authUser, async function (req, res) {
   const roleInfo = await adminModel.getUserPriv();
 
-  res.render("vwAdmin/userPriv", {
-    layout: "admin",
+  res.render('vwAdmin/userPriv', {
+    layout: 'admin',
     roleInfo,
-    authUser: req.session.authUser,
+    authUser: req.session.authUser
   });
 });
 
-router.patch("/user-priv", authUser, async function (req, res) {
+router.patch('/user-priv', authUser, async function (req, res) {
   const editInfo = {
     edit_info_tableName: req.body.edit_info_tableName,
     edit_info_priv: req.body.edit_info_priv,
-    edit_info_grantAble: req.body.edit_info_grantAble,
+    edit_info_grantAble: req.body.edit_info_grantAble
   };
   const info = {
     info_grantee: req.body.info_grantee,
     info_tableName: req.body.info_tableName,
     info_priv: req.body.info_priv,
-    info_grantAble: req.body.info_grantAble,
+    info_grantAble: req.body.info_grantAble
   };
   // SOLUTION: Revoke first then re-grant
   const revokeStatus = await adminModel.revokeUserPriv(
@@ -235,28 +235,28 @@ router.patch("/user-priv", authUser, async function (req, res) {
     editInfo.edit_info_grantAble
   );
 
-  res.json({ message: "success" });
+  res.json({ message: 'success' });
 });
 
-router.get("/role-priv", authUser, async function (req, res) {
+router.get('/role-priv', authUser, async function (req, res) {
   const rolePrivs = await adminModel.getRolePrivs();
 
-  res.render("vwAdmin/rolePriv", {
-    layout: "admin",
+  res.render('vwAdmin/rolePriv', {
+    layout: 'admin',
     rolePrivs,
-    authUser: req.session.authUser,
+    authUser: req.session.authUser
   });
 });
 
-router.patch("/role-priv", authUser, async function (req, res) {
+router.patch('/role-priv', authUser, async function (req, res) {
   const editInfo = {
     tblName: req.body.edit_info_tableName,
-    priv: req.body.edit_info_priv,
+    priv: req.body.edit_info_priv
   };
   const info = {
     roleName: req.body.info_grantee,
     tblName: req.body.info_tableName,
-    priv: req.body.info_priv,
+    priv: req.body.info_priv
   };
 
   const revokeStatus = await adminModel.reVokeRolePriv(
@@ -269,30 +269,30 @@ router.patch("/role-priv", authUser, async function (req, res) {
     editInfo.tblName,
     info.roleName
   );
-  res.json({ message: "Edit role priv sucess!" });
+  res.json({ message: 'Edit role priv sucess!' });
 });
 
-router.get("/user-role", async function (req, res) {
+router.get('/user-role', async function (req, res) {
   const userAndTheirRoles = await adminModel.getUserAndTheirRole();
 
-  res.render("vwAdmin/userAndTheirRole", {
-    layout: "admin",
+  res.render('vwAdmin/userAndTheirRole', {
+    layout: 'admin',
     userAndTheirRoles,
-    authUser: req.session.authUser,
+    authUser: req.session.authUser
   });
 });
 
-router.get("/user-column-privilege", async function (req, res) {
+router.get('/user-column-privilege', async function (req, res) {
   const userColPrivs = await adminModel.getUserAndTheirPrivilegesInColumn();
 
-  res.render("vwAdmin/userColPrivileges", {
-    layout: "admin",
+  res.render('vwAdmin/userColPrivileges', {
+    layout: 'admin',
     userColPrivs,
-    authUser: req.session.authUser,
+    authUser: req.session.authUser
   });
 });
 
-router.get("/grant-user-permission", authUser, async function (req, res) {
+router.get('/grant-user-permission', authUser, async function (req, res) {
   const usernames = await adminModel.getAllUserName();
 
   // get all column name of all table
@@ -310,54 +310,54 @@ router.get("/grant-user-permission", authUser, async function (req, res) {
 
   const arrayColumns = [
     {
-      tableName: "CHAMCONG",
-      columns: chamCongColumns,
+      tableName: 'CHAMCONG',
+      columns: chamCongColumns
     },
     {
-      tableName: "BENHNHAN",
-      columns: benhnhanColumns,
+      tableName: 'BENHNHAN',
+      columns: benhnhanColumns
     },
     {
-      tableName: "HOSOBENHNHAN",
-      columns: hsbnColumns,
+      tableName: 'HOSOBENHNHAN',
+      columns: hsbnColumns
     },
     {
-      tableName: "HOSODICHVU",
-      columns: hsdvColumns,
+      tableName: 'HOSODICHVU',
+      columns: hsdvColumns
     },
 
     {
-      tableName: "HOADON",
-      columns: hoadonColumns,
+      tableName: 'HOADON',
+      columns: hoadonColumns
     },
     {
-      tableName: "NHANVIEN",
-      columns: nhanvienColumns,
+      tableName: 'NHANVIEN',
+      columns: nhanvienColumns
     },
     {
-      tableName: "DONVI",
-      columns: donviColumns,
+      tableName: 'DONVI',
+      columns: donviColumns
     },
     {
-      tableName: "DICHVU",
-      columns: dichvuColumns,
+      tableName: 'DICHVU',
+      columns: dichvuColumns
     },
     {
-      tableName: "CTHOADON",
-      columns: ctHoaDonColumns,
+      tableName: 'CTHOADON',
+      columns: ctHoaDonColumns
     },
     {
-      tableName: "CTDONTHUOC",
-      columns: ctDonThuocColumns,
+      tableName: 'CTDONTHUOC',
+      columns: ctDonThuocColumns
     },
     {
-      tableName: "THUOC",
-      columns: thuocColumns,
-    },
+      tableName: 'THUOC',
+      columns: thuocColumns
+    }
   ];
 
-  res.render("vwAdmin/grantUserPermission", {
-    layout: "admin",
+  res.render('vwAdmin/grantUserPermission', {
+    layout: 'admin',
     authUser: req.session.authUser,
     arrayColumns,
     usernames: usernames.sort((a, b) => {
@@ -368,18 +368,18 @@ router.get("/grant-user-permission", authUser, async function (req, res) {
         return 1;
       }
       return 0;
-    }),
+    })
   });
 });
 
-router.post("/grant-user-permission", authUser, async function (req, res) {
+router.post('/grant-user-permission', authUser, async function (req, res) {
   try {
     const data = {
       username: req.body.username,
       privilege: req.body.privilege,
       tableName: req.body.tableName,
       withGrantOption: req.body.withGrantOption,
-      columnValue: req.body.columnValue,
+      columnValue: req.body.columnValue
     };
     console.log(data);
 
@@ -393,14 +393,14 @@ router.post("/grant-user-permission", authUser, async function (req, res) {
 
     console.log(status);
 
-    res.json({ message: "success!" });
+    res.json({ message: 'success!' });
   } catch (e) {
     console.error(e);
     return res.status(500).json({ message: e });
   }
 });
 
-router.get("/grant-role-permission", authUser, async function (req, res) {
+router.get('/grant-role-permission', authUser, async function (req, res) {
   const roleNames = await adminModel.allRoleNames();
 
   // get all column name of all table
@@ -418,67 +418,67 @@ router.get("/grant-role-permission", authUser, async function (req, res) {
 
   const arrayColumns = [
     {
-      tableName: "CHAMCONG",
-      columns: chamCongColumns,
+      tableName: 'CHAMCONG',
+      columns: chamCongColumns
     },
     {
-      tableName: "BENHNHAN",
-      columns: benhnhanColumns,
+      tableName: 'BENHNHAN',
+      columns: benhnhanColumns
     },
     {
-      tableName: "HOSOBENHNHAN",
-      columns: hsbnColumns,
+      tableName: 'HOSOBENHNHAN',
+      columns: hsbnColumns
     },
     {
-      tableName: "HOSODICHVU",
-      columns: hsdvColumns,
+      tableName: 'HOSODICHVU',
+      columns: hsdvColumns
     },
 
     {
-      tableName: "HOADON",
-      columns: hoadonColumns,
+      tableName: 'HOADON',
+      columns: hoadonColumns
     },
     {
-      tableName: "NHANVIEN",
-      columns: nhanvienColumns,
+      tableName: 'NHANVIEN',
+      columns: nhanvienColumns
     },
     {
-      tableName: "DONVI",
-      columns: donviColumns,
+      tableName: 'DONVI',
+      columns: donviColumns
     },
     {
-      tableName: "DICHVU",
-      columns: dichvuColumns,
+      tableName: 'DICHVU',
+      columns: dichvuColumns
     },
     {
-      tableName: "CTHOADON",
-      columns: ctHoaDonColumns,
+      tableName: 'CTHOADON',
+      columns: ctHoaDonColumns
     },
     {
-      tableName: "CTDONTHUOC",
-      columns: ctDonThuocColumns,
+      tableName: 'CTDONTHUOC',
+      columns: ctDonThuocColumns
     },
     {
-      tableName: "THUOC",
-      columns: thuocColumns,
-    },
+      tableName: 'THUOC',
+      columns: thuocColumns
+    }
   ];
-  res.render("vwAdmin/grantRolePermission", {
+  res.render('vwAdmin/grantRolePermission', {
     roleNames,
     arrayColumns,
-    layout: "admin",
-    authUser: req.session.authUser,
+    layout: 'admin',
+    authUser: req.session.authUser
   });
 });
 
-router.post("/grant-role-permission", authUser, async function (req, res) {
+router.post('/grant-role-permission', authUser, async function (req, res) {
   try {
     const data = {
       rolename: req.body.rolename,
       privilege: req.body.privilege,
       tableName: req.body.tableName,
       withGrantOption: req.body.withGrantOption,
-      columnValue: req.body.columnValue,
+      columnValue: req.body.columnValue
     };
     console.log(data);
 
@@ -486,22 +486,22 @@ router.post("/grant-role-permission", authUser, async function (req, res) {
       data.rolename,
       data.privilege,
       data.tableName,
-      "false",
+      'false',
       data.columnValue
     );
 
-    res.json({ message: "success!" });
+    res.json({ message: 'success!' });
   } catch (e) {
     return res.status(500).json({ message: e });
   }
 });
 
-router.get("/grant-role-to-user", authUser, async function (req, res) {
+router.get('/grant-role-to-user', authUser, async function (req, res) {
   const usernames = await adminModel.getAllUserName();
   const rolenames = await adminModel.getAllRoleName();
 
-  res.render("vwAdmin/grantRoleToUser", {
-    layout: "admin",
+  res.render('vwAdmin/grantRoleToUser', {
+    layout: 'admin',
     usernames: usernames.sort(function (a, b) {
       if (a.USERNAME < b.USERNAME) {
         return -1;
@@ -520,56 +520,67 @@ router.get("/grant-role-to-user", authUser, async function (req, res) {
       }
       return 0;
     }),
-    authUser: req.session.authUser,
+    authUser: req.session.authUser
   });
 });
 
-router.post("/grant-role-to-user", authUser, async function (req, res) {
+router.post('/grant-role-to-user', authUser, async function (req, res) {
   const data = {
     rolename: req.body.rolename,
     username: req.body.username,
-    withGrantOption: req.body.withGrantOption,
+    withGrantOption: req.body.withGrantOption
   };
   console.log(data);
-  if (data.withGrantOption !== undefined && data.withGrantOption === "true") {
+  if (data.withGrantOption !== undefined && data.withGrantOption === 'true') {
     const status = await adminModel.grantRoleToUserWithGrantOption(
       data.rolename,
       data.username
     );
-    return res.json({ message: "Granted!" });
+    return res.json({ message: 'Granted!' });
   } else {
     const status = await adminModel.grantRoleToUser(
       data.rolename,
       data.username
     );
-    return res.json({ message: "Granted!" });
+    return res.json({ message: 'Granted!' });
   }
 });
 
 router.get(
-  "/user-select-column-privilege",
+  '/user-select-column-privilege',
   authUser,
   async function (req, res) {
-    const userSelectColumnPrivs = await adminModel.getViewUserSelectColumnLevel();
-    res.render("vwAdmin/UserSelectColumnPriv", {
-      layout: "admin",
+    const userSelectColumnPrivs =
+      await adminModel.getViewUserSelectColumnLevel();
+    res.render('vwAdmin/UserSelectColumnPriv', {
+      layout: 'admin',
       authUser: req.session.authUser,
-      userSelectColumnPrivs,
+      userSelectColumnPrivs
     });
   }
 );
 
 router.get(
-  "/role-select-column-privilege",
+  '/role-select-column-privilege',
   authUser,
   async function (req, res) {
-    const roleSeletColumnPrivs = await adminModel.getViewRoleSelectColumnLevel();
-    res.render("vwAdmin/RoleSelectColumnPriv", {
-      layout: "admin",
+    const roleSeletColumnPrivs =
+      await adminModel.getViewRoleSelectColumnLevel();
+    res.render('vwAdmin/RoleSelectColumnPriv', {
+      layout: 'admin',
       authUser: req.session.authUser,
-      roleSeletColumnPrivs,
+      roleSeletColumnPrivs
     });
   }
 );
+
+router.get('/encrypt', authUser, async function (req, res) {
+  const nhanVienEncrypted = await adminModel.getNhanVienEncrypted();
+  res.render('vwAdmin/encrypt', {
+    layout: 'admin',
+    authUser: req.session.authUser,
+    nhanVienEncrypted
+  });
+});
 
 module.exports = router;

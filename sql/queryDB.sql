@@ -705,8 +705,12 @@ END;
 /
 
 /*********************
-*     OLS
+*     OLS 
 **********************/
+
+-- Policy: Nhan vien bo phan thong bao dang thong bao, va thong bao nay
+-- chi xem duoc boi mot so nguoi dung nhat dinh
+
 
 
 
