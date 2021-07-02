@@ -87,7 +87,163 @@ END;
 CONN TIM/TIM;
 SELECT * FROM CONGTYVC.vanchuyen;
 
+---------------------------
+-- Onboarding OLS Level
+---------------------------
+CREATE USER HR IDENTIFIED BY HR;
+GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO HR;
 
+--DROP TABLE HR.EMPLOYEES;
+CONN HR/HR;
+CREATE TABLE EMPLOYEES(
+    EMP_ID INT,
+    EMP_NAME VARCHAR2(100),
+    EMP_SAL INT
+);
+
+CONN HR/HR;
+INSERT INTO HR.EMPLOYEES VALUES (100,'DUC',1111);
+INSERT INTO HR.EMPLOYEES VALUES (101,'UYEN',22222);
+INSERT INTO HR.EMPLOYEES VALUES (102,'HAI',22222);
+INSERT INTO HR.EMPLOYEES VALUES (103,'TONS',22222);
+INSERT INTO HR.EMPLOYEES VALUES (104,'HUY',22222);
+
+CREATE ROLE HR_ROLE;
+GRANT SELECT ON HR.EMPLOYEES TO HR_ROLE;
+
+GRANT CONNECT, HR_ROLE TO SMAVRIS IDENTIFIED BY SMAVRIS;
+GRANT CONNECT, HR_ROLE TO INEAU  IDENTIFIED BY INEAU ;
+GRANT CREATE SESSION TO SMAVRIS,INEAU;
+GRANT SELECT ON HR.EMPLOYEES TO SMAVRIS,INEAU;
+
+CONN LBACSYS/1;
+exec SA_SYSDBA.DROP_POLICY('HR_OLS_POL',FALSE);
+
+-- create policy
+CONN LBACSYS/1;
+BEGIN
+ SA_SYSDBA.CREATE_POLICY (
+  policy_name      => 'HR_OLS_POL',
+  column_name      => 'OLS_COL');
+END;
+/
+EXEC SA_SYSDBA.ENABLE_POLICY ('HR_OLS_POL');
+
+-- create levels
+CONN LBACSYS/1;
+BEGIN 
+    SA_COMPONENTS.CREATE_LEVEL(
+        policy_name => 'HR_OLS_POL',
+        level_num => 150,
+        short_name => 'HS',
+        long_name => 'HIGHLY_SENSITIVE'
+    );
+    
+     SA_COMPONENTS.CREATE_LEVEL(
+        policy_name => 'HR_OLS_POL',
+        level_num => 125,
+        short_name => 'S',
+        long_name => 'SENSITIVE'
+    );
+END;
+/
+
+-- create data label
+CONN LBACSYS/1;
+BEGIN
+    SA_LABEL_ADMIN.CREATE_LABEL(
+        policy_name  => 'HR_OLS_POL',
+        label_tag    => 140,
+        label_value  => 'HS',
+        data_label   => TRUE
+    );
+      SA_LABEL_ADMIN.CREATE_LABEL(
+        policy_name  => 'HR_OLS_POL',
+        label_tag    => 120,
+        label_value  => 'S',
+        data_label   => TRUE
+    );
+END; 
+/
+
+-- set user authorization for the OLS
+CONN LBACSYS/1;
+BEGIN 
+    SA_USER_ADMIN.SET_LEVELS(
+        policy_name  => 'HR_OLS_POL',
+        user_name    => 'SMAVRIS', 
+        max_level    => 'HS',
+        min_level    => 'S'
+      );
+    SA_USER_ADMIN.SET_LEVELS(
+        policy_name  => 'HR_OLS_POL',
+        user_name    => 'INEAU', 
+        max_level    => 'S',
+        min_level    => 'S'
+      );
+END;
+/
+
+-- Apply the OLS policy to HR Schema
+CONN LBACSYS/1;
+BEGIN
+  SA_POLICY_ADMIN.APPLY_TABLE_POLICY (
+    policy_name    => 'HR_OLS_POL',
+    schema_name    => 'HR', 
+    table_name     => 'EMPLOYEES',
+    table_options  => 'READ_CONTROL');
+END;
+/
+BEGIN
+   SA_POLICY_ADMIN.ENABLE_TABLE_POLICY (
+      policy_name => 'HR_OLS_POL',
+      schema_name => 'HR',
+      table_name  => 'EMPLOYEES');
+END;
+/
+
+-- add  the policy label to table HR.employees
+CONN LBACSYS/1;
+BEGIN
+   SA_USER_ADMIN.SET_USER_PRIVS (
+      policy_name => 'HR_OLS_POL',
+      user_name   => 'HR',
+      privileges  => 'READ');
+END;
+/
+
+conn HR/HR;
+UPDATE HR.EMPLOYEES 
+SET OLS_COL= CHAR_TO_LABEL('HR_OLS_POL','HS')
+WHERE EMP_ID IN (101,102,103,104);
+
+
+conn HR/HR;
+UPDATE HR.EMPLOYEES 
+SET OLS_COL= CHAR_TO_LABEL('HR_OLS_POL','S')
+WHERE EMP_ID NOT IN (101,102,103,104);
+
+
+CONN SMAVRIS/SMAVRIS;
+SELECT * FROM HR.EMPLOYEES ;
+
+CONN INEAU/INEAU;
+SELECT * FROM HR.EMPLOYEES ;
+
+
+-- REMOVE POLICY
+CONN LBACSYS/1;
+BEGIN
+  SA_SYSDBA.DROP_POLICY ( 
+    policy_name  => 'HR_OLS_POL',
+    drop_column  => TRUE);
+END;
+/
+DROP ROLE HR_ROLE;
+DROP USER INEAU;
+DROP USER SMAVRIS;
+
+-- 
 
 
 
