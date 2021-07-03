@@ -2,23 +2,27 @@
 
 #### Information system data security course - project
 
-**Teach stack**
+**Technical stack**
 
-**Frontend**: `Javascript`
+**Frontend**: `html`, `css`,`bootstrap`, `javascript`
 
-**Backend**: `NodeJS`,`node-oracledb`, `ElectronJS`, `Handlebars`
+**Backend**: `nodejs`,`node-oracledb`, `electronjs`, `handlebars`
 
 **Database**: `Oracle`
 <br/>
 
-**Oracle tech stack**
+**Oracle technical stack**
 <br/>
-DAC - Discretionary Access Control
+`DAC` - Discretionary Access Control
 <br/>
-RBAC - Role-based Access Control
+`RBAC` - Role-based Access Control
 <br/>
-VPD - Virtual Private Database
+`VPD` - Virtual Private Database
 <br/>
-SQL Injection
+`SQL Injection`
 <br/>
-Encrypt & Decrypt
+`Encrypt & Decrypt`
+<br/>
+`OLS` - Oracle Label Security
+<br/>
+`Audit`
