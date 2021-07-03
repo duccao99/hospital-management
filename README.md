@@ -27,6 +27,10 @@
 <br/>
 `Audit`
 
+**Project report**
+<br/>
+[report](https://docs.google.com/document/d/1OwT0IPkYxzmIYDir-cBanmktQ3a70yMJ/edit?rtpof=true)
+
 #### Some Images result
 
 **Sign-in**
@@ -64,8 +68,8 @@
 **+ Step 1:** Install and setup NodeJS platform, Oracle 18C, Oracle SQL Developer
 <br/>
 
-**+ Step 2:** Clone this project, open it and type "npm i" command in the terminal
+**+ Step 2:** Clone this project, open and type "npm i" command in the terminal
 <br/>
 
-**+ Step 3:** Open two terminal, the first one type "npm run dev" to start the server, and the last one type "npm start" to start the electronjs.
+**+ Step 3:** Open two terminal, the first one type "npm run dev" to start the server, and the last one type "npm start" to start the electron-js.
 <br/>
