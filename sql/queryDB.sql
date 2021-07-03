@@ -727,8 +727,8 @@ END;
 -- Policy 1: Manager can view all employees record, Doctor Manager can only view doctor record - OLS_POL_MR
 -- Policy 2: DBA in China Cannot View Viet Nam Database Record - OLS_POL_DBA
 
-GRANT SELECT ON NHANVIEN TO DUCCAO_ADMIN_CHINA;
--- Policy 1: Manager can view all employees record - OLS_POL_MR
+
+-- Implementation of Policy 1: Manager can view all employees record - OLS_POL_MR
 -- pre drop policy
 CONN LBACSYS/1;
 exec SA_SYSDBA.DROP_POLICY('OLS_POL_MR',FALSE);
@@ -989,6 +989,217 @@ SELECT * FROM BENHVIENMASTER.NHANVIEN ;
 -- End policy 1
 
 
+
+
+-- Implementation of Policy 2: DBA in China Cannot View Viet Nam Database Record - OLS_POL_DBA
+
+
+-- PRE DROP
+CONN LBACSYS/1;
+ BEGIN
+  SA_SYSDBA.DROP_POLICY ( 
+    policy_name  => 'OLS_POL_DBA',
+    drop_column  => TRUE);
+END;
+/
+
+-- + Step 1: Create policy
+CONN LBACSYS/1;
+BEGIN
+ SA_SYSDBA.CREATE_POLICY (
+  policy_name      => 'OLS_POL_DBA',
+  column_name      => 'OLS_COL_POL_2');
+END;
+/
+EXEC SA_SYSDBA.ENABLE_POLICY ('OLS_POL_DBA');
+
+-- + Step 2: Create level
+CONN LBACSYS/1;
+BEGIN
+   SA_COMPONENTS.CREATE_LEVEL (
+      policy_name => 'OLS_POL_DBA',
+      level_num   => 2500,
+      short_name  => 'DBA',
+      long_name   => 'Database Aministrator');   
+END;
+/
+
+-- + Step 3: Create compartment
+CONN LBACSYS/1;
+BEGIN 
+    LBACSYS.SA_COMPONENTS.CREATE_COMPARTMENT(
+        policy_name      => 'OLS_POL_DBA',
+        long_name        => 'Doctor',
+        short_name       => 'DR',
+        comp_num         =>  1100
+    );
+    LBACSYS.SA_COMPONENTS.CREATE_COMPARTMENT(
+        policy_name      => 'OLS_POL_DBA',
+        long_name        => 'Accounting Department',
+        short_name       => 'AD',
+        comp_num         =>  1075
+    );
+END;
+/
+
+
+-- + Step 4: Create  group 
+-- parent group
+CONN LBACSYS/1;
+BEGIN
+  SA_COMPONENTS.CREATE_GROUP (
+   policy_name     => 'OLS_POL_DBA',
+   group_num       => 9999,
+   short_name      => 'CORP',
+   long_name       => 'Corporate');
+END;
+/
+
+-- child group
+CONN LBACSYS/1;
+BEGIN
+  SA_COMPONENTS.CREATE_GROUP (
+   policy_name     => 'OLS_POL_DBA',
+   group_num       => 8400,
+   short_name      => 'VI',
+   long_name       => 'Viet Nam'
+   --   parent_name     => 'CORP'
+  );
+   
+  SA_COMPONENTS.CREATE_GROUP (
+   policy_name     => 'OLS_POL_DBA',
+   group_num       => 8600,
+   short_name      => 'CNI',
+   long_name       => 'CHINA'
+--   parent_name     => 'CORP'
+   );
+END;
+/
+
+
+-- + STEP :  Create label tag
+CONN LBACSYS/1;
+BEGIN
+  SA_LABEL_ADMIN.CREATE_LABEL(
+        policy_name  => 'OLS_POL_DBA',
+        label_tag    => 300,
+        label_value  => 'DBA:DR,AD:VI',
+        data_label   => TRUE
+    );
+    
+      SA_LABEL_ADMIN.CREATE_LABEL(
+        policy_name  => 'OLS_POL_DBA',
+        label_tag    => 310,
+        label_value  => 'DBA:DR,AD:CNI',
+        data_label   => TRUE
+    );
+END;
+/
+
+
+
+-- + Step 5: SET  LEVEL to user
+CONN LBACSYS/1;
+BEGIN
+   SA_USER_ADMIN.SET_LEVELS (
+      policy_name  => 'OLS_POL_DBA',
+      user_name    => 'DUCCAO_ADMIN_VN', 
+      max_level    => 'DBA');
+      
+         SA_USER_ADMIN.SET_LEVELS (
+      policy_name  => 'OLS_POL_DBA',
+      user_name    => 'DUCCAO_ADMIN_CHINA2', 
+      max_level    => 'DBA');
+END;
+/
+
+-- + Step 6: SET  group to user
+CONN LBACSYS/1;
+BEGIN 
+ SA_USER_ADMIN.SET_GROUPS (
+  policy_name    => 'OLS_POL_DBA',
+  user_name      => 'DUCCAO_ADMIN_VN', 
+  read_groups    => 'VI');
+  
+   SA_USER_ADMIN.SET_GROUPS (
+  policy_name    => 'OLS_POL_DBA',
+  user_name      => 'DUCCAO_ADMIN_CHINA2', 
+  read_groups    => 'CNI');
+END;
+/
+
+-- DO WE NEED THIS ?
+--  SET USER LABEL
+CONN LBACSYS/1;
+BEGIN
+   SA_USER_ADMIN.SET_USER_LABELS (
+      policy_name    => 'OLS_POL_DBA',
+      user_name      => 'DUCCAO_ADMIN_VN', 
+      max_read_label => 'DBA:DR,AD:VI');
+      
+         SA_USER_ADMIN.SET_USER_LABELS (
+      policy_name    => 'OLS_POL_DBA',
+      user_name      => 'DUCCAO_ADMIN_CHINA2', 
+      max_read_label => 'DBA:DR,AD:CNI');
+   END;
+/
+   
+
+-- + STEP 7: APPLY TABLE POLICY
+CONN LBACSYS/1;
+BEGIN
+  SA_POLICY_ADMIN.APPLY_TABLE_POLICY (
+    policy_name    => 'OLS_POL_DBA',
+    schema_name    => 'BENHVIENMASTER', 
+    table_name     => 'NhanVien',
+    table_options  => 'READ_CONTROL');
+END;
+/
+
+-- enable pol
+CONN LBACSYS/1;
+BEGIN
+   SA_POLICY_ADMIN.ENABLE_TABLE_POLICY (
+      policy_name => 'OLS_POL_DBA',
+      schema_name => 'BENHVIENMASTER',
+      table_name  => 'NhanVien');
+END;
+
+-- set priv to update policy column
+CONN LBACSYS/1;
+BEGIN
+   SA_USER_ADMIN.SET_USER_PRIVS (
+      policy_name => 'OLS_POL_DBA',
+      user_name   => 'BENHVIENMASTER',
+      privileges  => 'READ');
+END;
+/
+
+-- + STEP 9: add label to column policy
+CONN BENHVIENMASTER/BENHVIENMASTER;
+UPDATE BENHVIENMASTER.NHANVIEN
+SET    OLS_COL_POL_2 = CHAR_TO_LABEL('OLS_POL_DBA','DBA:DR,AD:VI')
+WHERE  UPPER(MANV) IN (100,101,103);
+
+CONN BENHVIENMASTER/BENHVIENMASTER;
+UPDATE BENHVIENMASTER.NHANVIEN
+SET    OLS_COL_POL_2 = CHAR_TO_LABEL('OLS_POL_DBA','DBA:DR,AD:CNI')
+WHERE  UPPER(MANV) NOT IN (100,101,103);
+
+select * from BENHVIENMASTER.NhanVien;
+
+-- + step 10; testing
+-- DUCCAO_ADMIN_VN LA DBA O VIET NAM NEN CHI TRUY CAP DUOC RECORD O VN
+CONN DUCCAO_ADMIN_VN/DUCCAO_ADMIN_VN;
+SELECT * FROM BENHVIENMASTER.NhanVien;
+
+SELECT MANV, TENNV, CHUCVU, LABEL_TO_CHAR(OLS_COL_POL_2)
+FROM BENHVIENMASTER.NhanVien;
+
+
+-- DUCCAO_ADMIN_CHINA2 LA DBA O TRUNG QUOC NEN CHI TRUY CAP DUOC RECORD O TRUNG QUOC
+CONN DUCCAO_ADMIN_CHINA2/DUCCAO_ADMIN_CHINA2;
+SELECT * FROM BENHVIENMASTER.NhanVien;
 
 /*********************
 *     END OLS
