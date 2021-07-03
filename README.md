@@ -1,6 +1,6 @@
-### Hospital Management
+### Hospital Management Project
 
-### Information system data security course - project
+### CSC12001 - Information system data security course
 
 #### Technical stack
 
@@ -27,9 +27,9 @@
 <br/>
 `Audit`
 
-**Project report:** [report](https://docs.google.com/document/d/1OwT0IPkYxzmIYDir-cBanmktQ3a70yMJ/edit?rtpof=true)
+**Project report:** [Link](https://docs.google.com/document/d/1OwT0IPkYxzmIYDir-cBanmktQ3a70yMJ/edit?rtpof=true)
 
-**OLS description**[ols](https://docs.google.com/spreadsheets/d/1MwxzmJVqf7t-IgzvfcaY1fFi5Uimy6oFpl6NQX2f6gI/edit#gid=442546680)
+**OLS description:** [Link](https://docs.google.com/spreadsheets/d/1MwxzmJVqf7t-IgzvfcaY1fFi5Uimy6oFpl6NQX2f6gI/edit#gid=442546680)
 
 #### Some Images result
 
