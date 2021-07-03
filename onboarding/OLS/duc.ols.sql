@@ -432,13 +432,166 @@ END;
 /
 
 
-conn LLEAGULL/LLEAGULL;
-select * from hr.employees;
+---------------------------
+-- End Onboarding OLS Compartment
+---------------------------
 
 
+---------------------------
+--  Onboarding OLS Group
+---------------------------
+
+-- policy
+CONN LBACSYS/1;
+BEGIN
+ SA_SYSDBA.CREATE_POLICY (
+  policy_name      => 'OE_OLS_POL',
+  column_name      => 'OLS_COL');
+END;
+/
+EXEC SA_SYSDBA.ENABLE_POLICY ('OE_OLS_POL');
+
+-- level
+CONN LBACSYS/1;
+BEGIN
+   SA_COMPONENTS.CREATE_LEVEL (
+      policy_name => 'OE_OLS_POL',
+      level_num   => 50,
+      short_name  => 'D',
+      long_name   => 'DEFAULT');
+END;
+/
+-- set level
+CONN LBACSYS/1;
+BEGIN
+   SA_USER_ADMIN.SET_LEVELS (
+      policy_name  => 'OE_OLS_POL',
+      user_name    => 'SKING', 
+      max_level    => 'D');
+
+   SA_USER_ADMIN.SET_LEVELS (
+      policy_name  => 'OE_OLS_POL',
+      user_name    => 'AERRAZURIZ', 
+      max_level    => 'D');
+
+   SA_USER_ADMIN.SET_LEVELS (
+      policy_name  => 'OE_OLS_POL',
+      user_name    => 'GCAMBRAULT', 
+      max_level    => 'D');
+
+   SA_USER_ADMIN.SET_LEVELS (
+      policy_name  => 'OE_OLS_POL',
+      user_name    => 'JRUSSELL', 
+      max_level    => 'D');
+
+   SA_USER_ADMIN.SET_LEVELS (
+      policy_name  => 'OE_OLS_POL',
+      user_name    => 'EZLOTKEY', 
+      max_level    => 'D');
+END;
+/
+
+-- create father group
+BEGIN
+  SA_COMPONENTS.CREATE_GROUP (
+   policy_name     => 'OE_OLS_POL',
+   group_num       => 2000,
+   short_name      => 'GS',
+   long_name       => 'GLOBAL_SALES');
+END;
+/
+-- create child group
+BEGIN
+  SA_COMPONENTS.CREATE_GROUP (
+   policy_name     => 'OE_OLS_POL',
+   group_num       => 2100,
+   short_name      => 'EU',
+   long_name       => 'EUROPE',
+   parent_name     => 'GS');
+
+  SA_COMPONENTS.CREATE_GROUP (
+   policy_name     => 'OE_OLS_POL',
+   group_num       => 2200,
+   short_name      => 'AS',
+   long_name       => 'ASIA',
+   parent_name     => 'GS');
+
+  SA_COMPONENTS.CREATE_GROUP (
+   policy_name     => 'OE_OLS_POL',
+   group_num       => 2300,
+   short_name      => 'US1',
+   long_name       => 'UNITED_STATES_1',
+   parent_name     => 'GS');
+
+  SA_COMPONENTS.CREATE_GROUP (
+   policy_name     => 'OE_OLS_POL',
+   group_num       => 2400,
+   short_name      => 'US2',
+   long_name       => 'UNITED_STATES_2',
+   parent_name     => 'GS');
+END;
+/
+-- add user to group
+
+BEGIN 
+ SA_USER_ADMIN.SET_GROUPS (
+  policy_name    => 'OE_OLS_POL',
+  user_name      => 'SKING', 
+  read_groups    => 'GS');
+
+ SA_USER_ADMIN.SET_GROUPS (
+  policy_name    => 'OE_OLS_POL',
+  user_name      => 'AERRAZURIZ', 
+  read_groups    => 'EU');
+
+ SA_USER_ADMIN.SET_GROUPS (
+  policy_name    => 'OE_OLS_POL',
+  user_name      => 'GCAMBRAULT', 
+  read_groups    => 'AS');
+
+ SA_USER_ADMIN.SET_GROUPS (
+  policy_name    => 'OE_OLS_POL',
+  user_name      => 'JRUSSELL', 
+  read_groups    => 'US1');
+
+ SA_USER_ADMIN.SET_GROUPS (
+  policy_name    => 'OE_OLS_POL',
+  user_name      => 'EZLOTKEY', 
+  read_groups    => 'US2');
+END;
+/
+
+-- check labels
+SELECT POLICY_NAME, LABEL, LABEL_TAG FROM DBA_SA_LABELS ORDER BY LABEL_TAG;
+
+-- apply pol to table
+BEGIN
+  SA_POLICY_ADMIN.APPLY_TABLE_POLICY (
+    policy_name    => 'OE_OLS_POL',
+    schema_name    => 'OE', 
+    table_name     => 'CUSTOMERS',
+    table_options  => 'READ_CONTROL');
+END;
+/
+BEGIN
+   SA_POLICY_ADMIN.ENABLE_TABLE_POLICY (
+      policy_name => 'OE_OLS_POL',
+      schema_name => 'OE',
+      table_name  => 'CUSTOMERS');
+END;
+/
 
 
+-- add policy label to table
+UPDATE customers
+SET    ols_col = CHAR_TO_LABEL('OE_OLS_POL','D::GS')
+WHERE  UPPER(account_mgr_id) IN (145, 147, 148, 149);
 
+-- test and done
+
+---------------------------
+-- End Onboarding OLS Group
+---------------------------
 
 
 

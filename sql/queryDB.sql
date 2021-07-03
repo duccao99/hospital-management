@@ -17,6 +17,22 @@ GRANT EXECUTE ON SYS.DBMS_OUTPUT TO DUCCAO_ADMIN;
 GRANT AUDIT_ADMIN TO DUCCAO_ADMIN;
 
 
+ALTER SESSION  SET "_ORACLE_SCRIPT"=TRUE;  
+DROP USER DUCCAO_ADMIN_CHINA CASCADE;
+CREATE USER DUCCAO_ADMIN_CHINA IDENTIFIED BY DUCCAO_ADMIN_CHINA;
+GRANT CREATE SESSION TO DUCCAO_ADMIN_CHINA WITH ADMIN OPTION;
+GRANT CONNECT, RESOURCE, DBA TO DUCCAO_ADMIN_CHINA WITH ADMIN OPTION;
+GRANT CREATE USER TO DUCCAO_ADMIN_CHINA WITH ADMIN OPTION;
+GRANT ALTER USER TO DUCCAO_ADMIN_CHINA WITH ADMIN OPTION;
+GRANT DROP USER TO DUCCAO_ADMIN_CHINA WITH ADMIN OPTION;
+GRANT CREATE ROLE TO DUCCAO_ADMIN_CHINA WITH ADMIN OPTION;
+GRANT CREATE VIEW, CREATE TABLE TO DUCCAO_ADMIN_CHINA WITH ADMIN OPTION;
+GRANT EXECUTE ON DBMS_RLS TO DUCCAO_ADMIN_CHINA;
+GRANT EXECUTE ON SYS.DBMS_CRYPTO TO DUCCAO_ADMIN_CHINA;
+GRANT EXECUTE ON SYS.DBMS_OUTPUT TO DUCCAO_ADMIN_CHINA;
+GRANT AUDIT_ADMIN TO DUCCAO_ADMIN_CHINA;
+
+
 ALTER SYSTEM SET audit_sys_operations = true scope = spfile;
 AUDIT CONNECT;
 
@@ -708,10 +724,118 @@ END;
 *     OLS 
 **********************/
 
--- Policy: Nhan vien bo phan thong bao dang thong bao, va thong bao nay
--- chi xem duoc boi mot so nguoi dung nhat dinh
+-- Policy 1: Manager can view all employees record, Doctor Manager can only view doctor record - OLS_POL_MR
+-- Policy 2: DBA in China Cannot View Viet Nam Database Record - OLS_POL_DBA
+
+GRANT SELECT ON NHANVIEN TO DUCCAO_ADMIN_CHINA;
+-- Policy 1: Manager can view all employees record - OLS_POL_MR
+-- pre drop policy
+CONN LBACSYS/1;
+exec SA_SYSDBA.DROP_POLICY('OLS_POL_MR',FALSE);
+-- + Step 1: Create policy - OLS_POL_MR
+CONN LBACSYS/1;
+BEGIN
+    SA_SYSDBA.CREATE_POLICY(
+        policy_name => 'OLS_POL_MR',
+        column_name => 'OLS_COL_POL_1'
+    );
+END;
+/
+EXEC SA_SYSDBA.ENABLE_POLICY ('OLS_POL_MR');
+
+-- + Step 2: create levels
+CONN LBACSYS/1;
+BEGIN 
+    SA_COMPONENTS.CREATE_LEVEL(
+        policy_name => 'OLS_POL_MR',
+        level_num =>2100,
+        short_name =>'MR',
+        long_name =>'Manager'
+    );
+    SA_COMPONENTS.CREATE_LEVEL(
+        policy_name => 'OLS_POL_MR',
+        level_num => 2500,
+        short_name => 'DM',
+        long_name => 'Doctor Manager'
+    ); 
+END;
+/
 
 
+-- + Step 3: Create compartment
+CONN LBACSYS/1;
+BEGIN 
+    LBACSYS.SA_COMPONENTS.CREATE_COMPARTMENT(
+        policy_name      => 'OLS_POL_MR',
+        long_name        => 'Doctor',
+        short_name       => 'DR',
+        comp_num         =>  1100
+    );
+    LBACSYS.SA_COMPONENTS.CREATE_COMPARTMENT(
+        policy_name      => 'OLS_POL_MR',
+        long_name        => 'Accounting Department',
+        short_name       => 'AD',
+        comp_num         =>  1075
+    );
+END;
+/
+
+-- + Step 4: Create label
+CONN LBACSYS/1;
+BEGIN
+    SA_LABEL_ADMIN.CREATE_LABEL(
+        policy_name  => 'OLS_POL_MR',
+        label_tag    => 1,
+        label_value  => 'MR',
+        data_label   => TRUE
+    );
+    
+    SA_LABEL_ADMIN.CREATE_LABEL(
+        policy_name  => 'OLS_POL_MR',
+        label_tag    => 2,
+        label_value  => 'DM',
+        data_label   => TRUE
+    );
+END; 
+/
+
+-- Label for comparment
+-- manger can read all employees records
+CONN LBACSYS/1;
+BEGIN
+  SA_LABEL_ADMIN.CREATE_LABEL(
+        policy_name  => 'OLS_POL_MR',
+        label_tag    => 10,
+        label_value  => 'MR:DR,AD:',
+        data_label   => TRUE
+    );
+END;
+/
+
+-- Label for comparment
+-- doctor manager only read doctor record
+
+CONN LBACSYS/1;
+BEGIN
+  SA_LABEL_ADMIN.CREATE_LABEL(
+        policy_name  => 'OLS_POL_MR',
+        label_tag    => 30,
+        label_value  => 'DM:DR:',
+        data_label   => TRUE
+    );
+END;
+/
+
+-- + Step 5: Apply the OLS policy to HR Schema
+CONN LBACSYS/1;
+BEGIN
+  SA_POLICY_ADMIN.APPLY_TABLE_POLICY (
+    policy_name    => 'HR_OLS_POL',
+    schema_name    => 'HR', 
+    table_name     => 'EMPLOYEES',
+    table_options  => 'READ_CONTROL');
+END;
+/
 
 
 
