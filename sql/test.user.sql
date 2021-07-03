@@ -125,7 +125,7 @@ select * from DUCCAO_ADMIN.nhanvien;
 --------------------------------
 
 -- 1.1 Cannot view the 'donGia' field in table Dichvu
-CONN USER_TEPTAN_01/USER_TEPTAN_01;
+CONN user_tieptan_01/user_tieptan_01;
 SET ROLE ROLE_DEP_LETAN IDENTIFIED  BY ROLE_DEP_LETAN;
 SELECT * FROM DUCCAO_ADMIN.VW_DEP_LETAN_DICHVU;
 
@@ -189,7 +189,7 @@ UPDATE DUCCAO_ADMIN.NHANVIEN SET LUONG ='20.000.000' WHERE MANV = 'BS01';
 
 
 -------------------------------
---- 3. TEST DOCTOR ROLE
+--- 3. TEST DOCTOR ROLE VPD
 ----------------------------
 -- USER_BACSI_01
 

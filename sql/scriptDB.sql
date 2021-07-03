@@ -961,12 +961,6 @@ GRANT NHANVIEN_TAIVU TO USER_TAIVU_01;
 --  ketoan feature:  View info_salary using for ketoan calculate & reset salary
 ---- -----------------------------------------------------------------------------
 
-
-
-
-
-
-
 CREATE OR REPLACE VIEW VIEW_CAL_SALARY AS
 SELECT CC.MANV, NV.HOTEN,CC.THANG, CC.SONGAYCONG, CC.PHUCAP, CC.LUONG,  NV.LUONG AS LUONG_COBAN
 FROM DUCCAO_ADMIN.CHAMCONG CC 
@@ -1064,11 +1058,6 @@ GRANT EXECUTE ON DUCCAO_ADMIN.PROC_SET_SALARY_TO_0 TO ROLE_DEP_KETOAN;
 ---------------------------------------------------------------------------------
 --  reception feature:  
 ---- -----------------------------------------------------------------------------
-
-
-
-
-
 
 CREATE OR REPLACE VIEW VIEW_RECEPTION AS
 SELECT HS.MAKB, HS.NGAYKB, HS.MABN, BN.HOTEN, HS.TINHTRANGBANDAU, NV.HOTEN AS BACSI_PHUTRACH
