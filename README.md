@@ -4,7 +4,7 @@
 
 #### Technical stack
 
-**Frontend**: `html`, `css`,`bootstrap`, `javascript`
+**Frontend**: `html`, `css`,`bootstrap`, `javascript`, `volt-template`,`themesberg`
 
 **Backend**: `nodejs`,`node-oracledb`, `electronjs`, `handlebars`
 
@@ -31,7 +31,7 @@
 
 **OLS description:** [Link](https://docs.google.com/spreadsheets/d/1MwxzmJVqf7t-IgzvfcaY1fFi5Uimy6oFpl6NQX2f6gI/edit#gid=442546680)
 
-#### Some Images result
+#### Some Image results
 
 **Sign-in**
 <br/>
@@ -71,5 +71,8 @@
 **+ Step 2:** Clone this project, open and type "npm i" command in the terminal
 <br/>
 
-**+ Step 3:** Open two terminal, the first one type "npm run dev" to start the server, and the last one type "npm start" to start the electron-js.
+**+ Step 3:** Open sql folder, run func&proc file, create DBA in queryDB, run scriptDB file
+<br/>
+
+**+ Step 4:** Open two terminal, the first one type "npm run dev" to start the server, and the last one type "npm start" to start the electron-js.
 <br/>
