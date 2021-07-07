@@ -1,6 +1,6 @@
-### Hospital Management Project
+## Hospital Management Project
 
-### CSC12001 - Information system data security course
+## HCMUS - CSC12001 - Information system data security course
 
 #### Technical stack
 
