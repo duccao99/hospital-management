@@ -1,6 +1,8 @@
-## Hospital Management Project
+## HCMUS - CSC12001 - Information System Data Security Course Project
 
-## HCMUS - CSC12001 - Information system data security course
+**Prject name:** Hospital Management Project
+
+**Description:** A web app and window app that is created for a database administrator, system administrator manage the data of a hospital system and common features of some user role in the hospital system
 
 #### Technical stack
 
