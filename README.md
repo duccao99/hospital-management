@@ -9,7 +9,7 @@
 @duccao99
 @tonsisouvanh
 
-#### Technical stack
+## Technical stack
 
 **Frontend**: `html`, `css`,`bootstrap`, `javascript`, `volt-template`,`themesberg`
 
