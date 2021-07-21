@@ -4,6 +4,11 @@
 
 **Description:** A web app and window app that is created for a database administrator, system administrator manage the data of a hospital system and common features of some user role in the hospital system
 
+**Team**
+
+@duccao99
+@tonsisouvanh
+
 #### Technical stack
 
 **Frontend**: `html`, `css`,`bootstrap`, `javascript`, `volt-template`,`themesberg`
