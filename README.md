@@ -25,21 +25,22 @@
 <br/>
 
 `RBAC` - Role-based Access Control
-
 <br/>
+
 `VPD` - Virtual Private Database
-
 <br/>
+
 `SQL Injection`
-
 <br/>
+
 `Encrypt & Decrypt`
-
 <br/>
+
 `OLS` - Oracle Label Security
-
 <br/>
+
 `Audit`
+<br/>
 
 **Project report:** [Link](https://docs.google.com/document/d/1OwT0IPkYxzmIYDir-cBanmktQ3a70yMJ/edit?rtpof=true)
 
