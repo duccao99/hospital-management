@@ -20,17 +20,24 @@
 
 **Oracle technical stack**
 <br/>
+
 `DAC` - Discretionary Access Control
 <br/>
+
 `RBAC` - Role-based Access Control
+
 <br/>
 `VPD` - Virtual Private Database
+
 <br/>
 `SQL Injection`
+
 <br/>
 `Encrypt & Decrypt`
+
 <br/>
 `OLS` - Oracle Label Security
+
 <br/>
 `Audit`
 
