@@ -2,7 +2,7 @@
 
 **Prject name:** Hospital Management Project
 
-**Description:** A web app and window app that is created for a database administrator, system administrator manage the data of a hospital system and common features of some user role in the hospital system
+**Description:** A web app and window app that is created for a database administrator, system administrator manage the hospital system data and common features of some user role in the hospital system
 
 **Team**
 
